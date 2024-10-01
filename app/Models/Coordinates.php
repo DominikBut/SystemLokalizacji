@@ -16,4 +16,8 @@ class Coordinates extends Model
         'strength',
         'battery',
     ];
+    public function pojazd()
+    {
+        return $this->belongsTo(Vehicles::class, 'simID');
+    }
 }
