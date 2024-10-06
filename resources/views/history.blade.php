@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="col-span-10 h-full">
-                        @livewire('list-vehicles')
+                        @livewire('list-history')
                     </div>
                 </div>
 

@@ -19,7 +19,7 @@ class Vehicles extends Model
     ];
     public function wlasciciel()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
     public function wspolrzedne()
     {

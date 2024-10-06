@@ -29,8 +29,9 @@ class ListVehicles extends Component implements HasForms, HasTable
             ->query(Vehicles::query())
             ->columns([
                 TextColumn::make('Nazwa')->sortable()->searchable()->color('info'),
-                IconColumn::make('Status')->sortable()->label('Status')->boolean(),
-                IconColumn::make('Odbieranie')->sortable()->label('Odbieranie')->boolean(),
+                TextColumn::make('simID')->sortable()->searchable()->color('info')->label('ID sim'),
+                IconColumn::make('Status')->sortable()->label('Odbieranie')->boolean(),
+                IconColumn::make('Odbieranie')->sortable()->label('Aktywność')->boolean(),
                 TextColumn::make('Telefon')->sortable()->searchable()->label('Telefon')->wrap(),
                 TextColumn::make('Opis')->sortable()->searchable()->color('info'),
             ])
@@ -55,7 +56,7 @@ class ListVehicles extends Component implements HasForms, HasTable
                     }),
             ])
             ->actions([
-                EditAction::make()
+                EditAction::make()->label('Edytuj')
                     ->form([
                         TextInput::make('Nazwa')->required()->minLength(1)->maxLength(100)->label('Nazwa pojazdu')->helperText('Max 100 znaków'),
 
@@ -64,7 +65,7 @@ class ListVehicles extends Component implements HasForms, HasTable
                         TextInput::make('Opis')->nullable()->columnSpanFull()->label('Krótki dodatkowy opis'),
                         Toggle::make('Status')->default(true)->inline(false)->label('Włączone namierzanie')->helperText('Domyślnie tak'),
                     ]),
-                DeleteAction::make()
+                DeleteAction::make()->label('Usuń')
 
             ])
             ->bulkActions([

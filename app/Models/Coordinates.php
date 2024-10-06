@@ -18,6 +18,6 @@ class Coordinates extends Model
     ];
     public function pojazd()
     {
-        return $this->belongsTo(Vehicles::class, 'simID');
+        return $this->belongsTo(Vehicles::class, 'simID', 'simID');
     }
 }
