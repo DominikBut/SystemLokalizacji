@@ -25,7 +25,7 @@ class ListHistory extends Component implements HasForms, HasTable
             ->query(
                 Coordinates::whereHas('pojazd', function ($query) {
                     $query->where('user_id', auth()->id());
-                })
+                })->orderBy('created_at', 'desc')
             )
             ->columns([
                 TextColumn::make('pojazd.simID')->sortable()->searchable()->color('info')->label('ID sim'),
@@ -43,7 +43,7 @@ class ListHistory extends Component implements HasForms, HasTable
                 Action::make('Mapa')
                     ->action(fn(Coordinates $record) => $record->advance())->modalSubmitAction(false)
                     ->modalContent(fn(Coordinates $record): View => view(
-                        'history',
+                        'livewire.location-map',
                         ['record' => $record],
                     ))
 

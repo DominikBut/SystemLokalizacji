@@ -13,7 +13,7 @@ class CoordinatesController extends Controller
     public function store(StoreCoordinatesRequest $request)
     {
         $coordinates = $request->validated();
-        $vehicle = Vehicles::where('simID', $request->input('simID'))->first();
+        $vehicle = Vehicles::where('simID', $request->input('simID'))->where('Status', true)->first();
         if ($vehicle) {
             // Create a new Coordinates entry using validated data
             Coordinates::create($coordinates);

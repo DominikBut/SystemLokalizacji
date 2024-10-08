@@ -14,6 +14,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         return view('dashboard');
     })->name('dashboard');
 
+    Route::get('/location', function () {
+        return view('location');
+    })->name('location');
+
     Route::prefix('management')->name('management.')->group(function () {
 
         Route::get('/vehicles', function () {

@@ -23,6 +23,6 @@ class Vehicles extends Model
     }
     public function wspolrzedne()
     {
-        return $this->hasMany(Coordinates::class, 'simID');
+        return $this->hasMany(Coordinates::class, 'simID', 'simID');
     }
 }
