@@ -40,6 +40,7 @@
         </div>
 
         @stack('modals')
+        @stack('scripts')
         @filamentScripts
         @livewireScripts
     </body>

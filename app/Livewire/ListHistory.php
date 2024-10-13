@@ -28,6 +28,7 @@ class ListHistory extends Component implements HasForms, HasTable
                 })->orderBy('created_at', 'desc')
             )
             ->columns([
+                TextColumn::make('pojazd.Nazwa')->sortable()->searchable()->color('info')->label('Nazwa'),
                 TextColumn::make('pojazd.simID')->sortable()->searchable()->color('info')->label('ID sim'),
                 TextColumn::make('created_at')->sortable()->searchable()->color('info')->label('Odebrano'),
                 TextColumn::make('latitude')->sortable()->label('latitude'),

@@ -1,4 +1,3 @@
-
 <div x-data="{ mobileFiltersOpen: false, sortMenuOpen: false, filterSectionsOpen: {}, label: '{{ $pojazdy[0]->Nazwa }}', }" class="p-4">
 
     {{-- Sortwanie --}}
@@ -39,7 +38,7 @@
                     </div>
                 </button>
             </div>
-            {{-- Sortowanie typy --}}
+            {{-- Wybieranie pojazdu --}}
             <div x-show="sortMenuOpen" x-on:click.away="sortMenuOpen = false" x-cloak x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95"
                 class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md shadow-lg ring-2 ring-gray-200 focus:outline-none bg-stone-50" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                 <div class="p-1" role="none" >
@@ -51,6 +50,9 @@
                 </div>
             </div>
         </div>
+</div>
+<div class="p-4 h-full">
+
 </div>
 {{-- loading animation --}}
 <div class="h-full w-full flex flex-row justify-center items-center xl:items-top pt-8 h-lvh" wire:loading>
@@ -78,16 +80,23 @@
     </div>
 </div>
 <div class="h-full" wire:loading.remove>
-    {{ $this->pojazd->Nazwa }}<br>
-    {{ $this->pojazd->simID }}<br>
-    {{ $this->pojazd->Telefon }}<br>
-    {{ $this->pojazd->Opis }}<br>
-    Odbieranie:{{ $this->pojazd->Status }}<br>
-    Aktywność:{{ $this->pojazd->Odbieranie }}<br>
-    {{ $this->lokacja->strength }}% <br>
-    {{ $this->lokacja->battery }}% <br>
-    {{ $this->lokacja->latitude }} <br>
-    {{ $this->lokacja->longitude }} <br>
-    {{ $this->lokacja->created_at->timezone('Europe/Warsaw') }}
+
+    <input type="text" name="lat" id="lat" hidden value="{!! $this->lokacja->latitude !!} ">
+    <input type="text" name="lng" id="lng" hidden value="{!! $this->lokacja->longitude !!} ">
+    <input type="text" name="czas" id="czas" hidden value="{{$this->lokacja->created_at->timezone('Europe/Warsaw')  }} ">
+    <input type="text" name="nazwa" id="nazwa" hidden value="{!! $this->pojazd->Nazwa !!} ">
+    Nazwa: {{ $this->pojazd->Nazwa }}<br>
+    SIM ID: {{ $this->pojazd->simID }}<br>
+    NR tel.: {{ $this->pojazd->Telefon }}<br>
+    Opis: {{ $this->pojazd->Opis }}<br>
+    Odbieranie: {{ $this->pojazd->Status }}<br>
+    Aktywność: {{ $this->pojazd->Odbieranie }}<br>
+    Sygnał: {{ $this->lokacja->strength }}% <br>
+    Bateria: {{ $this->lokacja->battery }}% <br>
+    LAT:{{ $this->lokacja->latitude }} <br>
+    LNG: {{ $this->lokacja->longitude }} <br>
+    Czas: {{ $this->lokacja->created_at->timezone('Europe/Warsaw') }}
 </div>
+</div>
+
 

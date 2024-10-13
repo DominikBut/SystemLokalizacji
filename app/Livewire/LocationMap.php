@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Validator;
 
 class LocationMap extends Component
 {
-
     #[Locked]
     public $pojazdy;
 
@@ -22,15 +21,12 @@ class LocationMap extends Component
     #[Locked]
     public $pojazd;
 
-
     public function tracking(string $id)
     {
-
         $this->pojazd = Vehicles::where('simID', "{$id}")->first();
-        $this->dane = $this->pojazd->wspolrzedne()->orderBy('created_at', 'desc')->first(); // Now call the relationship on the model
-
+        $this->dane = $this->pojazd->wspolrzedne()->orderBy('created_at', 'desc')->first();
+        $this->dispatch('coords', lat: $this->lokacja->latitude, lng: $this->lokacja->longitude, nazwa: $this->pojazd->Nazwa, czas: $this->lokacja->created_at->timezone('Europe/Warsaw'));
     }
-
     #[Computed()]
     protected function lokacja()
     {
@@ -43,7 +39,6 @@ class LocationMap extends Component
     }
     public function mount()
     {
-
         $this->pojazdy = Vehicles::where('user_id', auth()->id())->get();
         $this->pojazd = $this->pojazdy->first();
         $this->dane = $this->pojazd->wspolrzedne()->orderBy('created_at', 'desc')->first();
