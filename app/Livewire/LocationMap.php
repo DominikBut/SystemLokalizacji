@@ -21,6 +21,7 @@ class LocationMap extends Component
     #[Locked]
     public $pojazd;
 
+
     public function tracking(string $id)
     {
         $this->pojazd = Vehicles::where('simID', "{$id}")->first();
