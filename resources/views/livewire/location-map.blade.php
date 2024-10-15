@@ -98,22 +98,9 @@
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                               </svg>
-                              <?php
-                                $Fdecimal = $this->lokacja->latitude;
-                                $Fdegrees = intval($Fdecimal);
-                                $FminutesFloat = abs(($Fdecimal - $Fdegrees) * 60);
-                                $Fminutes = intval($FminutesFloat);
-                                $Fseconds = ($FminutesFloat - $Fminutes) * 60;
-                                $Flat = $Fdegrees . "°" . $Fminutes . "'" . number_format($Fseconds, 2) . "\"";
 
-                                $F1decimal = $this->lokacja->longitude;
-                                $F1degrees = intval($F1decimal);
-                                $F1minutesFloat = abs(($F1decimal - $F1degrees) * 60);
-                                $F1minutes = intval($F1minutesFloat);
-                                $F1seconds = ($F1minutesFloat - $F1minutes) * 60;
-                                $Flng = $F1degrees . "°" . $F1minutes . "'" . number_format($F1seconds, 2) . "\"";
-                              ?>
-                              <div class="font-bold flex flex-row space-x-6"><p>{{$Flat}}{{ $Fdegrees<0 ? 'S' : 'N' }}</p> <p>{{ $Flng }}{{ $F1degrees<0 ? 'W' : 'E' }}</p></div>
+                              <div class="font-bold flex flex-row space-x-6"><p>{!! App\Models\Coordinates::formatCoordinates($this->lokacja->latitude, $this->lokacja->longitude) !!}</p></div>
+
                             </div>
                       </div>
                       <div class="relative">
@@ -132,8 +119,8 @@
 
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" stroke="currentColor" class="text-sky-950 w-6 h-6 flex-shrink-0 mr-4" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                  </svg>{{ \Carbon\Carbon::setLocale('pl'); }}
-                                  <p class="font-bold">{{ $this->lokacja->created_at->timezone('Europe/Warsaw')->translatedFormat('j F Y H:i:s'); }}</p>
+                                  </svg>
+                                  <p class="font-bold">{{ App\Models\Coordinates::formatCreatedAt($this->lokacja->created_at) }}</p>
                               </div>
                       </div>
 
