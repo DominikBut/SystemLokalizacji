@@ -71,8 +71,14 @@
         <input type="text" name="nazwa" id="nazwa" hidden value="{!! $this->pojazd->Nazwa !!} ">
 
         <div class="mx-auto max-w-7xl ">
-            <h2 class="mt-2 text-2xl font-bold text-sky-950 max-w-xl md:text-3xl text-balance">Pojazd: {{ $this->pojazd->Nazwa }}</h2>
+            <div class="flex flex-row justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-sky-950 max-w-xl md:text-3xl text-balance">Pojazd: {{ $this->pojazd->Nazwa }}</h2>
                     <div class="text-sm lg:text-lg lg:leading-8 text-cyan-800 text-balance">Tel: {{ $this->pojazd->Telefon }} | {{ $this->pojazd->Opis }}</div>
+                </div>
+                <div class="text-sm lg:text-lg lg:leading-8 text-cyan-800 place-content-end">Ostatnia aktywność {{ \Carbon\Carbon::setLocale('pl') }}{{ $this->lokacja->created_at->diffForHumans() }}</div>
+            </div>
+
             <div class="py-4">
                 <div class="w-full">
                     <div class="flex flex-col lg:flex-row rounded-lg bg-stone-100 items-center w-full shrink-0 grow-0 basis-auto shadow-md outline outline-2 outline-lime-600">
@@ -104,14 +110,25 @@
                             </div>
                       </div>
                       <div class="relative">
-                          <div class="bg-blue-100 rounded flex p-2 lg:p-4 h-full items-center">
+                          <div class="bg-blue-100 rounded flex p-2 lg:p-4 h-full items-center font-bold">
 
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linejoin="round" stroke-width="2" class="text-sky-950 w-6 h-6 flex-shrink-0 mr-4" stroke="currentColor" className="size-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
                               </svg>
 
-                              <p class="font-bold">Sygnał: {{ $this->lokacja->strength }}%
-                                Bateria: {{ $this->lokacja->battery }}% <br></p>
+                                Sygnał:
+                                <span class="@if($this->lokacja->strength < 20) text-red-500 @elseif($this->lokacja->strength < 50) text-yellow-500 @else text-green-500 @endif">
+                                    {!! '&nbsp;'. $this->lokacja->strength !!}%
+                                </span>
+                                {!! '&nbsp;&nbsp;&nbsp;&nbsp;' !!}
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linejoin="round" stroke-width="2" class="text-sky-950 w-6 h-6 flex-shrink-0 mr-4" stroke="currentColor" className="size-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 10.5h.375c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125H21M4.5 10.5H18V15H4.5v-4.5ZM3.75 18h15A2.25 2.25 0 0 0 21 15.75v-6a2.25 2.25 0 0 0-2.25-2.25h-15A2.25 2.25 0 0 0 1.5 9.75v6A2.25 2.25 0 0 0 3.75 18Z" />
+                                </svg>
+                                Bateria:
+                                <span class="@if($this->lokacja->battery < 20) text-red-500 @elseif($this->lokacja->battery < 50) text-yellow-500 @else text-green-500 @endif">
+                                    {!! '&nbsp;'. $this->lokacja->battery !!}%
+                                </span>
+
                           </div>
                       </div>
                       <div class="relative">
@@ -139,7 +156,6 @@
 
         </div>
     </div>
-    Aktywność: {{ $this->pojazd->Odbieranie }}
 </div>
 
 
