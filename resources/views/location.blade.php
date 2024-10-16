@@ -5,9 +5,9 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-4">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg  w-full">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg w-full">
 
 
 
@@ -18,7 +18,7 @@
 
                 {{-- Mapa google --}}
                 <div id="map" style="height: 420px;"></div>
-                 <div class="w-full p-2 bg-lime-600"></div>
+                 <div class="w-full p-1 bg-lime-600"></div>
                 @livewire('location-map')
             </div>
         </div>
@@ -143,7 +143,7 @@
                 map.setCenter(newPosition);
             }
 
-            //handel zmiane pojazdu
+            //handle zmiane pojazdu
             Livewire.on('coords', (event) => {
                 var localDate = new Date(event.czas).toLocaleString('pl-PL');
                 updateMarkerPosition(event.lat, event.lng, event.nazwa, localDate);
