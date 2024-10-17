@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OldMapController;
 
 
 
@@ -28,8 +29,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             return view('history');
         })->name('history');
 
-        Route::get('/fence', function () {
-            return view('fence');
+        Route::get('/geofence', function () {
+            return view('geofence');
         })->name('fence');
+
+        Route::get(
+            '/historymap',
+            [OldMapController::class, 'showMap']
+        )->name('oldmap');
     });
 });

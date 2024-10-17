@@ -41,13 +41,9 @@ class ListHistory extends Component implements HasForms, HasTable
             ])
             ->headerActions([])
             ->actions([
-                Action::make('Mapa')
-                    ->action(fn(Coordinates $record) => $record->advance())->modalSubmitAction(false)
-                    ->modalContent(fn(Coordinates $record): View => view(
-                        'livewire.location-map',
-                        ['record' => $record],
-                    ))
-
+                Action::make('Mapa >')
+                    ->action(fn(Coordinates $record) => $record->advance())
+                    ->url(fn(Coordinates $record): string => route('management.oldmap', ['lokacja' => $record]))
             ])
             ->bulkActions([
                 // ...

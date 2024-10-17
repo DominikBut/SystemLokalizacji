@@ -25,6 +25,9 @@
                             <x-nav-link href="{{ route('management.fence') }}" :active="request()->routeIs('management.fence')">
                                 {{ __('Obszar domowy') }}
                             </x-nav-link>
+                            <x-nav-link href="{{ route('management.oldmap') }}" :active="request()->routeIs('management.oldmap')">
+                                {{ __('Mapa historyczna') }}
+                            </x-nav-link>
                         </div>
                     </div>
                     <div class="col-span-10 h-full">
