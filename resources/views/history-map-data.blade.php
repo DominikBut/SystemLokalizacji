@@ -20,7 +20,7 @@
                                 {{ __('Pojazdy') }}
                             </x-nav-link>
                             <x-nav-link href="{{ route('management.history') }}" :active="request()->routeIs('management.history')">
-                                {{ __('Historia lokacji') }}
+                                {{ __('Historia lokalizacji') }}
                             </x-nav-link>
                             <x-nav-link href="{{ route('management.fence') }}" :active="request()->routeIs('management.fence')">
                                 {{ __('Obszar domowy') }}

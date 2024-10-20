@@ -32,6 +32,7 @@ class ListVehicles extends Component implements HasForms, HasTable
                 TextColumn::make('simID')->sortable()->searchable()->color('info')->label('ID sim'),
                 IconColumn::make('Status')->sortable()->label('Odbieranie')->boolean(),
                 IconColumn::make('Odbieranie')->sortable()->label('Aktywność')->boolean(),
+                IconColumn::make('subscribe')->sortable()->label('Powiadomienia')->boolean(),
                 TextColumn::make('Telefon')->sortable()->searchable()->label('Telefon')->wrap(),
                 TextColumn::make('Opis')->sortable()->searchable()->color('info'),
             ])
@@ -48,6 +49,7 @@ class ListVehicles extends Component implements HasForms, HasTable
                         TextInput::make('simID')->required()->numeric()->unique()->minLength(9)->maxLength(9)->placeholder('123456789')->label('9 pierwszych liczb id karty sim')->helperText('Tylko liczby całkowite'),
                         TextInput::make('Opis')->nullable()->columnSpanFull()->label('Krótki dodatkowy opis'),
                         Toggle::make('Status')->default(true)->inline(false)->label('Włączone namierzanie')->helperText('Domyślnie tak'),
+                        Toggle::make('subscribe')->default(false)->inline(false)->label('Włącz powiadomienia')->helperText('Domyślnie tak'),
 
                     ])->mutateFormDataUsing(function (array $data): array {
                         $data['user_id'] = auth()->id();
@@ -64,6 +66,8 @@ class ListVehicles extends Component implements HasForms, HasTable
                         TextInput::make('simID')->required()->numeric()->unique(ignoreRecord: true)->minLength(9)->maxLength(9)->placeholder('123456789')->label('9 pierwszych liczb id karty sim')->helperText('Tylko liczby całkowite'),
                         TextInput::make('Opis')->nullable()->columnSpanFull()->label('Krótki dodatkowy opis'),
                         Toggle::make('Status')->default(true)->inline(false)->label('Włączone namierzanie')->helperText('Domyślnie tak'),
+                        Toggle::make('subscribe')->default(false)->inline(false)->label('Włącz powiadomienia')->helperText('Domyślnie tak'),
+
                     ]),
                 DeleteAction::make()->label('Usuń')
 

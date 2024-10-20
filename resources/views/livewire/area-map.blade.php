@@ -1,40 +1,13 @@
 <div x-data="{ mobileFiltersOpen: false, sortMenuOpen: false, filterSectionsOpen: {}, label: '{{ $pojazdy[0]->Nazwa }}', }" class="p-6">
 
-    {{-- loading animation --}}
-    <div class="w-full flex flex-row justify-center items-center pt-8 h-[21rem]" wire:loading>
-        <div aria-label="Ładowanie..." role="status" class="flex flex-row justify-center pt-24 space-x-2 w-full h-auto xl:h-fit">
-            <div class="flex flex-row place-items-center">
-                <svg class="w-12 h-12 xl:w-20 xl:h-20 animate-spin stroke-amber-400" viewBox="0 0 256 256">
-                    <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
-                    <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="24"></line>
-                    <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
-                    </line>
-                    <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="24"></line>
-                    <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
-                    </line>
-                    <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="24"></line>
-                    <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
-                    <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
-                    </line>
-                </svg>
-                <span class="text-lg lg:text-3xl font-medium text-gray-500 ">Wczytywanie...</span>
-            </div>
 
-        </div>
-    </div>
-    <div class="h-full" wire:loading.remove>
+    <div class="h-full" >
         {{-- used for maps --}}
-        <input type="text" name="lat" id="lat" hidden value="{!! $this->lokacja->latitude !!} ">
-        <input type="text" name="lng" id="lng" hidden value="{!! $this->lokacja->longitude !!} ">
-        <input type="text" name="czas" id="czas" hidden value="{{$this->lokacja->created_at->timezone('Europe/Warsaw')  }} ">
         <input type="text" name="nazwa" id="nazwa" hidden value="{!! $this->pojazd->Nazwa !!} ">
 
         <div class="mx-auto max-w-7xl">
             <div class="flex flex-row justify-between">
-                <h2 class="text-2xl font-bold text-sky-950 max-w-xl md:text-3xl text-balance place-content-end">Pojazd: {{ $this->pojazd->Nazwa }}</h2>
+                <h2 class="text-2xl font-bold text-sky-950 max-w-xl md:text-3xl text-balance place-content-end">Edytowany pojazd: {{ $this->pojazd->Nazwa }}</h2>
                     {{-- Sortwanie --}}
                 <div class="mb-1 w-full min-[360px]:w-auto flex flex-col min-[360px]:flex-row gap-y-4 min-[360px]:gap-y-0 items-center justify-end order-1 xl:order-2 self-end px-1 xl:px-0">
 
@@ -73,7 +46,7 @@
             <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-2 py-1">
                 <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 text-balance">Tel: {{ $this->pojazd->Telefon }} | {{ $this->pojazd->Opis }}</div>
                 <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 place-content-end">
-                    Ostatnia aktywność {{ \Carbon\Carbon::setLocale('pl') }}{{ $this->lokacja->created_at->diffForHumans() }}
+                    Ostatnia aktywność
                 </div>
             </div>
             <div class="py-4">
@@ -86,7 +59,11 @@
                         </div>
                         <p id="lokacja"
                         class="font-semibold text-base text-center sm:text-left sm:text-lg text-sky-950 lg:px-4 mx-2 lg:mx-0 pt-1 lg:pt-0 w-auto text-wrap lg:text-nowrap">
-                            Lokacja
+                        @if(isset($obszar))
+                        <textarea placeholder="">{{ $obszar }}</textarea>
+
+                        @endif
+
                         </p>
                   </div>
                 </div>
@@ -96,45 +73,43 @@
                     <dl class="space-y-4 text-sm lg:text-base leading-7 text-stone-700 w-[32rem]">
                       <div class="relative w-full">
                           <div class=" bg-blue-100 rounded flex p-2 h-full items-center">
+                            <div class="flex items-center ">
+                                <label class="relative inline-flex items-center cursor-pointer">
 
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="text-sky-950 w-6 h-6 flex-shrink-0 mr-4" stroke="currentColor" className="size-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                              </svg>
 
-                              <div class="font-bold flex flex-row space-x-6"><p>{!! App\Models\Coordinates::formatCoordinates($this->lokacja->latitude, $this->lokacja->longitude) !!}</p></div>
+                                    <button
+                                        wire:click="toggleSubscribe"
+                                        class="relative inline-flex items-center justify-center w-16 h-8 transition-colors duration-300 rounded-full
+                                            focus:outline-none focus:ring-4 focus:ring-green-300
+                                            {{ $this->pojazd->subscribe ? 'bg-green-600' : 'bg-gray-200' }}">
+                                        <span class="sr-only">Toggle Subscription</span>
+                                        <span
+                                            class="absolute top-0.5 left-0.5 w-7 h-7 rounded-full bg-white transition-transform duration-300
+                                                {{ $this->pojazd->subscribe ? 'translate-x-8' : 'translate-x-0' }}">
+                                        </span>
+                                    </button>
+
+                                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+
+                                        {{ $this->pojazd->subscribe ? 'Subscribed' : 'Not Subscribed' }}
+                                    </span>
+                                </label>
+
+
+                            </div>
 
                             </div>
                       </div>
                       <div class="relative">
                           <div class="bg-blue-100 rounded flex p-2 h-full items-center font-bold">
 
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linejoin="round" stroke-width="2" class="text-sky-950 w-6 h-6 flex-shrink-0 mr-4" stroke="currentColor" className="size-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
-                              </svg>
 
-                                Sygnał:
-                                <span class="@if($this->lokacja->strength < 20) text-red-500 @elseif($this->lokacja->strength < 50) text-yellow-500 @else text-green-500 @endif">
-                                    {!! '&nbsp;'. $this->lokacja->strength !!}%
-                                </span>
-                                {!! '&nbsp;&nbsp;&nbsp;&nbsp;' !!}
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linejoin="round" stroke-width="2" class="text-sky-950 w-6 h-6 flex-shrink-0 mr-4" stroke="currentColor" className="size-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 10.5h.375c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125H21M4.5 10.5H18V15H4.5v-4.5ZM3.75 18h15A2.25 2.25 0 0 0 21 15.75v-6a2.25 2.25 0 0 0-2.25-2.25h-15A2.25 2.25 0 0 0 1.5 9.75v6A2.25 2.25 0 0 0 3.75 18Z" />
-                                </svg>
-                                Bateria:
-                                <span class="@if($this->lokacja->battery < 20) text-red-500 @elseif($this->lokacja->battery < 50) text-yellow-500 @else text-green-500 @endif">
-                                    {!! '&nbsp;'. $this->lokacja->battery !!}%
-                                </span>
 
                           </div>
                       </div>
                       <div class="relative">
                               <div class="bg-blue-100 rounded flex p-2 h-full items-center">
 
-                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" stroke="currentColor" class="text-sky-950 w-6 h-6 flex-shrink-0 mr-4" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                  </svg>
-                                  <p class="font-bold">{{ App\Models\Coordinates::formatCreatedAt($this->lokacja->created_at) }}</p>
                               </div>
                       </div>
 
@@ -149,6 +124,31 @@
                   </svg>
 
               </div>
+            </div>
+
+        </div>
+    </div>
+    {{-- loading animation --}}
+    <div class="w-full flex flex-row justify-center items-center pt-8 h-[10rem]" wire:loading>
+        <div aria-label="Ładowanie..." role="status" class="flex flex-row justify-center pt-24 space-x-2 w-full h-auto xl:h-fit">
+            <div class="flex flex-row place-items-center">
+                <svg class="w-12 h-12 xl:w-20 xl:h-20 animate-spin stroke-amber-400" viewBox="0 0 256 256">
+                    <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                    <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="24"></line>
+                    <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+                    </line>
+                    <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="24"></line>
+                    <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+                    </line>
+                    <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="24"></line>
+                    <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                    <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+                    </line>
+                </svg>
+                <span class="text-lg lg:text-3xl font-medium text-gray-500 ">Wczytywanie...</span>
             </div>
 
         </div>

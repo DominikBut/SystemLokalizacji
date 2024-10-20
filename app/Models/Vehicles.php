@@ -16,6 +16,9 @@ class Vehicles extends Model
         'Opis',
         'Status',
         'Odbieranie',
+        'base_area',
+        'subscribe',
+        'notified',
     ];
     public function wlasciciel()
     {
@@ -25,4 +28,7 @@ class Vehicles extends Model
     {
         return $this->hasMany(Coordinates::class, 'simID', 'simID');
     }
+    protected $casts = [
+        'base_area' => 'json',
+    ];
 }

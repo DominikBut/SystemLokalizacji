@@ -20,7 +20,7 @@
                                 {{ __('Pojazdy') }}
                             </x-nav-link>
                             <x-nav-link href="{{ route('management.history') }}" :active="request()->routeIs('management.history')">
-                                {{ __('Historia lokacji') }}
+                                {{ __('Historia lokalizacji') }}
                             </x-nav-link>
                             <x-nav-link href="{{ route('management.fence') }}" :active="request()->routeIs('management.fence')">
                                 {{ __('Obszar domowy') }}
@@ -35,7 +35,7 @@
 
                                 @include('geofence-map')
 
-                                <div class="grid gap-4 w-full py-8 lg:py-24">
+                                {{-- <div class="grid gap-4 w-full py-8 lg:py-24">
                                     <div class="w-16 h-16 lg:w-20 lg:h-20 mx-auto bg-amber-100 p-2 rounded-full shadow-sm justify-center items-center inline-flex ">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-amber-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="size-4 lg:size-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="m3 3 1.664 1.664M21 21l-1.5-1.5m-5.485-1.242L12 17.25 4.5 21V8.742m.164-4.078a2.15 2.15 0 0 1 1.743-1.342 48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185V19.5M4.664 4.664 19.5 19.5" />
@@ -49,7 +49,7 @@
                                                     Wybierz lokację
                                             </a>
                                     </div>
-                                </div>
+                                </div> --}}
 
                             </div>
                     </div>
