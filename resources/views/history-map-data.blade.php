@@ -42,11 +42,11 @@
                                           </svg>
                                     </div>
                                     <div class="flex flex-col items-center w-auto">
-                                        <h2 class="text-center text-sky-950 text-lg lg:text-xl font-semibold pb-2">Najpierw wybierz lokację!</h2>
-                                        <p class="text-center text-sky-950 text-sm lg:text-base font-normal pb-4">Zajrzyj do historii lokacji.</p>
+                                        <h2 class="text-center text-sky-950 text-lg lg:text-xl font-semibold pb-2">Najpierw wybierz dane!</h2>
+                                        <p class="text-center text-sky-950 text-sm lg:text-base font-normal pb-4">Zajrzyj do historii lokalizacji.</p>
 
                                             <a type="button" href="{{ route('management.history') }}" class="font-bold text-sky-950 text-center place-content-center w-auto py-2 px-5 text-sm 2xl:text-lg rounded-full bg-amber-100 flex flex-row place-content-center items-center justify-between ring-1 ring-amber-300 hover:ring hover:text-cyan-700 hover:bg-amber-50 transition ease-in-out duration-300">
-                                                    Wybierz lokację
+                                                    Przejdź teraz
                                             </a>
                                     </div>
                                 </div>

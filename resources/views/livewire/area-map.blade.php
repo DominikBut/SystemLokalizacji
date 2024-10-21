@@ -1,4 +1,4 @@
-<div x-data="{ mobileFiltersOpen: false, sortMenuOpen: false, filterSectionsOpen: {}, label: '{{ $pojazdy[0]->Nazwa }}', }" class="p-6">
+<div x-data="{ mobileFiltersOpen: false, sortMenuOpen: false, filterSectionsOpen: {}, label: '{{ $pojazdy[0]->Nazwa }}', }" class="p-4">
 
 
     <div class="h-full" >
@@ -7,13 +7,35 @@
 
         <div class="mx-auto max-w-7xl">
             <div class="flex flex-row justify-between">
-                <h2 class="text-2xl font-bold text-sky-950 max-w-xl md:text-3xl text-balance place-content-end">Edytowany pojazd: {{ $this->pojazd->Nazwa }}</h2>
-                    {{-- Sortwanie --}}
+                <div class="flex space-x-4">
+                <button wire.loading.attr="disabled" wire:loading.class="cursor-not-allowed opacity-70"  type="button" title="Usuń obszar" id="clearMapButton" class="px-4 py-2 text-sm font-medium text-white inline-flex items-center bg-red-700 hover:bg-red-800/80 ring-2 ring-red-600 rounded-2xl px-1 font-medium hover:ring-4 hover:font-semibold transition ease-in-out duration-300">
+                        <svg class="w-6 h-6 text-white me-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                        </svg>
+                      Usuń obszar
+                  </button>
+                  <button wire.loading.attr="disabled" wire:loading.class="cursor-not-allowed opacity-70" type="button" title="Zapisz obszar" id="sendData" class="px-4 py-2 text-sm font-medium text-white inline-flex items-center bg-lime-600 hover:bg-lime-700/80 ring-2 ring-lime-400 rounded-2xl px-1 font-medium hover:ring-4 hover:font-semibold transition ease-in-out duration-300">
+                      <svg class="w-6 h-6 text-white me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                        </svg>
+                      Zapisz obszar
+                  </button>
+                  @if (session()->has('success'))
+                    <div class="text-lime-700 font-medium mt-2 ml-4">
+                        {{ session('success') }}
+                    </div>
+                    @elseif (session()->has('error'))
+                        <div class="text-red-600 font-medium  mt-2 ml-4">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                </div>
+                {{-- Sortwanie --}}
                 <div class="mb-1 w-full min-[360px]:w-auto flex flex-col min-[360px]:flex-row gap-y-4 min-[360px]:gap-y-0 items-center justify-end order-1 xl:order-2 self-end px-1 xl:px-0">
 
                         <div class="relative inline-block text-left self-end min-[360px]:self-none" x-data="{ sortMenuOpen: false }">
                             <div>
-                                <button title="Wybierz pojazd" type="button" x-on:click="sortMenuOpen = !sortMenuOpen" class="relative group inline-flex flex-col justify-start font-semibold text-sky-950" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                <button wire.loading.attr="disabled" title="Wybierz pojazd" type="button" x-on:click="sortMenuOpen = !sortMenuOpen" class="relative group inline-flex flex-col justify-start font-semibold text-sky-950" id="menu-button" aria-expanded="true" aria-haspopup="true">
                                     <p class="absolute -top-4 text-xs ml-2 mr-4 bg-stone-50 p-1 pb-0 rounded-2xl">Wybierz pojazd:</p>
                                     <div class="min-w-48 bg-stone-50 flex flex-row place-content-center items-center justify-between text-xs lg:text-sm ring-2 ring-gray-300 rounded-2xl px-1 font-medium hover:ring-4 hover:text-cyan-700 hover:font-semibold transition ease-in-out duration-300">
                                             <div class="flex flex-row w-full justify-center">
@@ -36,123 +58,88 @@
                                         class="truncate block w-full text-left rounded-md px-4 py-2 text-xs lg:text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
                                         role="menuitem" tabindex="-1" id="menu-item-0">{{ $pojazd->Nazwa }}</button>
                                     @empty
-
+                                    <button wire.loading.attr="disabled" x-on:click="sortMenuOpen = false, label = 'Brak pojazdów'
+                                        :class="{'bg-amber-400 font-semibold': label == 'Brak pojazdów' }"
+                                        class="truncate block w-full text-left rounded-md px-4 py-2 text-xs lg:text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
+                                        role="menuitem" tabindex="-1" id="menu-item-0">Brak pojazdów</button>
                                     @endforelse
                                 </div>
                             </div>
                         </div>
                 </div>
             </div>
-            <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-2 py-1">
-                <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 text-balance">Tel: {{ $this->pojazd->Telefon }} | {{ $this->pojazd->Opis }}</div>
-                <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 place-content-end">
-                    Ostatnia aktywność
-                </div>
-            </div>
-            <div class="py-4">
-                <div class="w-full">
-                    <div class="flex flex-col lg:flex-row rounded-lg bg-stone-100 items-center w-full shrink-0 grow-0 basis-auto shadow-md outline outline-2 outline-lime-600">
-                        <div class="flex justify-center items-center rounded-md bg-lime-600 w-full h-full p-1 lg:p-4 lg:w-auto ring-1 ring-sky-950/10">
-                          <svg class="h-4 w-4 text-stone-100" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" >
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z" />
-                          </svg>
+            <div class="flex flex-row justify-between border-y-2 border-gray-300 my-6 py-1">
+                {{-- loading animation --}}
+                <div class="w-full flex flex-row justify-center items-center h-auto" wire:loading>
+                    <div aria-label="Ładowanie..." role="status" class="flex flex-row justify-center space-x-2 w-full h-auto">
+                        <div class="flex flex-row place-items-center">
+                            <svg class="w-12 h-12 animate-spin stroke-amber-400" viewBox="0 0 256 256">
+                                <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="24"></line>
+                                <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+                                </line>
+                                <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="24"></line>
+                                <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+                                </line>
+                                <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="24"></line>
+                                <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+                                </line>
+                            </svg>
+                            <span class="text-lg lg:text-3xl font-medium text-gray-500 ">Wczytywanie...</span>
                         </div>
-                        <p id="lokacja"
-                        class="font-semibold text-base text-center sm:text-left sm:text-lg text-sky-950 lg:px-4 mx-2 lg:mx-0 pt-1 lg:pt-0 w-auto text-wrap lg:text-nowrap">
-                        @if(isset($obszar))
-                        <textarea placeholder="">{{ $obszar }}</textarea>
 
-                        @endif
-
-                        </p>
-                  </div>
+                    </div>
                 </div>
+                <h2 wire:loading.remove class="text-2xl font-bold text-sky-950 max-w-xl md:text-3xl text-balance place-content-center truncate">Edytowanie: <span class="text-gray-500">{{ $this->pojazd->Nazwa }}</span></h2>
+                <label wire:loading.remove class="relative inline-flex items-center cursor-pointer space-x-2 text-gray-900 hover:text-cyan-800">
+                    <svg class="w-12 h-12 {{ $this->pojazd->subscribe ? 'text-lime-600' : 'text-gray-500' }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
+                        <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
+                      </svg>
+                      <span class="font-medium ">
+                        {{ $this->pojazd->subscribe ? 'Włączone powiadamianie e-mail' : 'Wyłączone powiadamianie e-mail' }}
+                    </span>
+                    <button title="Przełącz powiadamianie e-mail" wire.loading.attr="disabled"
+                        wire:click="toggleSubscribe"
+                        class="relative inline-flex items-center justify-center w-16 h-8 transition-colors duration-300 rounded-full
+                             hover:bg-gray-300/80 ring-2 ring-lime-400 hover:ring-4
+                            {{ $this->pojazd->subscribe ? 'bg-lime-600' : 'bg-gray-200' }}">
+                        <span
+                            class="absolute top-0.5 left-0.5 w-7 h-7 rounded-full bg-white transition-transform duration-300
+                                {{ $this->pojazd->subscribe ? 'translate-x-8' : 'translate-x-0' }}">
+                        </span>
+                    </button>
+                </label>
             </div>
+
             <div class="mx-auto lg:grid max-w-2xl grid-cols-1 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3 mb-2">
                 <div class="sm:col-span-2 items-center flex flex-row text-left w-full">
                     <dl class="space-y-4 text-sm lg:text-base leading-7 text-stone-700 w-[32rem]">
-                      <div class="relative w-full">
-                          <div class=" bg-blue-100 rounded flex p-2 h-full items-center">
-                            <div class="flex items-center ">
-                                <label class="relative inline-flex items-center cursor-pointer">
 
-
-                                    <button
-                                        wire:click="toggleSubscribe"
-                                        class="relative inline-flex items-center justify-center w-16 h-8 transition-colors duration-300 rounded-full
-                                            focus:outline-none focus:ring-4 focus:ring-green-300
-                                            {{ $this->pojazd->subscribe ? 'bg-green-600' : 'bg-gray-200' }}">
-                                        <span class="sr-only">Toggle Subscription</span>
-                                        <span
-                                            class="absolute top-0.5 left-0.5 w-7 h-7 rounded-full bg-white transition-transform duration-300
-                                                {{ $this->pojazd->subscribe ? 'translate-x-8' : 'translate-x-0' }}">
-                                        </span>
-                                    </button>
-
-                                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-
-                                        {{ $this->pojazd->subscribe ? 'Subscribed' : 'Not Subscribed' }}
-                                    </span>
-                                </label>
-
-
-                            </div>
-
-                            </div>
-                      </div>
                       <div class="relative">
                           <div class="bg-blue-100 rounded flex p-2 h-full items-center font-bold">
+                            @if(isset($obszar))
+                            <textarea placeholder="" cols="240" rows="10">{{ $obszar }}</textarea>
 
+                            @endif
 
 
                           </div>
-                      </div>
-                      <div class="relative">
-                              <div class="bg-blue-100 rounded flex p-2 h-full items-center">
-
-                              </div>
                       </div>
 
                   </dl>
 
                 </div>
-              <div class="flex invisible sm:visible">
 
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" stroke="currentColor"
-                  class="w-[0rem] max-w-none lg:max-xl:w-[6rem] xl:w-[10rem] text-lime-600">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="m6.115 5.19.319 1.913A6 6 0 0 0 8.11 10.36L9.75 12l-.387.775c-.217.433-.132.956.21 1.298l1.348 1.348c.21.21.329.497.329.795v1.089c0 .426.24.815.622 1.006l.153.076c.433.217.956.132 1.298-.21l.723-.723a8.7 8.7 0 0 0 2.288-4.042 1.087 1.087 0 0 0-.358-1.099l-1.33-1.108c-.251-.21-.582-.299-.905-.245l-1.17.195a1.125 1.125 0 0 1-.98-.314l-.295-.295a1.125 1.125 0 0 1 0-1.591l.13-.132a1.125 1.125 0 0 1 1.3-.21l.603.302a.809.809 0 0 0 1.086-1.086L14.25 7.5l1.256-.837a4.5 4.5 0 0 0 1.528-1.732l.146-.292M6.115 5.19A9 9 0 1 0 17.18 4.64M6.115 5.19A8.965 8.965 0 0 1 12 3c1.929 0 3.716.607 5.18 1.64" />
-                  </svg>
-
-              </div>
             </div>
 
         </div>
     </div>
-    {{-- loading animation --}}
-    <div class="w-full flex flex-row justify-center items-center pt-8 h-[10rem]" wire:loading>
-        <div aria-label="Ładowanie..." role="status" class="flex flex-row justify-center pt-24 space-x-2 w-full h-auto xl:h-fit">
-            <div class="flex flex-row place-items-center">
-                <svg class="w-12 h-12 xl:w-20 xl:h-20 animate-spin stroke-amber-400" viewBox="0 0 256 256">
-                    <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
-                    <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="24"></line>
-                    <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
-                    </line>
-                    <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="24"></line>
-                    <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
-                    </line>
-                    <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="24"></line>
-                    <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
-                    <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
-                    </line>
-                </svg>
-                <span class="text-lg lg:text-3xl font-medium text-gray-500 ">Wczytywanie...</span>
-            </div>
 
-        </div>
-    </div>
 </div>
 
 

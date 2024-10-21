@@ -35,22 +35,6 @@
 
                                 @include('geofence-map')
 
-                                {{-- <div class="grid gap-4 w-full py-8 lg:py-24">
-                                    <div class="w-16 h-16 lg:w-20 lg:h-20 mx-auto bg-amber-100 p-2 rounded-full shadow-sm justify-center items-center inline-flex ">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="text-amber-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="size-4 lg:size-6">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="m3 3 1.664 1.664M21 21l-1.5-1.5m-5.485-1.242L12 17.25 4.5 21V8.742m.164-4.078a2.15 2.15 0 0 1 1.743-1.342 48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185V19.5M4.664 4.664 19.5 19.5" />
-                                          </svg>
-                                    </div>
-                                    <div class="flex flex-col items-center w-auto">
-                                        <h2 class="text-center text-sky-950 text-lg lg:text-xl font-semibold pb-2">Najpierw wybierz lokację!</h2>
-                                        <p class="text-center text-sky-950 text-sm lg:text-base font-normal pb-4">Zajrzyj do historii lokacji.</p>
-
-                                            <a type="button" href="{{ route('management.history') }}" class="font-bold text-sky-950 text-center place-content-center w-auto py-2 px-5 text-sm 2xl:text-lg rounded-full bg-amber-100 flex flex-row place-content-center items-center justify-between ring-1 ring-amber-300 hover:ring hover:text-cyan-700 hover:bg-amber-50 transition ease-in-out duration-300">
-                                                    Wybierz lokację
-                                            </a>
-                                    </div>
-                                </div> --}}
-
                             </div>
                     </div>
                 </div>

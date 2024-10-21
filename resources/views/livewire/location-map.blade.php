@@ -1,31 +1,7 @@
 <div x-data="{ mobileFiltersOpen: false, sortMenuOpen: false, filterSectionsOpen: {}, label: '{{ $pojazdy[0]->Nazwa }}', }" class="p-6">
 
-    {{-- loading animation --}}
-    <div class="w-full flex flex-row justify-center items-center pt-8 h-[21rem]" wire:loading>
-        <div aria-label="Ładowanie..." role="status" class="flex flex-row justify-center pt-24 space-x-2 w-full h-auto xl:h-fit">
-            <div class="flex flex-row place-items-center">
-                <svg class="w-12 h-12 xl:w-20 xl:h-20 animate-spin stroke-amber-400" viewBox="0 0 256 256">
-                    <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
-                    <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="24"></line>
-                    <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
-                    </line>
-                    <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="24"></line>
-                    <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
-                    </line>
-                    <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="24"></line>
-                    <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
-                    <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
-                    </line>
-                </svg>
-                <span class="text-lg lg:text-3xl font-medium text-gray-500 ">Wczytywanie...</span>
-            </div>
 
-        </div>
-    </div>
-    <div class="h-full" wire:loading.remove>
+    <div class="h-full">
         {{-- used for maps --}}
         <input type="text" name="lat" id="lat" hidden value="{!! $this->lokacja->latitude !!} ">
         <input type="text" name="lng" id="lng" hidden value="{!! $this->lokacja->longitude !!} ">
@@ -34,7 +10,7 @@
 
         <div class="mx-auto max-w-7xl">
             <div class="flex flex-row justify-between">
-                <h2 class="text-2xl font-bold text-sky-950 max-w-xl md:text-3xl text-balance place-content-end">Pojazd: {{ $this->pojazd->Nazwa }}</h2>
+                <h2 class="text-2xl font-bold text-sky-950 max-w-xl md:text-3xl text-balance place-content-end"><span wire:loading.remove>Pojazd: {{ $this->pojazd->Nazwa }}</span></h2>
                     {{-- Sortwanie --}}
                 <div class="mb-1 w-full min-[360px]:w-auto flex flex-col min-[360px]:flex-row gap-y-4 min-[360px]:gap-y-0 items-center justify-end order-1 xl:order-2 self-end px-1 xl:px-0">
 
@@ -63,20 +39,23 @@
                                         class="truncate block w-full text-left rounded-md px-4 py-2 text-xs lg:text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
                                         role="menuitem" tabindex="-1" id="menu-item-0">{{ $pojazd->Nazwa }}</button>
                                     @empty
-
+                                    <button wire.loading.attr="disabled" x-on:click="sortMenuOpen = false, label = 'Brak pojazdów'
+                                        :class="{'bg-amber-400 font-semibold': label == 'Brak pojazdów' }"
+                                        class="truncate block w-full text-left rounded-md px-4 py-2 text-xs lg:text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
+                                        role="menuitem" tabindex="-1" id="menu-item-0">Brak pojazdów</button>
                                     @endforelse
                                 </div>
                             </div>
                         </div>
                 </div>
             </div>
-            <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-2 py-1">
+            <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-2 py-1" wire:loading.remove>
                 <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 text-balance">Tel: {{ $this->pojazd->Telefon }} | {{ $this->pojazd->Opis }}</div>
                 <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 place-content-end">
                     Ostatnia aktywność {{ \Carbon\Carbon::setLocale('pl') }}{{ $this->lokacja->created_at->diffForHumans() }}
                 </div>
             </div>
-            <div class="py-4">
+            <div class="py-4" wire:loading.remove>
                 <div class="w-full">
                     <div class="flex flex-col lg:flex-row rounded-lg bg-stone-100 items-center w-full shrink-0 grow-0 basis-auto shadow-md outline outline-2 outline-lime-600">
                         <div class="flex justify-center items-center rounded-md bg-lime-600 w-full h-full p-1 lg:p-4 lg:w-auto ring-1 ring-sky-950/10">
@@ -91,7 +70,7 @@
                   </div>
                 </div>
             </div>
-            <div class="mx-auto lg:grid max-w-2xl grid-cols-1 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3 mb-2">
+            <div class="mx-auto lg:grid max-w-2xl grid-cols-1 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3 mb-2" wire:loading.remove>
                 <div class="sm:col-span-2 items-center flex flex-row text-left w-full">
                     <dl class="space-y-4 text-sm lg:text-base leading-7 text-stone-700 w-[32rem]">
                       <div class="relative w-full">
@@ -141,7 +120,7 @@
                   </dl>
 
                 </div>
-              <div class="flex invisible sm:visible">
+              <div class="flex invisible sm:visible" wire:loading.remove>
 
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" stroke="currentColor"
                   class="w-[0rem] max-w-none lg:max-xl:w-[6rem] xl:w-[10rem] text-lime-600">
@@ -152,6 +131,31 @@
             </div>
 
         </div>
+        {{-- loading animation --}}
+    <div class="w-full flex flex-row justify-center items-center pt-8 h-[19rem]" wire:loading>
+        <div aria-label="Ładowanie..." role="status" class="flex flex-row justify-center pt-24 space-x-2 w-full h-auto xl:h-fit">
+            <div class="flex flex-row place-items-center">
+                <svg class="w-12 h-12 xl:w-20 xl:h-20 animate-spin stroke-amber-400" viewBox="0 0 256 256">
+                    <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                    <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="24"></line>
+                    <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+                    </line>
+                    <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="24"></line>
+                    <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+                    </line>
+                    <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="24"></line>
+                    <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                    <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+                    </line>
+                </svg>
+                <span class="text-lg lg:text-3xl font-medium text-gray-500 ">Wczytywanie...</span>
+            </div>
+
+        </div>
+    </div>
     </div>
 </div>
 

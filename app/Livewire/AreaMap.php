@@ -31,11 +31,11 @@ class AreaMap extends Component
             Vehicles::where('simID', "{$this->pojazd->simID}")->update([
                 'base_area' => $this->obszar,
             ]);
-            session()->flash('success', 'Post Updated Successfully!!');
+            session()->flash('success', "Zapisano obszar dla {$this->pojazd->Nazwa}");
         } catch (\Exception $ex) {
-            session()->flash('success', 'Something goes wrong!!');
+            session()->flash('success', 'Błąd!');
         }
-        $this->dispatch('goood', "Donezo");
+        // $this->dispatch('goood', "Donezo");
     }
     public function toggleSubscribe()
     {
@@ -43,9 +43,9 @@ class AreaMap extends Component
             // Toggle the subscribe value using the update method
             $this->pojazd->update(['subscribe' => !$this->pojazd->subscribe]);
 
-            session()->flash('success', 'Subscription status updated successfully!');
+            session()->flash('success', "Zmieniono powiadamianie dla {$this->pojazd->Nazwa}");
         } catch (\Exception $ex) {
-            session()->flash('error', 'Something went wrong!');
+            session()->flash('error', 'Błąd!');
         }
     }
     public function tracking(string $id)

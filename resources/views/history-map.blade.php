@@ -4,7 +4,7 @@
                     ({key: "AIzaSyATS3eoPZF6fOo-JCpwGJSncxE7vQqD3_U", v: "weekly"});</script>
 
                 {{-- Mapa google --}}
-                <h2 class="p-4 text-2xl font-bold text-sky-950 md:text-2xl place-content-end">Współrzędne {{ $lokacja->pojazd->Nazwa }} z dnia: {{ App\Models\Coordinates::formatCreatedAt($lokacja->created_at) }}</h2>
+                <h2 class="p-4 text-2xl font-bold text-sky-950 md:text-2xl place-content-end">Współrzędne <span class="text-gray-500 underline">{{ $lokacja->pojazd->Nazwa }}</span> z dnia: <span class="text-gray-500 underline">{{ App\Models\Coordinates::formatCreatedAt($lokacja->created_at) }}</span></h2>
                 <div id="map"  style="height: 320px;"></div>
                  <div class=" w-auto p-1 bg-lime-600"></div>
                  <div class="px-6 my-4">
@@ -36,7 +36,7 @@
                                   </div>
                                 </div>
                             </div>
-                            <div class="mx-auto lg:grid max-w-2xl grid-cols-1 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3 mb-2">
+                            <div class="mx-auto lg:grid max-w-2xl grid-cols-1 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-4 mb-2">
                                 <div class="sm:col-span-2 items-center flex flex-row text-left w-full">
                                     <dl class="space-y-4 text-sm lg:text-base leading-7 text-stone-700 w-[32rem]">
                                       <div class="relative w-full">
@@ -77,7 +77,7 @@
                                   </dl>
 
                                 </div>
-                              <div class="flex justify-center invisible sm:visible">
+                              <div class="sm:col-span-2 flex justify-center invisible sm:visible">
 
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" stroke="currentColor"
                                   class="w-[0rem] max-w-none lg:max-xl:w-[6rem] xl:w-[10rem] text-lime-600">

@@ -21,6 +21,9 @@ return new class extends Migration
             $table->mediumText('Opis')->nullable();
             $table->boolean('Status')->default(true); //czy wogole ma przyjmowac dane
             $table->boolean('Odbieranie')->default(false); // czy dane przychodza check na ostatnie kilka minut
+            $table->json('base_area')->nullable();
+            $table->boolean('subscribe')->default(false);
+            $table->boolean('notified')->default(false);
             $table->timestamps();
         });
     }

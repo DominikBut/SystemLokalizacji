@@ -1,15 +1,9 @@
-            <div>
-
-
-                {{-- Mapa google --}}
-                <h2 class="p-4 text-2xl font-bold text-sky-950 md:text-2xl place-content-end">Zaznacz na mapie obszar domowy pojazdu</h2>
-                <div id="map"  style="height: 520px;"></div>
-                <button id="clearMapButton">Wyczyść zaznaczenie</button>
-                <button id="sendData">Zapisz zaznaczenie</button>
-                 <div class=" w-auto p-1 bg-lime-600"></div>
-
-                @livewire('area-map')
-            </div>
+<div>
+    <h2 class="p-4 text-2xl font-bold text-sky-950 md:text-3xl place-content-end">Zaznacz na mapie obszar domowy pojazdu</h2>
+    <div id="map"  style="height: 520px;"></div>
+    <div class=" w-auto p-1 bg-lime-600"></div>
+    @livewire('area-map')
+</div>
 
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATS3eoPZF6fOo-JCpwGJSncxE7vQqD3_U&callback=initMap&libraries=drawing&v=weekly"
@@ -21,13 +15,6 @@
 
         var savedShape = null;
         let lastOverlay = null; // To keep track of the last drawn overlay
-    //     function updateLivewireVariable(coordinates, shapeType) {
-    //     // Update the Livewire component using its name or ID
-    //     Livewire.emit('updateShape', {
-    //         type: shapeType,
-    //         coordinates: coordinates
-    //     });
-    // }
 
         function loadSavedShape(map,lastOverlay,savedShape) {
             if (lastOverlay) {
@@ -46,6 +33,11 @@
                 new google.maps.LatLng(savedShape.coordinates[2].lat, savedShape.coordinates[2].lng), // SW
                 new google.maps.LatLng(savedShape.coordinates[0].lat, savedShape.coordinates[0].lng)  // NE
                 );
+                lng = savedShape.coordinates[0].lng;
+                lat =savedShape.coordinates[0].lat;
+                var myLatlng = new google.maps.LatLng(lat, lng);
+                map.setCenter(myLatlng, 6);
+                map.setZoom(16);
 
                 const rectangle = new google.maps.Rectangle({
                 bounds: rectangleBounds,
@@ -79,6 +71,11 @@
                 return { lat: coord.lat, lng: coord.lng };
                 });
 
+                lng = savedShape.coordinates[0].lng;
+                lat =savedShape.coordinates[0].lat;
+                var myLatlng = new google.maps.LatLng(lat, lng);
+                map.setCenter(myLatlng, 6);
+                map.setZoom(16);
                 const polygon = new google.maps.Polygon({
                 paths: polygonPath,
                 map: map, // Add the polygon to the map
@@ -230,10 +227,10 @@
             lastOverlay = loadSavedShape(map,lastOverlay,event.base_area);
 
         });
-        Livewire.on('goood', (event) => {
-           alert('dood');
+        // Livewire.on('goood', (event) => {
+        //    alert('dood');
 
-        });
+        // });
     }
 
     window.initMap = initMap;
