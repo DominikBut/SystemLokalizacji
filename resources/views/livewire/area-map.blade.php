@@ -120,8 +120,10 @@
                 <div class="sm:col-span-2 items-center flex flex-row text-left w-full">
                     <dl class="space-y-4 text-sm lg:text-base leading-7 text-stone-700 w-[32rem]">
 
-                      <div class="relative">
-                          <div class="bg-blue-100 rounded flex p-2 h-full items-center font-bold">
+                      <div class="relative bg-blue-100">
+                        <div class="p-2 font-medium">Wysłano wiadomość: {{ $this->pojazd->notified }}</div>
+                          <div class=" rounded flex p-2 h-full items-center font-bold">
+
                             @if(isset($obszar))
                             <textarea placeholder="" cols="240" rows="10">{{ $obszar }}</textarea>
 

@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Observers\CoordinatesObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 
+#[ObservedBy([CoordinatesObserver::class])]
 class Coordinates extends Model
 {
     use HasFactory;
