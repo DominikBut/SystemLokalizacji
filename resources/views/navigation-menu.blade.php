@@ -18,6 +18,9 @@
                     <x-nav-link href="{{ route('location') }}" :active="request()->routeIs('location')">
                         {{ __('Lokalizuj') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('routes') }}" :active="request()->routeIs('routes')">
+                        {{ __('Trasy') }}
+                    </x-nav-link>
                     <x-nav-link href="{{ route('management.vehicles') }}" :active="request()->routeIs('management.*')">
                         {{ __('Zarządzanie') }}
                     </x-nav-link>

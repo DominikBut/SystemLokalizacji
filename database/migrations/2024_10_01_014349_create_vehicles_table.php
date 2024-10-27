@@ -24,6 +24,7 @@ return new class extends Migration
             $table->json('base_area')->nullable();
             $table->boolean('subscribe')->default(false);
             $table->boolean('notified')->default(false);
+            $table->integer('current_route')->default(0);
             $table->timestamps();
         });
     }

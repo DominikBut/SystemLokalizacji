@@ -19,6 +19,7 @@ class Vehicles extends Model
         'base_area',
         'subscribe',
         'notified',
+        'current_route',
     ];
     public function wlasciciel()
     {

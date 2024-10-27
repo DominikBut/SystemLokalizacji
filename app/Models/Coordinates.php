@@ -19,6 +19,7 @@ class Coordinates extends Model
         'longitude',
         'strength',
         'battery',
+        'route',
     ];
 
     public function pojazd()

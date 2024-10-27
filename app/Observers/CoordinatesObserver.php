@@ -16,7 +16,7 @@ class CoordinatesObserver
         // Find the corresponding vehicle using simid
         $vehicle = Vehicles::where('simID', $coordinates->simID)->first();
 
-        if ($vehicle && ($vehicle->base_area != null) && ($vehicle->subscribe == true)) {
+        if ($vehicle && ($vehicle->base_area != null)) {
 
             // Extract lat/lng coordinates for base_area polygon
             $polygonCoords = $vehicle->base_area['coordinates'] ?? [];
@@ -30,18 +30,31 @@ class CoordinatesObserver
             Log::warning('noti wyslane? ' . $vehicle->notified);
             Log::warning('powiadomienia? ' . $vehicle->subscribe);
             if ($isWithinBorders == false) {
+                //to do email
                 if ($vehicle->notified == false) {
                     Log::warning('wysyłam' . $vehicle->id);
                     // Update the 'notified' field to true
-                    $vehicle->update(['notified' => true]);
+                    $vehicle->update([
+                        'notified' => true,
+                        'current_route' => $vehicle->current_route + 1,
+                    ]);
+                    if ($vehicle->subscribe == true) {
+                        //danger comunikat
+                    }
                 }
-            }
-            if ($isWithinBorders == true) {
+                $coordinates->update(['route' => $vehicle->current_route]);
+
+                //jakies do tras
+            } else if ($isWithinBorders == true) {
+                //to do email
                 if ($vehicle->notified == true) {
                     Log::warning('resetuje' . $vehicle->id);
                     // Update the 'notified' field to true
+                    //last to check
+                    $coordinates->update(['route' => $vehicle->current_route]);
                     $vehicle->update(['notified' => false]);
                 }
+                //jakies do tras
             }
         }
     }

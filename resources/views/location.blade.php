@@ -40,7 +40,7 @@
                 // const initialLng = parseFloat(@js( $this->lokacja->longitude )); --}}
             // Create the map with initial coordinates
             const map = new Map(document.getElementById("map"), {
-                zoom: 12,
+                zoom: 16,
                 center: { lat: initialLat, lng: initialLng },
                 mapId: "411a66d3ed39b880",
             });
@@ -141,6 +141,7 @@
 
                 ].join("<br>");
                 map.setCenter(newPosition);
+                map.setZoom(16);
             }
 
             //handle zmiane pojazdu

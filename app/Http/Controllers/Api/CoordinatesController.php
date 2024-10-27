@@ -18,6 +18,6 @@ class CoordinatesController extends Controller
             Coordinates::create($coordinates);
             return response()->json(['message' => 'Inserted'], 201);
         }
-        return response()->json(['message' => 'Register sim id'], 404);
+        return response()->json(['message' => 'Register sim id'], 444);
     }
 }

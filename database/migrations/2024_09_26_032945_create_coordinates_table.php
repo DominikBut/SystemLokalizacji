@@ -18,6 +18,7 @@ return new class extends Migration
             $table->double('longitude');
             $table->integer('strength')->unsigned();
             $table->integer('battery')->unsigned();
+            $table->integer('route')->default(0);
             $table->timestamps();
         });
     }
