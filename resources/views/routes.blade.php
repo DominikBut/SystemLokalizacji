@@ -22,12 +22,33 @@
                                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATS3eoPZF6fOo-JCpwGJSncxE7vQqD3_U&callback=initMap&libraries=marker&v=weekly"
                                 defer
                                 ></script>
-                                <div class="p-6">
-                                    <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-2 py-1" wire:loading.remove>
-                                        <div class="text-lg font-bold lg:leading-8 text-cyan-800 text-balance">Punkt nr: <span id="pkt_nr"></span></div>
-                                        <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 place-content-end">
-                                            Wysłano: <span id="pkt_data"></span>{{-- Ostatnia aktywność {{ \Carbon\Carbon::setLocale('pl') }}{{ $this->lokacja->created_at->diffForHumans() }} --}}
-                                        </div>{{-- <p class="font-bold">{{ App\Models\Coordinates::formatCreatedAt($this->lokacja->created_at) }}</p> --}}
+                                <div class="py-1 px-4" id="dane_dash" wire:loading.remove>
+                                    <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-2 py-1" >
+                                        <div class="flex flex-row">
+                                            <div class="text-lg font-bold lg:leading-8 text-cyan-800 text-balance place-content-center">Punkt nr: <span id="pkt_nr">0</span></div>
+                                            <dl class=" mx-4 text-sm lg:text-base leading-7 text-stone-700 w-auto place-content-center">
+                                                <div class="relative w-full">
+                                                    <div class=" bg-blue-100 rounded flex p-1 h-full items-center pr-3">
+
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="3" class="text-sky-950 w-5 h-5 flex-shrink-0 mr-2" stroke="currentColor" className="size-6">
+                                                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                                        </svg>
+                                                        <span id="pkt_coords">00°00'00.00"- 00°00'00.00"-</span>
+
+                                                      </div>
+                                                </div>
+
+
+
+                                            </dl>
+                                        </div>
+
+                                        <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 place-content-center">
+                                            Wysłano: <span id="pkt_data">-----------------------</span>
+
+                                        </div>
                                     </div>
                                     <div class="py-4" wire:loading.remove>
                                         <div class="w-full">
@@ -39,41 +60,12 @@
                                                 </div>
                                                 <p id="lokacja"
                                                 class="font-semibold text-base text-center sm:text-left sm:text-lg text-sky-950 lg:px-4 mx-2 lg:mx-0 pt-1 lg:pt-0 w-auto text-wrap lg:text-nowrap">
-                                                   <span id="pkt_lokacja"></span>
+                                                   <span id="pkt_lokacja">Brak danych</span>
                                                 </p>
                                           </div>
                                         </div>
                                     </div>
-                                    <div class="mx-auto lg:grid max-w-2xl grid-cols-1 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3 mb-2" wire:loading.remove>
-                                        <div class="sm:col-span-2 items-center flex flex-row text-left w-full">
-                                            <dl class="space-y-4 text-sm lg:text-base leading-7 text-stone-700 w-[32rem]">
-                                              <div class="relative w-full">
-                                                  <div class=" bg-blue-100 rounded flex p-2 h-full items-center">
 
-                                                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="text-sky-950 w-6 h-6 flex-shrink-0 mr-4" stroke="currentColor" className="size-6">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                                                      </svg>
-                                                      <span id="pkt_coords"></span>
-                                                      {{-- <div class="font-bold flex flex-row space-x-6"><p>{!! App\Models\Coordinates::formatCoordinates($this->lokacja->latitude, $this->lokacja->longitude) !!}</p></div> --}}
-
-                                                    </div>
-                                              </div>
-
-
-
-                                          </dl>
-
-                                        </div>
-                                      <div class="flex invisible sm:visible" wire:loading.remove>
-
-                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" stroke="currentColor"
-                                          class="w-[0rem] max-w-none lg:max-xl:w-[6rem] xl:w-[10rem] text-lime-600">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="m6.115 5.19.319 1.913A6 6 0 0 0 8.11 10.36L9.75 12l-.387.775c-.217.433-.132.956.21 1.298l1.348 1.348c.21.21.329.497.329.795v1.089c0 .426.24.815.622 1.006l.153.076c.433.217.956.132 1.298-.21l.723-.723a8.7 8.7 0 0 0 2.288-4.042 1.087 1.087 0 0 0-.358-1.099l-1.33-1.108c-.251-.21-.582-.299-.905-.245l-1.17.195a1.125 1.125 0 0 1-.98-.314l-.295-.295a1.125 1.125 0 0 1 0-1.591l.13-.132a1.125 1.125 0 0 1 1.3-.21l.603.302a.809.809 0 0 0 1.086-1.086L14.25 7.5l1.256-.837a4.5 4.5 0 0 0 1.528-1.732l.146-.292M6.115 5.19A9 9 0 1 0 17.18 4.64M6.115 5.19A8.965 8.965 0 0 1 12 3c1.929 0 3.716.607 5.18 1.64" />
-                                          </svg>
-
-                                      </div>
-                                    </div>
                                 </div>
                             </div>
                     </div>
@@ -81,7 +73,7 @@
                     <div class="col-span-3 justify-between shadow-sm border sm:rounded-lg bg-white">
 
                          <!-- Navigation Links -->
-                        <div class="flex flex-col">
+                        <div class="flex flex-col h-full">
                             @livewire('routes-map')
                         </div>
                     </div>
@@ -91,7 +83,7 @@
         </div>
     </div>
     <script>
-
+        let infoWindow;
         var savedShape = null;
         let lastOverlay = null; // To keep track of the last drawn overlay
 
@@ -223,7 +215,7 @@
                 return `${formattedLat} ${formattedLng.replace(/N$/, 'E').replace(/S$/, 'W')}`;
             }
             function geocodeLatLng(geocoder, Glat, Glng) {
-                        const latlng = {
+                        var latlng = {
                             lat: parseFloat(Glat),
                             lng: parseFloat(Glng),
                         };
@@ -240,7 +232,7 @@
                             .catch((e) => document.getElementById("pkt_lokacja").innerText = "Błąd"+ e );
                     }
       function addMarkers(amap, points) {
-        const infoWindow = new google.maps.InfoWindow();
+         infoWindow = new google.maps.InfoWindow();
             points.forEach((point, index) => {
                 const isLastPoint = index === points.length - 1; // Check if it's the last point
                 let markerOptions = null;
@@ -301,9 +293,25 @@
                     const marker = new google.maps.Marker(markerOptions); // Create the marker
                     var localDate = new Date(point.created_at).toLocaleString('pl-PL');
                     marker.addListener("click", () => {
+                        // Clear previous underlines
+            document.querySelectorAll('.xd').forEach(el => el.classList.remove('underline'));
+            // Underline the clicked marker's corresponding element
+            const markerElement = document.querySelector(`.xd[data-index='${index}']`);
+            if (markerElement) {
+                markerElement.classList.add('underline');
+            }
                         infoWindow.close();
                         document.getElementById("pkt_nr").innerText = `${index + 1}`;
-                        document.getElementById("pkt_data").innerText = localDate;
+                        var localDate2 = new Intl.DateTimeFormat('pl-PL', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: false // 24-hour format
+                    }).format(new Date(point.created_at));
+                        document.getElementById("pkt_data").innerText = localDate2;
                         geocodeLatLng(geocoder,point.lat,point.lng);
                         document.getElementById("pkt_coords").innerText = formatCoordinates(point.lat, point.lng);
                         infoWindow.setHeaderContent("Dane punktu "+ `${index + 1}`+":");
@@ -335,14 +343,58 @@
         });
 
 
-        Livewire.on('route', (event) => {
+        let isListenerAdded = false; // Flag to check if listener is already added
 
-            lastOverlay = loadSavedShape(map,lastOverlay,event.base_area);
-            const routeData = JSON.parse(event.route);
-            loadRoute(map,routeData);
+    Livewire.on('route', (event) => {
+            document.getElementById("pkt_nr").innerText = "0";
+            document.getElementById("pkt_data").innerText = "-----------------------";
+            document.getElementById("pkt_lokacja").innerText = "Brak danych";
+            document.getElementById("pkt_coords").innerText = `00°00'00.00"- 00°00'00.00"-`;
+            lastOverlay = loadSavedShape(map, lastOverlay, event.base_area);
+            var routeData = JSON.parse(event.route);
+            var geocoder = new google.maps.Geocoder();
+            loadRoute(map, routeData);
 
-        });
+            const container = document.querySelector('.xd-container'); // Parent container for .xd elements
+            if (container) {
+                // Only add the event listener if it hasn't been added before
+                if (!isListenerAdded) {
+                    container.addEventListener('click', function(e) {
+                        if (e.target.classList.contains('xd')) {
+                            infoWindow.close();
+                            document.querySelectorAll('.xd').forEach(el => el.classList.remove('underline'));
+                            e.target.classList.add('underline');
+
+                            var index = e.target.getAttribute("data-index");
+
+
+                            var point = routeData.points[index];
+                            var localDate = new Intl.DateTimeFormat('pl-PL', {
+                                day: '2-digit',
+                                month: 'long',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second: '2-digit',
+                                hour12: false // 24-hour format
+                            }).format(new Date(point.created_at));
+
+                            document.getElementById("pkt_nr").innerText = `${parseFloat(index) + 1}`;
+                            document.getElementById("pkt_data").innerText = localDate;
+                            geocodeLatLng(geocoder, point.lat, point.lng);
+                            document.getElementById("pkt_coords").innerText = formatCoordinates(point.lat, point.lng);
+                        }
+                    });
+
+                    isListenerAdded = true; // Set flag to true after adding listener
+                }
+            } else {
+                console.error("Container for .xd elements not found.");
+            }
+            });
       }
+
+
 
         window.initMap = initMap;
       </script>

@@ -31,8 +31,8 @@
                             </div>
                             {{-- Wybieranie pojazdu --}}
                             <div x-show="sortMenuOpen" x-on:click.away="sortMenuOpen = false" x-cloak x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95"
-                                class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md shadow-lg ring-2 ring-gray-200 focus:outline-none bg-stone-50" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                                <div class="space-y-1 p-1" role="none" >
+                                class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md shadow-lg ring-2 ring-gray-200 focus:outline-none bg-stone-50" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                <div class="space-y-1 p-1 overflow-auto max-h-[300px]" role="none" >
                                     @forelse ($pojazdy as $pojazd)
                                     <button wire.loading.attr="disabled" wire:click="tracking('{{ $pojazd->simID }}')" x-on:click="sortMenuOpen = false, label = '{{ $pojazd->Nazwa }}'"
                                         :class="{'bg-amber-400 font-semibold': label == '{{ $pojazd->Nazwa }}' }"
@@ -52,7 +52,7 @@
             <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-2 py-1" wire:loading.remove>
                 <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 text-balance">Tel: {{ $this->pojazd->Telefon }} | {{ $this->pojazd->Opis }}</div>
                 <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 place-content-end">
-                    Ostatnia aktywność {{ \Carbon\Carbon::setLocale('pl') }}{{ $this->lokacja->created_at->diffForHumans() }}
+                    Ostatnia aktywność {{ \Carbon\Carbon::setLocale('pl') }}{{ $this->lokacja->created_at->timezone('Europe/Warsaw')->diffForHumans() }}
                 </div>
             </div>
             <div class="py-4" wire:loading.remove>

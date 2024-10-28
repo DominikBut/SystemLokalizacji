@@ -50,8 +50,8 @@
                             </div>
                             {{-- Wybieranie pojazdu --}}
                             <div x-show="sortMenuOpen" x-on:click.away="sortMenuOpen = false" x-cloak x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95"
-                                class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md shadow-lg ring-2 ring-gray-200 focus:outline-none bg-stone-50" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                                <div class="space-y-1 p-1" role="none" >
+                                class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md shadow-lg ring-2 ring-gray-200 focus:outline-none bg-stone-50" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                <div class="space-y-1 p-1 overflow-auto max-h-[300px]" role="none" >
                                     @forelse ($pojazdy as $pojazd)
                                     <button wire.loading.attr="disabled" wire:click="tracking('{{ $pojazd->simID }}')" x-on:click="sortMenuOpen = false, label = '{{ $pojazd->Nazwa }}'"
                                         :class="{'bg-amber-400 font-semibold': label == '{{ $pojazd->Nazwa }}' }"
@@ -68,7 +68,7 @@
                         </div>
                 </div>
             </div>
-            <div class="flex flex-row justify-between border-y-2 border-gray-300 my-6 py-1">
+            <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-6 py-1 px-2">
                 {{-- loading animation --}}
                 <div class="w-full flex flex-row justify-center items-center h-auto" wire:loading>
                     <div aria-label="Ładowanie..." role="status" class="flex flex-row justify-center space-x-2 w-full h-auto">
@@ -94,7 +94,7 @@
 
                     </div>
                 </div>
-                <h2 wire:loading.remove class="text-2xl font-bold text-sky-950 max-w-xl md:text-3xl text-balance place-content-center truncate">Edytowanie: <span class="text-gray-500">{{ $this->pojazd->Nazwa }}</span></h2>
+                <h2 wire:loading.remove class="text-2xl font-bold text-sky-950 max-w-xl  text-balance place-content-center truncate">Edytowanie: <span class="text-gray-500">{{ $this->pojazd->Nazwa }}</span></h2>
                 <label wire:loading.remove class="relative inline-flex items-center cursor-pointer space-x-2 text-gray-900 hover:text-cyan-800">
                     <svg class="w-12 h-12 {{ $this->pojazd->subscribe ? 'text-lime-600' : 'text-gray-500' }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                         <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
@@ -116,13 +116,16 @@
                 </label>
             </div>
 
-            <div class="mx-auto lg:grid max-w-2xl grid-cols-1 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3 mb-2">
+            <div class="mx-auto lg:grid max-w-2xl grid-cols-1 lg:mx-0 lg:max-w-none lg:grid-cols-3 mt-2">
                 <div class="sm:col-span-2 items-center flex flex-row text-left w-full">
-                    <dl class="space-y-4 text-sm lg:text-base leading-7 text-stone-700 w-[32rem]">
+                    <dl class="text-sm lg:text-base leading-7 text-stone-700 w-[32rem]">
 
                       <div class="relative bg-blue-100">
-                        <div class="p-2 font-medium">Wysłano wiadomość: {{ $this->pojazd->notified }}</div>
-                          <div class=" rounded flex p-2 h-full items-center font-bold">
+                        @if (!is_null($obszar))
+                        <div class="p-2 font-medium">Aktualnie poza obszarem: {{ $this->pojazd->notified ==1 ? 'Tak' : 'Nie' }}</div>
+                        @endif
+
+                          {{-- <div class=" rounded flex p-2 h-full items-center font-bold">
 
                             @if(isset($obszar))
                             <textarea placeholder="" cols="240" rows="10">{{ $obszar }}</textarea>
@@ -130,7 +133,7 @@
                             @endif
 
 
-                          </div>
+                          </div> --}}
                       </div>
 
                   </dl>
