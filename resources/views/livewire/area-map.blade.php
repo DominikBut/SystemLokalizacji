@@ -1,13 +1,20 @@
-<div x-data="{ mobileFiltersOpen: false, sortMenuOpen: false, filterSectionsOpen: {}, label: '{{ $pojazdy[0]->Nazwa }}', }" class="p-4">
+@php
+    ($pojazdy->count() > 0) ? $label = $pojazdy[0]->Nazwa : $label = 'Brak pojazdów';
+@endphp
+<div x-data="{ mobileFiltersOpen: false, sortMenuOpen: false, filterSectionsOpen: {}, label: '{{ $label }}', }" class="p-4">
 
 
     <div class="h-full" >
         {{-- used for maps --}}
+
+        @if (($pojazdy->count() > 0))
         <input type="text" name="nazwa" id="nazwa" hidden value="{!! $this->pojazd->Nazwa !!} ">
+        @endif
 
         <div class="mx-auto max-w-7xl">
             <div class="flex flex-row justify-between">
                 <div class="flex space-x-4">
+                @if (!empty($this->pojazd))
                 <button wire.loading.attr="disabled" wire:loading.class="cursor-not-allowed opacity-70"  type="button" title="Usuń obszar" id="clearMapButton" class="px-4 py-2 text-sm font-medium text-white inline-flex items-center bg-red-700 hover:bg-red-800/80 ring-2 ring-red-600 rounded-2xl px-1 font-medium hover:ring-4 hover:font-semibold transition ease-in-out duration-300">
                         <svg class="w-6 h-6 text-white me-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                           <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
@@ -29,7 +36,11 @@
                             {{ session('error') }}
                         </div>
                     @endif
+                    @else
 
+                    <h2 wire:loading.remove class="text-2xl font-bold text-sky-950 max-w-xl text-balance place-content-center truncate">{{ (!empty($this->pojazd)) ? 'Edytowanie: '.$this->pojazd->Nazwa : 'Brak pojazdów do wyboru!' }}</h2>
+
+                    @endif
                 </div>
                 {{-- Sortwanie --}}
                 <div class="mb-1 w-full min-[360px]:w-auto flex flex-col min-[360px]:flex-row gap-y-4 min-[360px]:gap-y-0 items-center justify-end order-1 xl:order-2 self-end px-1 xl:px-0">
@@ -59,7 +70,7 @@
                                         class="truncate block w-full text-left rounded-md px-4 py-2 text-xs lg:text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
                                         role="menuitem" tabindex="-1" id="menu-item-0">{{ $pojazd->Nazwa }}</button>
                                     @empty
-                                    <button wire.loading.attr="disabled" x-on:click="sortMenuOpen = false, label = 'Brak pojazdów'
+                                    <button wire.loading.attr="disabled" x-on:click="sortMenuOpen = false, label = 'Brak pojazdów'"
                                         :class="{'bg-amber-400 font-semibold': label == 'Brak pojazdów' }"
                                         class="truncate block w-full text-left rounded-md px-4 py-2 text-xs lg:text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
                                         role="menuitem" tabindex="-1" id="menu-item-0">Brak pojazdów</button>
@@ -95,8 +106,10 @@
 
                     </div>
                 </div>
-                <h2 wire:loading.remove class="text-2xl font-bold text-sky-950 max-w-xl text-balance place-content-center truncate">Edytowanie: <span class="text-gray-500">{{ $this->pojazd->Nazwa }}</span></h2>
+                @if (!empty($this->pojazd))
+                <h2 wire:loading.remove class="text-2xl font-bold text-sky-950 max-w-xl text-balance place-content-center truncate">{{ (!empty($this->pojazd)) ? 'Edytowanie: '.$this->pojazd->Nazwa : 'Brak pojazdów do wyboru!' }}</span></h2>
                 <label wire:loading.remove class="relative inline-flex items-center cursor-pointer space-x-2 text-gray-900 hover:text-cyan-800">
+
                     <svg class="w-12 h-12 {{ $this->pojazd->subscribe ? 'text-lime-600' : 'text-gray-500' }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                         <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
                         <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
@@ -114,13 +127,37 @@
                                 {{ $this->pojazd->subscribe ? 'translate-x-8' : 'translate-x-0' }}">
                         </span>
                     </button>
+
+
                 </label>
+                @else
+
+                                <div class="flex flex-row gap-16 w-full justify-center py-4">
+                                    <div class="w-16 h-16   bg-amber-100 p-2 rounded-full shadow-sm justify-center items-center inline-flex ">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="text-amber-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="size-4 lg:size-6">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="m3 3 1.664 1.664M21 21l-1.5-1.5m-5.485-1.242L12 17.25 4.5 21V8.742m.164-4.078a2.15 2.15 0 0 1 1.743-1.342 48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185V19.5M4.664 4.664 19.5 19.5" />
+                                          </svg>
+                                    </div>
+                                    <div class="flex flex-row items-center w-auto gap-16">
+                                        <div>
+                                            <h2 class="text-center text-sky-950 text-lg lg:text-xl font-semibold ">Najpierw dodaj nowy pojazd!</h2>
+                                            <p class="text-center text-sky-950 text-sm lg:text-base font-normal ">Zajrzyj sekcji zarządzanie.</p>
+                                        </div>
+                                            <a type="button" href="{{ route('management.vehicles') }}" class="font-bold text-sky-950 text-center place-content-center w-auto py-2 px-5 text-sm 2xl:text-lg rounded-full bg-amber-100 flex flex-row place-content-center items-center justify-between ring-1 ring-amber-300 hover:ring hover:text-cyan-700 hover:bg-amber-50 transition ease-in-out duration-300">
+                                                    Przejdź teraz >
+                                            </a>
+                                    </div>
+                                </div>
+
+                    @endif
             </div>
 
             <div class="mx-auto lg:grid max-w-2xl lg:mx-0 lg:max-w-none  mt-2">
                 <div class="items-center flex flex-row text-left w-full justify-between">
                     <dl class="text-sm lg:text-base leading-7 text-stone-700 flex flex-row w-full justify-between">
+                        @if (!empty($this->pojazd))
                         <div class="place-content-center">Zaznacz obszar z uwzględnieniem 2,5m marginesu.</div>
+                        @endif
                       <div class="bg-blue-100 ">
 
                         @if (!is_null($obszar))

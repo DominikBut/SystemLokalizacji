@@ -59,8 +59,10 @@ class AreaMap extends Component
     {
         $this->pojazdy = Vehicles::where('user_id', auth()->id())->get();
         $this->pojazd = $this->pojazdy->first();
-        $this->obszar = json_encode($this->pojazd->base_area);
-        $this->dispatch('area', nazwa: $this->pojazd->Nazwa, base_area: $this->pojazd->base_area);
+        if ($this->pojazdy->count() > 0) {
+            $this->obszar = json_encode($this->pojazd->base_area);
+            $this->dispatch('area', nazwa: $this->pojazd->Nazwa, base_area: $this->pojazd->base_area);
+        }
     }
     public function render()
     {

@@ -1,4 +1,7 @@
-<div x-data="{ mobileFiltersOpen: false, sortMenuOpen: false, filterSectionsOpen: {}, label: '{{ $pojazdy[0]->Nazwa }}', }" class="p-4 pt-6 h-full">
+@php
+    ($pojazdy->count() > 0) ? $label = $pojazdy[0]->Nazwa : $label = 'Brak pojazdów';
+@endphp
+<div x-data="{ mobileFiltersOpen: false, sortMenuOpen: false, filterSectionsOpen: {}, label: '{{ $label }}', }" class="p-4 pt-6 h-full">
 
 
     <div class="h-full">
@@ -38,7 +41,7 @@
                                         class="truncate block w-full text-left rounded-md px-4 py-2 text-xs lg:text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
                                         role="menuitem" tabindex="-1" id="menu-item-0">{{ $pojazd->Nazwa }}</button>
                                     @empty
-                                    <button wire.loading.attr="disabled" x-on:click="sortMenuOpen = false, label = 'Brak pojazdów'
+                                    <button wire.loading.attr="disabled" x-on:click="sortMenuOpen = false, label = 'Brak pojazdów'"
                                         :class="{'bg-amber-400 font-semibold': label == 'Brak pojazdów' }"
                                         class="truncate block w-full text-left rounded-md px-4 py-2 text-xs lg:text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
                                         role="menuitem" tabindex="-1" id="menu-item-0">Brak pojazdów</button>
@@ -47,17 +50,21 @@
                             </div>
                         </div>
                 </div>
-                <h2 class="text-base font-bold text-cyan-800 text-balance  truncate "><span wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">Trasy pojazdu: {{ $this->pojazd->Nazwa }}</span></h2>
+                <h2 class="text-base font-bold text-cyan-800 text-balance  truncate "><span wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">{{ (!empty($this->pojazd)) ? 'Trasy pojazdu: '.$this->pojazd->Nazwa : 'Brak pojazdów do wyboru!' }}</span></h2>
 
-                <h3 class="text-2xl my-2 font-bold text-sky-80 text-balance truncate "><span wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">Trasa nr: {{ $selectedRoute }}</span></h3>
+                <h3 class="text-2xl my-2 font-bold text-sky-80 text-balance truncate "><span wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">{{ (!empty($selectedRoute)) ? 'Trasa nr:: '.$selectedRoute : 'Brak tras' }} </span></h3>
 
             </div>
+            @if (!empty($this->pojazd))
             <div class="text-sm text-cyan-800 " wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">
                 Zapis trasy: {{ \Carbon\Carbon::setLocale('pl') }}{{ \Carbon\Carbon::parse(json_decode($this->dane)->points[count(json_decode($this->dane)->points) - 1]->created_at)->timezone('Europe/Warsaw')->diffForHumans() }}
             </div>
+            @endif
+
 
             <div class="flex flex-col border-y-2 border-gray-300 py-2 mt-2 space-y-2 overflow-auto h-[500px] xd-container" id="lista" wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">
-
+                @if (!empty($this->pojazd))
+                @if (!json_decode($this->dane)->points[0] == null)
                 @foreach (json_decode($this->dane)->points as $index => $info)
                     <div class="rounded flex h-fit flex-col p-1" >
                         <div class="flex-col rounded-t-lg {{ $index == 0 ? 'bg-lime-300' : ($index == count(json_decode($this->dane)->points) - 1 ? 'bg-blue-300' : 'bg-gray-200') }} pb-2 p-1 h-full px-2">
@@ -84,9 +91,30 @@
                         </div>
                     </div>
                 @endforeach
+                @else
+                <div class="font-semibold text-lg test-sky-950 w-full text-center pt-36">Brak danych</div>
+                @endif
+                @else
+                <div class="grid gap-4 w-full pt-32">
+                    <div class="w-16 h-16  mx-auto bg-amber-100 p-2 rounded-full shadow-sm justify-center items-center inline-flex ">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="text-amber-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="size-4 lg:size-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m3 3 1.664 1.664M21 21l-1.5-1.5m-5.485-1.242L12 17.25 4.5 21V8.742m.164-4.078a2.15 2.15 0 0 1 1.743-1.342 48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185V19.5M4.664 4.664 19.5 19.5" />
+                          </svg>
+                    </div>
+                    <div class="flex flex-col items-center w-auto">
+                        <h2 class="text-center text-sky-950 text-lg font-semibold pb-1">Najpierw dodaj nowy pojazd!</h2>
+                        <p class="text-center text-sky-950 text-sm lg:text-base font-normal pb-3">Zajrzyj sekcji zarządzanie.</p>
 
+                            <a type="button" href="{{ route('management.vehicles') }}" class="font-bold text-sky-950 text-center place-content-center w-auto py-2 px-5 text-sm 2xl:text-lg rounded-full bg-amber-100 flex flex-row place-content-center items-center justify-between ring-1 ring-amber-300 hover:ring hover:text-cyan-700 hover:bg-amber-50 transition ease-in-out duration-300">
+                                    Przejdź teraz
+                            </a>
+                    </div>
+                </div>
+
+                @endif
             </div>
             <div class="flex flex-col mt-auto">
+                @if (!empty($this->pojazd))
                 <div class="text-sm my-3 font-semibold text-cyan-800 " wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">
                     Wybierz zapisaną trasę: 1 - {{ $this->pojazd->current_route }}
                 </div>
@@ -100,7 +128,7 @@
                         &lt;
                     </button>
                     <!-- Route Button at Current startIndex -->
-
+                    @if (!empty($this->pojazd->current_route))
                     @for ($i = $startIndex; $i < min($totalRoutes, $startIndex + $buttonsPerPage); $i++)
                         <button title="Trasa {{ $i + 1 }}"
                             wire:click="selectRoute({{ $i+1 }})"
@@ -111,6 +139,9 @@
                             {{ $i + 1 }} <!-- Display as 1-indexed -->
                         </button>
                     @endfor
+
+                    @endif
+
                     <!-- Right Arrow Button -->
                     <button title="Dalej"
                         wire:click="nextPage"
@@ -120,6 +151,7 @@
                         &gt;
                     </button>
                 </div>
+                @endif
             </div>
             {{-- loading animation --}}
             <div class="w-full flex flex-row justify-center items-center pt-32 h-[660px]" wire:loading wire:target.except="previousPage, nextPage, selectRoute">

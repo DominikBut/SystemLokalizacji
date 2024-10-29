@@ -173,56 +173,62 @@
             }
         });
 
-        // Clear button functionality
-        document.getElementById("clearMapButton").addEventListener("click", function() {
-            if (lastOverlay) {
-            lastOverlay.setMap(null); // Remove the overlay from the map
-            lastOverlay = null; // Clear the reference to the overlay
-            }
-        });
-
-        // send data
-        document.getElementById("sendData").addEventListener("click", function() {
-            let coordinates = [];
-
-
-            if(lastOverlay)
+        if(document.getElementById("clearMapButton"))
             {
-                if (lastOverlay.overlayType === 'polygon') {
-                const path = lastOverlay.getPath();
-                path.forEach((latLng) => {
-                    coordinates.push({ lat: latLng.lat(), lng: latLng.lng() });
+                // Clear button functionality
+                document.getElementById("clearMapButton").addEventListener("click", function() {
+                            if (lastOverlay) {
+                            lastOverlay.setMap(null); // Remove the overlay from the map
+                            lastOverlay = null; // Clear the reference to the overlay
+                            }
+                        });
+                    // send data
+                document.getElementById("sendData").addEventListener("click", function() {
+                let coordinates = [];
+
+
+                if(lastOverlay)
+                {
+                    if (lastOverlay.overlayType === 'polygon') {
+                    const path = lastOverlay.getPath();
+                    path.forEach((latLng) => {
+                        coordinates.push({ lat: latLng.lat(), lng: latLng.lng() });
+
+                    });
+                    }
+                    if (lastOverlay.overlayType === 'rectangle') {
+                    const bounds = lastOverlay.getBounds();
+                    const ne = bounds.getNorthEast();
+                    const sw = bounds.getSouthWest();
+                    const nw = new google.maps.LatLng(ne.lat(), sw.lng());
+                    const se = new google.maps.LatLng(sw.lat(), ne.lng());
+                    coordinates = [
+                        { lat: ne.lat(), lng: ne.lng() }, // NE
+                        { lat: nw.lat(), lng: nw.lng() }, // NW
+                        { lat: sw.lat(), lng: sw.lng() }, // SW
+                        { lat: se.lat(), lng: se.lng() }, // SE
+
+                    ];
+                    }
+                    Livewire.dispatch('updateShape', {data: {
+                    type: lastOverlay.overlayType,
+                    coordinates: coordinates,
+                }});
+                }
+                else{
+                    Livewire.dispatch('updateShape', {data: null
 
                 });
                 }
-                if (lastOverlay.overlayType === 'rectangle') {
-                const bounds = lastOverlay.getBounds();
-                const ne = bounds.getNorthEast();
-                const sw = bounds.getSouthWest();
-                const nw = new google.maps.LatLng(ne.lat(), sw.lng());
-                const se = new google.maps.LatLng(sw.lat(), ne.lng());
-                coordinates = [
-                    { lat: ne.lat(), lng: ne.lng() }, // NE
-                    { lat: nw.lat(), lng: nw.lng() }, // NW
-                    { lat: sw.lat(), lng: sw.lng() }, // SW
-                    { lat: se.lat(), lng: se.lng() }, // SE
-
-                ];
-                }
-                Livewire.dispatch('updateShape', {data: {
-                type: lastOverlay.overlayType,
-                coordinates: coordinates,
-            }});
-            }
-            else{
-                Livewire.dispatch('updateShape', {data: null
 
             });
             }
 
-        });
-        drawingManager.setMap(map);
 
+            if(document.getElementById("clearMapButton"))
+            {
+            drawingManager.setMap(map);
+            }
         Livewire.on('area', (event) => {
             lastOverlay = loadSavedShape(map,lastOverlay,event.base_area);
 

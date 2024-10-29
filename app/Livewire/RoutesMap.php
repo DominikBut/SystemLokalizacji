@@ -118,11 +118,13 @@ class RoutesMap extends Component
     public function mount()
     {
         $this->pojazdy = Vehicles::where('user_id', auth()->id())->orderBy('simID', 'desc')->get();
-        $this->pojazd = $this->pojazdy->first();
+        if ($this->pojazdy->count() > 0) {
+            $this->pojazd = $this->pojazdy->first();
 
-        $this->selectedRoute = $this->pojazd->current_route; // Set the initial selected route
-        $this->updateRouteButtons();
-        $this->tracking($this->pojazd->simID);
+            $this->selectedRoute = $this->pojazd->current_route; // Set the initial selected route
+            $this->updateRouteButtons();
+            $this->tracking($this->pojazd->simID);
+        }
     }
     public function render()
     {

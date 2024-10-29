@@ -10,6 +10,8 @@ use Livewire\Attributes\Computed;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Validator;
 
+use function PHPUnit\Framework\isNull;
+
 class LocationMap extends Component
 {
     #[Locked]
@@ -41,8 +43,10 @@ class LocationMap extends Component
     public function mount()
     {
         $this->pojazdy = Vehicles::where('user_id', auth()->id())->get();
-        $this->pojazd = $this->pojazdy->first();
-        $this->dane = $this->pojazd->wspolrzedne()->orderBy('created_at', 'desc')->first();
+        if ($this->pojazdy->count() > 0) {
+            $this->pojazd = $this->pojazdy->first();
+            $this->dane = $this->pojazd->wspolrzedne()->orderBy('created_at', 'desc')->first();
+        }
     }
     public function render()
     {

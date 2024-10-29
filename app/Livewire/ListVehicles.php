@@ -26,7 +26,7 @@ class ListVehicles extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(Vehicles::query())
+            ->query(Vehicles::query()->where('user_id', auth()->id()))
             ->columns([
                 TextColumn::make('Nazwa')->sortable()->searchable()->color('info'),
                 TextColumn::make('simID')->sortable()->searchable()->color('info')->label('ID sim'),

@@ -16,6 +16,7 @@
 
                                 {{-- Mapa google --}}
                                 <div id="map" style="height: 620px;"></div>
+
                                 <div class="w-full p-1 bg-lime-600"></div>
                                 {{-- Linkowanie mapy z Google Api --}}
                                 <script
@@ -226,7 +227,7 @@
                             if (response.results[0]) {
                                 document.getElementById("pkt_lokacja").innerText = response.results[0].formatted_address;
                             } else {
-                                document.getElementById("pkt_lokacja").innerText = "Brak danych";
+                                document.getElementById("pkt_lokacja").innerText = "Najpierw wybierz punkt.";
                             }
                             })
                             .catch((e) => document.getElementById("pkt_lokacja").innerText = "Błąd"+ e );
@@ -348,7 +349,7 @@
     Livewire.on('route', (event) => {
             document.getElementById("pkt_nr").innerText = "0";
             document.getElementById("pkt_data").innerText = "-----------------------";
-            document.getElementById("pkt_lokacja").innerText = "Brak danych";
+            document.getElementById("pkt_lokacja").innerText = "Najpierw wybierz punkt.";
             document.getElementById("pkt_coords").innerText = `00°00'00.00"- 00°00'00.00"-`;
             lastOverlay = loadSavedShape(map, lastOverlay, event.base_area);
             var routeData = JSON.parse(event.route);

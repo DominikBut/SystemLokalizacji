@@ -30,11 +30,19 @@
             const { Map, InfoWindow } = await google.maps.importLibrary("maps");
             const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
 
-            // Get initial coordinates from the hidden inputs
-            const initialLat = parseFloat(document.getElementById("lat").value);
-            const initialLng = parseFloat(document.getElementById("lng").value);
-            const initialNazwa = document.getElementById("nazwa").value;
-            const initialCzas = new Date(document.getElementById("czas").value).toLocaleString('pl-PL');
+            var initialLat = 0.000000;
+            var initialLng = 0.000000;
+            var initialNazwa = '';
+            var initialCzas ='system';
+            if(document.getElementById("czas"))
+            {
+                // Get initial coordinates from the hidden inputs
+                 initialLat = parseFloat(document.getElementById("lat").value);
+                 initialLng = parseFloat(document.getElementById("lng").value);
+                 initialNazwa = document.getElementById("nazwa").value;
+                 initialCzas = new Date(document.getElementById("czas").value).toLocaleString('pl-PL');
+            }
+
 
             //{{-- // const initialLat = parseFloat(@js( $this->lokacja->latitude ));
                 // const initialLng = parseFloat(@js( $this->lokacja->longitude )); --}}
@@ -106,8 +114,9 @@
                     lat: parseFloat(Glat),
                     lng: parseFloat(Glng),
                 };
-
-                geocoder
+                if(document.getElementById("lokacja"))
+                {
+                    geocoder
                     .geocode({ location: latlng })
                     .then((response) => {
                     if (response.results[0]) {
@@ -117,6 +126,8 @@
                     }
                     })
                     .catch((e) => document.getElementById("lokacja").innerText = "Błąd"+ e );
+                }
+
             }
             geocodeLatLng(geocoder,initialLat,initialLng);
             // Function to update the marker position

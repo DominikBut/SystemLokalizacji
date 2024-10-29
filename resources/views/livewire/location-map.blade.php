@@ -1,17 +1,23 @@
-<div x-data="{ mobileFiltersOpen: false, sortMenuOpen: false, filterSectionsOpen: {}, label: '{{ $pojazdy[0]->Nazwa }}', }" class="p-6">
+@php
+    ($pojazdy->count() > 0) ? $label = $pojazdy[0]->Nazwa : $label = 'Brak pojazdów';
+@endphp
+<div x-data="{ mobileFiltersOpen: false, sortMenuOpen: false, filterSectionsOpen: {}, label: '{{ $label }}', }" class="p-6">
 
 
     <div class="h-full">
         {{-- used for maps --}}
+
+        @if (($pojazdy->count() > 0))
         <input type="text" name="lat" id="lat" hidden value="{!! $this->lokacja->latitude !!} ">
         <input type="text" name="lng" id="lng" hidden value="{!! $this->lokacja->longitude !!} ">
         <input type="text" name="czas" id="czas" hidden value="{{$this->lokacja->created_at->timezone('Europe/Warsaw')  }} ">
         <input type="text" name="nazwa" id="nazwa" hidden value="{!! $this->pojazd->Nazwa !!} ">
+        @endif
 
         <div class="mx-auto max-w-7xl">
             <div class="flex flex-row justify-between">
                 <div class="flex flex-row">
-                    <h2 class="text-2xl font-bold text-sky-950 max-w-xl md:text-3xl text-balance place-content-end"><span wire:loading.remove>Pojazd: {{ $this->pojazd->Nazwa }} </span>
+                    <h2 class="text-2xl font-bold text-sky-950 max-w-xl md:text-3xl text-balance place-content-end"><span wire:loading.remove>{{ (!empty($this->pojazd)) ? 'Pojazd: '.$this->pojazd->Nazwa : 'Brak pojazdów do wyboru!' }} </span>
                 </div>
 
                 </h2>
@@ -43,7 +49,7 @@
                                         class="truncate block w-full text-left rounded-md px-4 py-2 text-xs lg:text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
                                         role="menuitem" tabindex="-1" id="menu-item-0">{{ $pojazd->Nazwa }}</button>
                                     @empty
-                                    <button wire.loading.attr="disabled" x-on:click="sortMenuOpen = false, label = 'Brak pojazdów'
+                                    <button wire.loading.attr="disabled" x-on:click="sortMenuOpen = false, label = 'Brak pojazdów'"
                                         :class="{'bg-amber-400 font-semibold': label == 'Brak pojazdów' }"
                                         class="truncate block w-full text-left rounded-md px-4 py-2 text-xs lg:text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
                                         role="menuitem" tabindex="-1" id="menu-item-0">Brak pojazdów</button>
@@ -53,10 +59,11 @@
                         </div>
                 </div>
             </div>
+            @if(!empty($this->lokacja))
             <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-2 py-1" wire:loading.remove>
-                <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 text-balance">Tel: {{ $this->pojazd->Telefon }} | {{ $this->pojazd->Opis }}</div>
+                <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 text-balance">Tel: {{ (!empty($this->pojazd->Telefon)) ? $this->pojazd->Telefon : 'Brak pojazdu' }} | {{ (!empty($this->pojazd->Opis)) ? $this->pojazd->Opis : 'Brak pojazdu' }}</div>
                 <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 place-content-end">
-                    Ostatnia aktywność {{ \Carbon\Carbon::setLocale('pl') }}{{ $this->lokacja->created_at->timezone('Europe/Warsaw')->diffForHumans() }}
+                    Ostatnia aktywność {{ \Carbon\Carbon::setLocale('pl') }} {{ (!empty($this->lokacja)) ? $this->lokacja->created_at->timezone('Europe/Warsaw')->diffForHumans() : 'Brak pojazdu' }}
                 </div>
             </div>
             <div class="py-4" wire:loading.remove>
@@ -85,8 +92,8 @@
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                               </svg>
 
-                              <div class="font-bold flex flex-row space-x-6"><p>{!! App\Models\Coordinates::formatCoordinates($this->lokacja->latitude, $this->lokacja->longitude) !!}</p></div>
-                              @if($this->lokacja->route !=0)
+                              <div class="font-bold flex flex-row space-x-6"><p>{!! (!empty($this->lokacja)) ? App\Models\Coordinates::formatCoordinates($this->lokacja->latitude, $this->lokacja->longitude) : 'Brak pojazdu' !!}</p></div>
+                              @if(!empty($this->lokacja) && $this->lokacja->route !=0)
                               <h3 class="text-base font-bold text-sky-80 text-balance truncate px-2" wire:loading.remove>| Trasa nr: {{ $this->lokacja->route }}</h3>
                               @endif
                             </div>
@@ -111,6 +118,10 @@
                                     {!! '&nbsp;'. $this->lokacja->battery !!}%
                                 </span>
 
+
+
+
+
                           </div>
                       </div>
                       <div class="relative">
@@ -119,7 +130,8 @@
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" stroke="currentColor" class="text-sky-950 w-6 h-6 flex-shrink-0 mr-4" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                   </svg>
-                                  <p class="font-bold">{{ App\Models\Coordinates::formatCreatedAt($this->lokacja->created_at) }} </p>
+
+                                  <p class="font-bold">{{ !empty($this->lokacja) ? App\Models\Coordinates::formatCreatedAt($this->lokacja->created_at) : 'Brak pojazdu' }} </p>
 
                               </div>
                       </div>
@@ -135,6 +147,24 @@
                   </svg>
 
               </div>
+              @else
+
+                                <div class="grid gap-4 w-full py-8 lg:py-[2.4rem] mt-2 border-t-2 border-gray-300">
+                                    <div class="w-16 h-16 lg:w-20 lg:h-20 mx-auto bg-amber-100 p-2 rounded-full shadow-sm justify-center items-center inline-flex ">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="text-amber-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="size-4 lg:size-6">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="m3 3 1.664 1.664M21 21l-1.5-1.5m-5.485-1.242L12 17.25 4.5 21V8.742m.164-4.078a2.15 2.15 0 0 1 1.743-1.342 48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185V19.5M4.664 4.664 19.5 19.5" />
+                                          </svg>
+                                    </div>
+                                    <div class="flex flex-col items-center w-auto">
+                                        <h2 class="text-center text-sky-950 text-lg lg:text-xl font-semibold pb-2">Najpierw dodaj nowy pojazd!</h2>
+                                        <p class="text-center text-sky-950 text-sm lg:text-base font-normal pb-4">Zajrzyj sekcji zarządzanie.</p>
+
+                                            <a type="button" href="{{ route('management.vehicles') }}" class="font-bold text-sky-950 text-center place-content-center w-auto py-2 px-5 text-sm 2xl:text-lg rounded-full bg-amber-100 flex flex-row place-content-center items-center justify-between ring-1 ring-amber-300 hover:ring hover:text-cyan-700 hover:bg-amber-50 transition ease-in-out duration-300">
+                                                    Przejdź teraz
+                                            </a>
+                                    </div>
+                                </div>
+              @endif
             </div>
 
         </div>
