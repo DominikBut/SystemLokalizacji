@@ -60,7 +60,7 @@
                                                 </div>
                                                 <p id="lokacja"
                                                 class="font-semibold text-base text-center sm:text-left sm:text-lg text-sky-950 lg:px-4 mx-2 lg:mx-0 pt-1 lg:pt-0 w-auto text-wrap lg:text-nowrap">
-                                                   <span id="pkt_lokacja">Brak danych</span>
+                                                   <span id="pkt_lokacja">Najpierw wybierz punkt.</span>
                                                 </p>
                                           </div>
                                         </div>

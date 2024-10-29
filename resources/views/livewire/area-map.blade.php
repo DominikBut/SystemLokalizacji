@@ -29,6 +29,7 @@
                             {{ session('error') }}
                         </div>
                     @endif
+
                 </div>
                 {{-- Sortwanie --}}
                 <div class="mb-1 w-full min-[360px]:w-auto flex flex-col min-[360px]:flex-row gap-y-4 min-[360px]:gap-y-0 items-center justify-end order-1 xl:order-2 self-end px-1 xl:px-0">
@@ -68,7 +69,7 @@
                         </div>
                 </div>
             </div>
-            <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-6 py-1 px-2">
+            <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-4 py-1 px-2">
                 {{-- loading animation --}}
                 <div class="w-full flex flex-row justify-center items-center h-auto" wire:loading>
                     <div aria-label="Ładowanie..." role="status" class="flex flex-row justify-center space-x-2 w-full h-auto">
@@ -94,7 +95,7 @@
 
                     </div>
                 </div>
-                <h2 wire:loading.remove class="text-2xl font-bold text-sky-950 max-w-xl  text-balance place-content-center truncate">Edytowanie: <span class="text-gray-500">{{ $this->pojazd->Nazwa }}</span></h2>
+                <h2 wire:loading.remove class="text-2xl font-bold text-sky-950 max-w-xl text-balance place-content-center truncate">Edytowanie: <span class="text-gray-500">{{ $this->pojazd->Nazwa }}</span></h2>
                 <label wire:loading.remove class="relative inline-flex items-center cursor-pointer space-x-2 text-gray-900 hover:text-cyan-800">
                     <svg class="w-12 h-12 {{ $this->pojazd->subscribe ? 'text-lime-600' : 'text-gray-500' }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                         <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
@@ -116,13 +117,14 @@
                 </label>
             </div>
 
-            <div class="mx-auto lg:grid max-w-2xl grid-cols-1 lg:mx-0 lg:max-w-none lg:grid-cols-3 mt-2">
-                <div class="sm:col-span-2 items-center flex flex-row text-left w-full">
-                    <dl class="text-sm lg:text-base leading-7 text-stone-700 w-[32rem]">
+            <div class="mx-auto lg:grid max-w-2xl lg:mx-0 lg:max-w-none  mt-2">
+                <div class="items-center flex flex-row text-left w-full justify-between">
+                    <dl class="text-sm lg:text-base leading-7 text-stone-700 flex flex-row w-full justify-between">
+                        <div class="place-content-center">Zaznacz obszar z uwzględnieniem 2,5m marginesu.</div>
+                      <div class="bg-blue-100 ">
 
-                      <div class="relative bg-blue-100">
                         @if (!is_null($obszar))
-                        <div class="p-2 font-medium">Aktualnie poza obszarem: {{ $this->pojazd->notified ==1 ? 'Tak' : 'Nie' }}</div>
+                        <div class="px-2 p-1 font-medium" wire:loading.remove>Aktualnie poza obszarem: {{ $this->pojazd->notified ==1 ? 'Tak' : 'Nie' }}</div>
                         @endif
 
                           {{-- <div class=" rounded flex p-2 h-full items-center font-bold">

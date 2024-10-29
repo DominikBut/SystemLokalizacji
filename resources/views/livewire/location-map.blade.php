@@ -10,7 +10,11 @@
 
         <div class="mx-auto max-w-7xl">
             <div class="flex flex-row justify-between">
-                <h2 class="text-2xl font-bold text-sky-950 max-w-xl md:text-3xl text-balance place-content-end"><span wire:loading.remove>Pojazd: {{ $this->pojazd->Nazwa }}</span></h2>
+                <div class="flex flex-row">
+                    <h2 class="text-2xl font-bold text-sky-950 max-w-xl md:text-3xl text-balance place-content-end"><span wire:loading.remove>Pojazd: {{ $this->pojazd->Nazwa }} </span>
+                </div>
+
+                </h2>
                     {{-- Sortwanie --}}
                 <div class="mb-1 w-full min-[360px]:w-auto flex flex-col min-[360px]:flex-row gap-y-4 min-[360px]:gap-y-0 items-center justify-end order-1 xl:order-2 self-end px-1 xl:px-0">
 
@@ -65,7 +69,7 @@
                         </div>
                         <p id="lokacja"
                         class="font-semibold text-base text-center sm:text-left sm:text-lg text-sky-950 lg:px-4 mx-2 lg:mx-0 pt-1 lg:pt-0 w-auto text-wrap lg:text-nowrap">
-                            Lokacja
+                            Lokalizacja
                         </p>
                   </div>
                 </div>
@@ -82,7 +86,9 @@
                               </svg>
 
                               <div class="font-bold flex flex-row space-x-6"><p>{!! App\Models\Coordinates::formatCoordinates($this->lokacja->latitude, $this->lokacja->longitude) !!}</p></div>
-
+                              @if($this->lokacja->route !=0)
+                              <h3 class="text-base font-bold text-sky-80 text-balance truncate px-2" wire:loading.remove>| Trasa nr: {{ $this->lokacja->route }}</h3>
+                              @endif
                             </div>
                       </div>
                       <div class="relative">
@@ -113,7 +119,8 @@
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" stroke="currentColor" class="text-sky-950 w-6 h-6 flex-shrink-0 mr-4" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                   </svg>
-                                  <p class="font-bold">{{ App\Models\Coordinates::formatCreatedAt($this->lokacja->created_at) }}</p>
+                                  <p class="font-bold">{{ App\Models\Coordinates::formatCreatedAt($this->lokacja->created_at) }} </p>
+
                               </div>
                       </div>
 

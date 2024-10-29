@@ -48,7 +48,9 @@
                                               </svg>
 
                                               <div class="font-bold flex flex-row space-x-6"><p>{!! App\Models\Coordinates::formatCoordinates($lokacja->latitude, $lokacja->longitude) !!}</p></div>
-
+                                              @if($lokacja->route !=0)
+                                              <h3 class="text-base font-bold text-sky-80 text-balance truncate px-2" wire:loading.remove>| Trasa nr: {{ $lokacja->route }}</h3>
+                                              @endif
                                             </div>
                                       </div>
                                       <div class="relative">

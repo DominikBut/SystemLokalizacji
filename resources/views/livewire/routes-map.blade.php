@@ -47,16 +47,16 @@
                             </div>
                         </div>
                 </div>
-                <h2 class="text-base font-bold text-cyan-800 text-balance  truncate "><span wire:loading.remove wire:target.except="previousPage, nextPage">Trasy pojazdu: {{ $this->pojazd->Nazwa }}</span></h2>
+                <h2 class="text-base font-bold text-cyan-800 text-balance  truncate "><span wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">Trasy pojazdu: {{ $this->pojazd->Nazwa }}</span></h2>
 
-                <h3 class="text-2xl my-2 font-bold text-sky-80 text-balance truncate "><span wire:loading.remove wire:target.except="previousPage, nextPage">Trasa nr: {{ $selectedRoute }}</span></h3>
+                <h3 class="text-2xl my-2 font-bold text-sky-80 text-balance truncate "><span wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">Trasa nr: {{ $selectedRoute }}</span></h3>
 
             </div>
-            <div class="text-sm text-cyan-800 " wire:loading.remove wire:target.except="previousPage, nextPage">
+            <div class="text-sm text-cyan-800 " wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">
                 Zapis trasy: {{ \Carbon\Carbon::setLocale('pl') }}{{ \Carbon\Carbon::parse(json_decode($this->dane)->points[count(json_decode($this->dane)->points) - 1]->created_at)->timezone('Europe/Warsaw')->diffForHumans() }}
             </div>
 
-            <div class="flex flex-col border-y-2 border-gray-300 py-2 mt-2 space-y-2 overflow-auto h-[500px] xd-container" id="lista" wire:loading.remove wire:target.except="previousPage, nextPage">
+            <div class="flex flex-col border-y-2 border-gray-300 py-2 mt-2 space-y-2 overflow-auto h-[500px] xd-container" id="lista" wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">
 
                 @foreach (json_decode($this->dane)->points as $index => $info)
                     <div class="rounded flex h-fit flex-col p-1" >
@@ -87,10 +87,10 @@
 
             </div>
             <div class="flex flex-col mt-auto">
-                <div class="text-sm my-3 font-semibold text-cyan-800 " wire:loading.remove wire:target.except="previousPage, nextPage">
+                <div class="text-sm my-3 font-semibold text-cyan-800 " wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">
                     Wybierz zapisaną trasę: 1 - {{ $this->pojazd->current_route }}
                 </div>
-                <div class="flex justify-center space-x-2  items-center" wire:loading.remove wire:target.except="previousPage, nextPage">
+                <div class="flex justify-center space-x-2  items-center" wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">
                     <!-- Left Arrow Button -->
                     <button title="Cofnij"
                         wire:click="previousPage"
@@ -122,7 +122,7 @@
                 </div>
             </div>
             {{-- loading animation --}}
-            <div class="w-full flex flex-row justify-center items-center pt-32 h-[660px]" wire:loading wire:target.except="previousPage, nextPage">
+            <div class="w-full flex flex-row justify-center items-center pt-32 h-[660px]" wire:loading wire:target.except="previousPage, nextPage, selectRoute">
                 <div aria-label="Ładowanie..." role="status" class="flex flex-row justify-center pt-36 space-x-2 w-full ">
                     <div class="flex flex-row place-items-center">
                         <svg class="w-12 h-12  animate-spin stroke-amber-400" viewBox="0 0 256 256">
