@@ -53,4 +53,41 @@ class Coordinates extends Model
         Carbon::setLocale($locale);
         return $date->timezone($timezone)->translatedFormat('j F Y H:i:s');
     }
+
+    public static function calculateDistance($points)
+    {
+        $totalDistance = 0.0;
+
+        // Convert JSON string to array if necessary
+        $pointsArray = is_string($points) ? json_decode($points, true)['points'] : $points;
+
+        // Iterate over points to calculate distance between consecutive ones
+        for ($i = 1; $i < count($pointsArray); $i++) {
+            $point1 = $pointsArray[$i - 1];
+            $point2 = $pointsArray[$i];
+
+            $lat1 = deg2rad($point1['lat']);
+            $lng1 = deg2rad($point1['lng']);
+            $lat2 = deg2rad($point2['lat']);
+            $lng2 = deg2rad($point2['lng']);
+
+            $distance = self::haversineDistance($lat1, $lng1, $lat2, $lng2);
+            $totalDistance += $distance;
+        }
+
+        return number_format($totalDistance, 3, ',', '');
+    }
+
+    public static function haversineDistance($lat1, $lng1, $lat2, $lng2)
+    {
+        $earthRadius = 6371; // Radius of Earth in kilometers
+
+        $deltaLat = $lat2 - $lat1;
+        $deltaLng = $lng2 - $lng1;
+
+        $a = sin($deltaLat / 2) ** 2 + cos($lat1) * cos($lat2) * sin($deltaLng / 2) ** 2;
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+        return $earthRadius * $c;
+    }
 }

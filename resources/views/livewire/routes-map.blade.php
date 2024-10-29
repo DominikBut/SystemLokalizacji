@@ -50,15 +50,19 @@
                             </div>
                         </div>
                 </div>
-                <h2 class="text-base font-bold text-cyan-800 text-balance  truncate "><span wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">{{ (!empty($this->pojazd)) ? 'Trasy pojazdu: '.$this->pojazd->Nazwa : 'Brak pojazdów do wyboru!' }}</span></h2>
+                <h2 class="text-sm font-semibold text-sky-700 text-balance  truncate "><span wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">{{ (!empty($this->pojazd)) ? 'Wyświetlanie dla: '.$this->pojazd->Nazwa : 'Brak pojazdów do wyboru!' }}</span></h2>
 
-                <h3 class="text-2xl my-2 font-bold text-sky-80 text-balance truncate "><span wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">{{ (!empty($selectedRoute)) ? 'Trasa nr:: '.$selectedRoute : 'Brak tras' }} </span></h3>
+                <h3 class="text-2xl mt-1 font-bold text-sky-80 text-balance truncate border-t-2 border-gray-300"><span wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">{{ (!empty($selectedRoute)) ? 'Trasa nr: '.$selectedRoute : 'Brak tras' }} </span></h3>
 
             </div>
             @if (!empty($this->pojazd))
-            <div class="text-sm text-cyan-800 " wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">
-                Zapis trasy: {{ \Carbon\Carbon::setLocale('pl') }}{{ \Carbon\Carbon::parse(json_decode($this->dane)->points[count(json_decode($this->dane)->points) - 1]->created_at)->timezone('Europe/Warsaw')->diffForHumans() }}
+            <div class="ml-2 mb-1 text-sm text-cyan-800 " wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">
+                Zapis: {{ \Carbon\Carbon::setLocale('pl') }}{{ \Carbon\Carbon::parse(json_decode($this->dane)->points[count(json_decode($this->dane)->points) - 1]->created_at)->timezone('Europe/Warsaw')->diffForHumans() }}
             </div>
+            <div class="ml-2 text-sm font-bold text-sky-80 truncate" wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">
+                Szacowana długość: {{ $this->totalDistance }}km
+            </div>
+
             @endif
 
 

@@ -26,7 +26,7 @@
                                 <div class="py-1 px-4" id="dane_dash" wire:loading.remove>
                                     <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-2 py-1" >
                                         <div class="flex flex-row">
-                                            <div class="text-lg font-bold lg:leading-8 text-cyan-800 text-balance place-content-center">Punkt nr: <span id="pkt_nr">0</span></div>
+                                            <div class="text-lg font-bold lg:leading-8 text-cyan-800 text-balance place-content-center">Punkt nr: <span id="pkt_nr">-</span></div>
                                             <dl class=" mx-4 text-sm lg:text-base leading-7 text-stone-700 w-auto place-content-center">
                                                 <div class="relative w-full">
                                                     <div class=" bg-blue-100 rounded flex p-1 h-full items-center pr-3">
@@ -344,55 +344,72 @@
         });
 
 
-        let isListenerAdded = false; // Flag to check if listener is already added
+        let isListenerAdded = false; // Flag to track if the listener has been added
+        let routeData;
+Livewire.on('route', (event) => {
+    document.getElementById("pkt_nr").innerText = "-";
+    document.getElementById("pkt_data").innerText = "-----------------------";
+    document.getElementById("pkt_lokacja").innerText = "Najpierw wybierz punkt.";
+    document.getElementById("pkt_coords").innerText = `00°00'00.00"- 00°00'00.00"-`;
 
-    Livewire.on('route', (event) => {
-            document.getElementById("pkt_nr").innerText = "0";
-            document.getElementById("pkt_data").innerText = "-----------------------";
-            document.getElementById("pkt_lokacja").innerText = "Najpierw wybierz punkt.";
-            document.getElementById("pkt_coords").innerText = `00°00'00.00"- 00°00'00.00"-`;
-            lastOverlay = loadSavedShape(map, lastOverlay, event.base_area);
-            var routeData = JSON.parse(event.route);
-            var geocoder = new google.maps.Geocoder();
-            loadRoute(map, routeData);
+    lastOverlay = loadSavedShape(map, lastOverlay, event.base_area);
+    routeData = JSON.parse(event.route);
+    console.log(routeData);
 
-            const container = document.querySelector('.xd-container'); // Parent container for .xd elements
-            if (container) {
-                // Only add the event listener if it hasn't been added before
-                if (!isListenerAdded) {
-                    container.addEventListener('click', function(e) {
-                        if (e.target.classList.contains('xd')) {
-                            infoWindow.close();
-                            document.querySelectorAll('.xd').forEach(el => el.classList.remove('underline'));
-                            e.target.classList.add('underline');
-
-                            var index = e.target.getAttribute("data-index");
+    loadRoute(map, routeData);
 
 
-                            var point = routeData.points[index];
-                            var localDate = new Intl.DateTimeFormat('pl-PL', {
-                                day: '2-digit',
-                                month: 'long',
-                                year: 'numeric',
-                                hour: '2-digit',
-                                minute: '2-digit',
-                                second: '2-digit',
-                                hour12: false // 24-hour format
-                            }).format(new Date(point.created_at));
 
-                            document.getElementById("pkt_nr").innerText = `${parseFloat(index) + 1}`;
-                            document.getElementById("pkt_data").innerText = localDate;
-                            geocodeLatLng(geocoder, point.lat, point.lng);
-                            document.getElementById("pkt_coords").innerText = formatCoordinates(point.lat, point.lng);
-                        }
-                    });
+    const container = document.querySelector('.xd-container'); // Parent container for .xd elements
+    if (container) {
+        // Remove previous event listener if it exists
+        container.removeEventListener('click', handleXDClick);
 
-                    isListenerAdded = true; // Set flag to true after adding listener
-                }
-            } else {
-                console.error("Container for .xd elements not found.");
-            }
-            });
+        // Add a new event listener for the current data
+        container.addEventListener('click', handleXDClick);
+    } else {
+        console.error("Container for .xd elements not found.");
+    }
+
+    // Define the click event handler
+    function handleXDClick(e) {
+        // Ensure the target is an .xd element
+        if (e.target.classList.contains('xd')) {
+            e.stopPropagation(); // Stop the click from bubbling up if necessary
+
+            // Close any open info windows
+            infoWindow.close();
+
+            // Remove underline from all elements
+            document.querySelectorAll('.xd').forEach(el => el.classList.remove('underline'));
+
+            // Add underline to the clicked element
+            e.target.classList.add('underline');
+
+            // Access the latest routeData directly
+            let index = e.target.getAttribute("data-index");
+            let point = routeData.points[index];
+            let geocoder = new google.maps.Geocoder();
+
+            // Format the date
+            let localDate = new Intl.DateTimeFormat('pl-PL', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false // 24-hour format
+            }).format(new Date(point.created_at));
+
+            // Update the displayed information
+            document.getElementById("pkt_nr").innerText = `${parseFloat(index) + 1}`;
+            document.getElementById("pkt_data").innerText = localDate;
+            geocodeLatLng(geocoder, point.lat, point.lng);
+            document.getElementById("pkt_coords").innerText = formatCoordinates(point.lat, point.lng);
+        }
+    }
+});
       }
 
 

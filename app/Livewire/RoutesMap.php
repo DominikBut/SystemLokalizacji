@@ -22,6 +22,7 @@ class RoutesMap extends Component
     public $startIndex = 1; // Starting index for the displayed buttons
     public $buttonsPerPage = 3; // Number of buttons to display at a time
     public $totalRoutes;
+    public $totalDistance = 0.0;
     public function previousPage()
     {
         // Ensure we don't go below 0, adjusting by buttonsPerPage
@@ -41,11 +42,29 @@ class RoutesMap extends Component
         $this->selectedRoute = $routeNumber;
 
         if ($routeNumber <= $this->pojazd->current_route && $routeNumber >= 0) {
+            // Retrieve and format the coordinates data
+            $tmp_data = $this->pojazd->wspolrzedne()
+                ->where('route', $routeNumber)
+                ->orderBy('created_at', 'asc')
+                ->get();
+
+            // Retrieve the first point (point 0)
+            $point_0 = Coordinates::where('simID', $this->pojazd->simID)
+                ->where('route', 0)
+                ->where('created_at', '<', $tmp_data->first()->created_at)->orderBy('created_at', 'desc')
+                ->first();
+            // Check if point 0 exists
+            if ($point_0) {
+                // Prepend point 0 to tmp_data
+                $tmp_data->prepend((object) [
+                    'latitude' => $point_0->latitude,
+                    'longitude' => $point_0->longitude,
+                    'created_at' => $point_0->created_at
+                ]);
+            }
+
             $this->dane = json_encode([
-                "points" => $this->pojazd->wspolrzedne()
-                    ->where('route', $routeNumber)
-                    ->orderBy('created_at', 'asc')
-                    ->get()
+                "points" => $tmp_data // Adjust these column names based on your table structure
                     ->map(function ($coordinate) {
                         return [
                             'lat' => $coordinate->latitude,
@@ -55,8 +74,25 @@ class RoutesMap extends Component
                     })
                     ->toArray()
             ]);
-
+            $this->totalDistance = Coordinates::calculateDistance($this->dane);
             $this->dispatch('route', route: $this->dane, base_area: $this->pojazd->base_area);
+
+            // $this->dane = json_encode([
+            //     "points" => $this->pojazd->wspolrzedne()
+            //         ->where('route', $routeNumber)
+            //         ->orderBy('created_at', 'asc')
+            //         ->get()
+            //         ->map(function ($coordinate) {
+            //             return [
+            //                 'lat' => $coordinate->latitude,
+            //                 'lng' => $coordinate->longitude,
+            //                 'created_at' => $coordinate->created_at
+            //             ];
+            //         })
+            //         ->toArray()
+            // ]);
+            // $this->totalDistance = Coordinates::calculateDistance($this->dane);
+            // $this->dispatch('route', route: $this->dane, base_area: $this->pojazd->base_area);
         }
     }
     public function updateRouteButtons()
@@ -106,6 +142,7 @@ class RoutesMap extends Component
                     })
                     ->toArray()
             ]);
+            $this->totalDistance = Coordinates::calculateDistance($this->dane);
             $this->dispatch('route', route: $this->dane, base_area: $this->pojazd->base_area);
         }
     }
