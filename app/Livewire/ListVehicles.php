@@ -26,13 +26,17 @@ class ListVehicles extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
+            ->heading('Lista dostepnych pojazdów')
+            ->description('Wybierz dowolny pojazd lub dodaj nowy.')
             ->query(Vehicles::query()->where('user_id', auth()->id()))
+            ->poll('60s')
+            ->striped()
             ->columns([
-                TextColumn::make('Nazwa')->sortable()->searchable()->color('info'),
-                TextColumn::make('simID')->sortable()->searchable()->color('info')->label('ID sim'),
-                IconColumn::make('Status')->sortable()->label('Odbieranie')->boolean(),
+                TextColumn::make('Nazwa')->sortable()->searchable()->color('info')->label('Pojazd'),
+                TextColumn::make('simID')->sortable()->searchable()->color('info')->label('SIM id'),
+                IconColumn::make('Status')->sortable()->label('Śledzenie')->boolean(),
                 IconColumn::make('Odbieranie')->sortable()->label('Aktywność')->boolean(),
-                IconColumn::make('subscribe')->sortable()->label('Powiadomienia')->boolean(),
+                IconColumn::make('subscribe')->sortable()->label('Powiadomienia email')->boolean(),
                 TextColumn::make('Telefon')->sortable()->searchable()->label('Telefon')->wrap(),
                 TextColumn::make('Opis')->sortable()->searchable()->color('info'),
             ])
@@ -74,7 +78,7 @@ class ListVehicles extends Component implements HasForms, HasTable
             ])
             ->bulkActions([
                 // ...
-            ]);
+            ])->paginated([10]);
     }
     public function render()
     {

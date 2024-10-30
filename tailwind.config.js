@@ -15,13 +15,10 @@ export default {
         './resources/views/filament/**/*.blade.php',
         './vendor/filament/**/*.blade.php',
     ],
-
+    darkMode: 'selector',
     theme: {
-        extend: {
-            fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
-            },
-        },
+        darkMode: 'selector',
+
     },
 
     plugins: [forms, typography],

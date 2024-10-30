@@ -10,9 +10,9 @@
 
             <div class="overflow-hidden h-full">
                 <div class="grid grid-cols-12 space-x-8">
-                    <div class="col-span-2 justify-between shadow-sm border sm:rounded-lg bg-white">
+                    <div class="p-2 col-span-2 justify-between shadow-sm border sm:rounded-lg bg-white min-h-[46rem]">
                         <h2 class="font-semibold text-lg text-gray-800 leading-tight p-4">
-                            {{ __('Nawigacja') }}
+                            {{ __('Opcje zarządzania') }}
                         </h2>
                          <!-- Navigation Links -->
                         <div class="flex flex-col sm:-my-px mx-4 space-y-4 px-4">
@@ -30,7 +30,7 @@
                             </x-nav-link>
                         </div>
                     </div>
-                    <div class="col-span-10 h-full">
+                    <div class="col-span-10">
                         @livewire('list-vehicles')
                     </div>
                 </div>

@@ -11,8 +11,8 @@
                 {{ $value }}
             </div>
         @endsession
-
-        <form method="POST" action="{{ route('login') }}">
+            <div x-data="{ submitButtonDisabled: false }">
+        <form method="POST" action="{{ route('login') }}" x-on:submit="submitButtonDisabled = true">
             @csrf
 
             <div>
@@ -39,10 +39,11 @@
                     </a>
                 @endif
 
-                <x-button class="ms-4">
+                <x-button class="px-4 py-2 items-center ring ring-lime-400 rounded-2xl font-bold hover:ring-4 hover:ring-lime-600 hover:font-bold transition ease-in-out duration-300" x-bind:disabled="submitButtonDisabled">
                     {{ __('Zaloguj') }}
                 </x-button>
             </div>
         </form>
+    </div>
     </x-authentication-card>
 </x-guest-layout>

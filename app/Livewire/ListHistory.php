@@ -26,7 +26,7 @@ class ListHistory extends Component implements HasForms, HasTable
                 Coordinates::whereHas('pojazd', function ($query) {
                     $query->where('user_id', auth()->id());
                 })->orderBy('created_at', 'desc')
-            )
+            )->poll('60s')->striped()
             ->columns([
                 TextColumn::make('pojazd.Nazwa')->sortable()->searchable()->color('info')->label('Nazwa'),
                 TextColumn::make('pojazd.simID')->sortable()->searchable()->color('info')->label('ID sim'),
@@ -47,7 +47,7 @@ class ListHistory extends Component implements HasForms, HasTable
             ])
             ->bulkActions([
                 // ...
-            ]);
+            ])->paginated([10])->extremePaginationLinks();
     }
     public function render()
     {

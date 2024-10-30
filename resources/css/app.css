@@ -5,3 +5,15 @@
 [x-cloak] {
     display: none;
 }
+.fi-btn {
+    @apply px-4 py-2 items-center ring ring-lime-400 rounded-2xl font-semibold hover:ring-4 hover:ring-lime-600 transition ease-in-out duration-300 ;
+}
+.fi-btn-color-danger{
+    @apply  !ring-red-600 rounded-2xl font-semibold hover:ring-4 hover:!ring-red-800 transition ease-in-out duration-300 ;
+
+}
+.fi-btn-color-gray{
+    @apply  !ring-gray-300 rounded-2xl font-semibold hover:ring-4 hover:!ring-gray-400 transition ease-in-out duration-300 ;
+
+}
+
