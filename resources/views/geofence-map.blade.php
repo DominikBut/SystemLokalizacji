@@ -1,5 +1,6 @@
 <div>
-    <h2 class="p-4 text-2xl font-bold text-sky-950 md:text-3xl place-content-end">Zaznacz na mapie obszar domowy pojazdu</h2>
+    <h2 class="p-4 text-2xl font-bold text-sky-950 md:text-2xl place-content-end pl-6">Zaznacz na mapie obszar startowy pojazdu.</h2>
+    <div class=" w-auto p-1 bg-lime-600"></div>
     <div id="map"  style="height: 520px;"></div>
     <div class=" w-auto p-1 bg-lime-600"></div>
     @livewire('area-map')

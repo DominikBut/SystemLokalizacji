@@ -1,24 +1,25 @@
-            <div>
+            <div class="h-full">
                 {{-- Linkowanie mapy z Google Api --}}
                 <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
                     ({key: "AIzaSyATS3eoPZF6fOo-JCpwGJSncxE7vQqD3_U", v: "weekly"});</script>
 
                 {{-- Mapa google --}}
-                <h2 class="p-4 text-2xl font-bold text-sky-950 md:text-2xl place-content-end">Współrzędne <span class="text-gray-500 underline">{{ $lokacja->pojazd->Nazwa }}</span> z dnia: <span class="text-gray-500 underline">{{ App\Models\Coordinates::formatCreatedAt($lokacja->created_at) }}</span></h2>
+                <h2 class="pl-6 p-4 text-2xl font-bold text-sky-950 md:text-2xl place-content-end">Współrzędne <span class="text-lime-700 ">{{ $lokacja->pojazd->Nazwa }}</span> z dnia: <span class="text-lime-700 ">{{ App\Models\Coordinates::formatCreatedAt($lokacja->created_at) }}.</span></h2>
+                <div class=" w-auto p-1 bg-lime-600"></div>
                 <div id="map"  style="height: 320px;"></div>
                  <div class=" w-auto p-1 bg-lime-600"></div>
-                 <div class="px-6 my-4">
+                 <div class="px-6 my-4 h-fit">
                     <div class="h-full">
                         {{-- used for maps --}}
                         <input type="text" name="lat" id="lat" hidden value="{!! $lokacja->latitude !!} ">
                         <input type="text" name="lng" id="lng" hidden value="{!! $lokacja->longitude !!} ">
                         <input type="text" name="czas" id="czas" hidden value="{{$lokacja->created_at->timezone('Europe/Warsaw')  }} ">
                         <input type="text" name="nazwa" id="nazwa" hidden value="{!! $lokacja->pojazd->Nazwa !!} ">
-                        <div class="mx-auto max-w-7xl">
+                        <div class="mx-auto max-w-7xl pt-4">
                             <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-2 py-1">
                                 <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 text-balance">SIM ID: {{ $lokacja->simID }} | Tel: {{ $lokacja->pojazd->Telefon }}</div>
                                 <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 place-content-end">
-                                     {{ \Carbon\Carbon::setLocale('pl') }}{{ $lokacja->created_at->timezone('Europe/Warsaw')->diffForHumans() }}
+                                    Wysłano: {{ \Carbon\Carbon::setLocale('pl') }}{{ $lokacja->created_at->timezone('Europe/Warsaw')->diffForHumans() }}
                                 </div>
                             </div>
                             <div class="py-4">
@@ -82,7 +83,7 @@
                               <div class="sm:col-span-2 flex justify-center invisible sm:visible">
 
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" stroke="currentColor"
-                                  class="w-[0rem] max-w-none lg:max-xl:w-[6rem] xl:w-[8rem] text-lime-600">
+                                  class="w-[0rem] max-w-none lg:max-xl:w-[6rem] xl:w-[12rem] text-lime-600">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="m6.115 5.19.319 1.913A6 6 0 0 0 8.11 10.36L9.75 12l-.387.775c-.217.433-.132.956.21 1.298l1.348 1.348c.21.21.329.497.329.795v1.089c0 .426.24.815.622 1.006l.153.076c.433.217.956.132 1.298-.21l.723-.723a8.7 8.7 0 0 0 2.288-4.042 1.087 1.087 0 0 0-.358-1.099l-1.33-1.108c-.251-.21-.582-.299-.905-.245l-1.17.195a1.125 1.125 0 0 1-.98-.314l-.295-.295a1.125 1.125 0 0 1 0-1.591l.13-.132a1.125 1.125 0 0 1 1.3-.21l.603.302a.809.809 0 0 0 1.086-1.086L14.25 7.5l1.256-.837a4.5 4.5 0 0 0 1.528-1.732l.146-.292M6.115 5.19A9 9 0 1 0 17.18 4.64M6.115 5.19A8.965 8.965 0 0 1 12 3c1.929 0 3.716.607 5.18 1.64" />
                                   </svg>
 

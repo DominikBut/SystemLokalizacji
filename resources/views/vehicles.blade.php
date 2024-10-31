@@ -6,35 +6,17 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-screen-2xl mx-auto sm:px-6 lg:px-8 h-full">
-
+        <div class="max-w-screen-2xl mx-auto h-full">
             <div class="overflow-hidden h-full">
                 <div class="grid grid-cols-12 space-x-8">
-                    <div class="p-2 col-span-2 justify-between shadow-sm border sm:rounded-lg bg-white min-h-[46rem]">
-                        <h2 class="font-semibold text-lg text-gray-800 leading-tight p-4">
-                            {{ __('Opcje zarządzania') }}
-                        </h2>
-                         <!-- Navigation Links -->
-                        <div class="flex flex-col sm:-my-px mx-4 space-y-4 px-4">
-                            <x-nav-link href="{{ route('management.vehicles') }}" :active="request()->routeIs('management.vehicles')">
-                                {{ __('Pojazdy') }}
-                            </x-nav-link>
-                            <x-nav-link href="{{ route('management.history') }}" :active="request()->routeIs('management.history')">
-                                {{ __('Historia lokalizacji') }}
-                            </x-nav-link>
-                            <x-nav-link href="{{ route('management.fence') }}" :active="request()->routeIs('management.fence')">
-                                {{ __('Obszar domowy') }}
-                            </x-nav-link>
-                            <x-nav-link href="{{ route('management.oldmap') }}" :active="request()->routeIs('management.oldmap')">
-                                {{ __('Mapa historyczna') }}
-                            </x-nav-link>
-                        </div>
+                    <div class="col-span-2 justify-between shadow-sm border rounded-lg bg-white min-h-[50rem] p-3">
+
+                        <x-management-nav/>
                     </div>
-                    <div class="col-span-10">
+                    <div class="col-span-10 min-h-[50rem] bg-white shadow-sm border rounded-lg">
                         @livewire('list-vehicles')
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
