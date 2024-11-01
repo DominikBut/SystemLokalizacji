@@ -8,16 +8,21 @@ use App\Models\Vehicles;
 use Filament\Tables\Table;
 use App\Models\Coordinates;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Contracts\View\View;
 use Filament\Support\Enums\Alignment;
+use Filament\Forms\Components\Builder;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Support\Enums\IconPosition;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 
 class ListHistory extends Component implements HasForms, HasTable
 {
@@ -33,9 +38,8 @@ class ListHistory extends Component implements HasForms, HasTable
             ->emptyStateDescription('Spróbuj najpierw dodać nowy pojazd na stronie "Lista pojazdów"')->emptyStateIcon('heroicon-o-bookmark-slash')
             ->striped()
             ->query(
-                Coordinates::whereHas('pojazd', function ($query) {
-                    $query->where('user_id', auth()->id());
-                })->orderBy('created_at', 'desc')
+                Coordinates::whereHas('pojazd')
+                    ->orderBy('created_at', 'desc')
             )->poll('60s')->striped()
             ->columns([
                 TextColumn::make('index')->label('Lp.')
@@ -46,16 +50,14 @@ class ListHistory extends Component implements HasForms, HasTable
                 TextColumn::make('created_at')->searchable()->color('info')->label('Odebrano')->formatStateUsing(fn(string $state): string => (
                     Carbon::parse($state)->timezone('Europe/Warsaw')->translatedFormat('j F Y H:i:s')
                 )),
-                TextColumn::make('latitude')->label('latitude'),
-                TextColumn::make('longitude')->label('longitude')->formatStateUsing(fn(string $state): string => (
-                    Coordinates::formatCoordinates($state, $state)
-                )),
+                TextColumn::make('longitude')->label('Współrzędne geograficzne')->weight(FontWeight::Bold)
+                    ->formatStateUsing(fn(Coordinates $record): string =>   Coordinates::formatCoordinates($record->latitude, $record->longitude))->html(),
                 TextColumn::make('strength')->searchable()->label('Siła sygnału [%]')->badge()->wrap()->alignment(Alignment::Center)->wrapHeader()
                     ->color(fn(string $state): string => (
                         ($state <= 10)
                         ? 'danger' : (($state > 10 and $state <= 50) ? 'warning' : 'primary'
                         )))
-                    ->icon('heroicon-m-signal')->iconPosition(IconPosition::After),
+                    ->icon('heroicon-m-chart-bar')->iconPosition(IconPosition::After),
                 TextColumn::make('battery')->searchable()->label('Poziom baterii [%]')->badge()->wrap()->alignment(Alignment::Center)->wrapHeader()
                     ->color(fn(string $state): string => (
                         ($state <= 10)
@@ -64,12 +66,15 @@ class ListHistory extends Component implements HasForms, HasTable
 
             ])
             ->filters([
-                // ...
+                SelectFilter::make('Pojazdy:')
+                    ->relationship('pojazd', 'Nazwa'),
+
+
             ])
             ->headerActions([])
             ->actions([
-                Action::make('Zobacz na mapie >')
-                    ->action(fn(Coordinates $record) => $record->advance())
+                Action::make('Zobacz na mapie')
+                    ->action(fn(Coordinates $record) => $record->advance())->button()
                     ->url(fn(Coordinates $record): string => route('management.oldmap', ['lokacja' => $record]))
             ])
             ->bulkActions([

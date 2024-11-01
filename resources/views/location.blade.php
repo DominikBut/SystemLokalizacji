@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-4">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg w-full">
 
 
@@ -32,7 +32,7 @@
 
             var initialLat = 0.000000;
             var initialLng = 0.000000;
-            var initialNazwa = '';
+            var initialNazwa = 'Przykładowe dane';
             var initialCzas ='system';
             if(document.getElementById("czas"))
             {
@@ -122,7 +122,7 @@
                     if (response.results[0]) {
                         document.getElementById("lokacja").innerText = response.results[0].formatted_address;
                     } else {
-                        document.getElementById("lokacja").innerText = "Brak danych";
+                        document.getElementById("lokacja").innerText = "Brak odebranych danych";
                     }
                     })
                     .catch((e) => document.getElementById("lokacja").innerText = "Błąd"+ e );
@@ -158,8 +158,14 @@
             //handle zmiane pojazdu
             Livewire.on('coords', (event) => {
                 var localDate = new Date(event.czas).toLocaleString('pl-PL');
-                updateMarkerPosition(event.lat, event.lng, event.nazwa, localDate);
-                geocodeLatLng(geocoder, event.lat, event.lng);
+                if(event.lat)
+                {
+                    updateMarkerPosition(event.lat, event.lng, event.nazwa, localDate);
+                    geocodeLatLng(geocoder, event.lat, event.lng);
+                }else{
+                    updateMarkerPosition(0.000000, 0.000000, 'Przykładowe dane', 'system');
+                }
+
             });
 
         }

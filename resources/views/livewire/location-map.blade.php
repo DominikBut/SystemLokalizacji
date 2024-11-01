@@ -8,9 +8,12 @@
         {{-- used for maps --}}
 
         @if (($pojazdy->count() > 0))
-        <input type="text" name="lat" id="lat" hidden value="{!! $this->lokacja->latitude !!} ">
-        <input type="text" name="lng" id="lng" hidden value="{!! $this->lokacja->longitude !!} ">
-        <input type="text" name="czas" id="czas" hidden value="{{$this->lokacja->created_at->timezone('Europe/Warsaw')  }} ">
+            @if (!empty($this->lokacja))
+            <input type="text" name="lat" id="lat" hidden value="{!! $this->lokacja->latitude !!} ">
+            <input type="text" name="lng" id="lng" hidden value="{!! $this->lokacja->longitude !!} ">
+            <input type="text" name="czas" id="czas" hidden value="{{$this->lokacja->created_at->timezone('Europe/Warsaw')  }} ">
+            @endif
+
         <input type="text" name="nazwa" id="nazwa" hidden value="{!! $this->pojazd->Nazwa !!} ">
         @endif
 
@@ -45,12 +48,12 @@
                                 <div class="space-y-1 p-1 overflow-auto max-h-[300px]" role="none" >
                                     @forelse ($pojazdy as $pojazd)
                                     <button wire.loading.attr="disabled" wire:click="tracking('{{ $pojazd->simID }}')" x-on:click="sortMenuOpen = false, label = '{{ $pojazd->Nazwa }}'"
-                                        :class="{'bg-amber-400 font-semibold': label == '{{ $pojazd->Nazwa }}' }"
+                                        :class="{'bg-lime-400 font-semibold': label == '{{ $pojazd->Nazwa }}' }"
                                         class="truncate block w-full text-left rounded-md px-4 py-2 text-xs lg:text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
                                         role="menuitem" tabindex="-1" id="menu-item-0">{{ $pojazd->Nazwa }}</button>
                                     @empty
                                     <button wire.loading.attr="disabled" x-on:click="sortMenuOpen = false, label = 'Brak pojazdów'"
-                                        :class="{'bg-amber-400 font-semibold': label == 'Brak pojazdów' }"
+                                        :class="{'bg-lime-400 font-semibold': label == 'Brak pojazdów' }"
                                         class="truncate block w-full text-left rounded-md px-4 py-2 text-xs lg:text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
                                         role="menuitem" tabindex="-1" id="menu-item-0">Brak pojazdów</button>
                                     @endforelse
@@ -59,11 +62,11 @@
                         </div>
                 </div>
             </div>
-            @if(!empty($this->lokacja))
+            @if(!empty($this->pojazd))
             <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-2 py-1" wire:loading.remove>
-                <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 text-balance">Tel: {{ (!empty($this->pojazd->Telefon)) ? $this->pojazd->Telefon : 'Brak pojazdu' }} | {{ (!empty($this->pojazd->Opis)) ? $this->pojazd->Opis : 'Brak pojazdu' }}</div>
+                <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 text-balance">Tel: {{ (!empty($this->pojazd->Telefon)) ? $this->pojazd->Telefon : 'Brak pojazdów' }} | {{ (!empty($this->pojazd->Opis)) ? $this->pojazd->Opis : 'Brak pojazdów' }}</div>
                 <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 place-content-end">
-                    Ostatnia aktywność {{ \Carbon\Carbon::setLocale('pl') }} {{ (!empty($this->lokacja)) ? $this->lokacja->created_at->timezone('Europe/Warsaw')->diffForHumans() : 'Brak pojazdu' }}
+                    Ostatnia aktywność {{ \Carbon\Carbon::setLocale('pl') }} {{ (!empty($this->lokacja)) ? $this->lokacja->created_at->timezone('Europe/Warsaw')->diffForHumans() : 'Brak odebranych danych' }}
                 </div>
             </div>
             <div class="py-4" wire:loading.remove>
@@ -76,12 +79,12 @@
                         </div>
                         <p id="lokacja"
                         class="font-semibold text-base text-center sm:text-left sm:text-lg text-sky-950 lg:px-4 mx-2 lg:mx-0 pt-1 lg:pt-0 w-auto text-wrap lg:text-nowrap">
-                            Lokalizacja
+                        Brak odebranych danych
                         </p>
                   </div>
                 </div>
             </div>
-            <div class="mx-auto lg:grid max-w-2xl grid-cols-1 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3 mb-2" wire:loading.remove>
+            <div class="mx-auto lg:grid max-w-2xl grid-cols-1 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3 mb-2 p-1" wire:loading.remove>
                 <div class="sm:col-span-2 items-center flex flex-row text-left w-full">
                     <dl class="space-y-4 text-sm lg:text-base leading-7 text-stone-700 w-[32rem]">
                       <div class="relative w-full">
@@ -92,7 +95,7 @@
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                               </svg>
 
-                              <div class="font-bold flex flex-row space-x-6"><p>{!! (!empty($this->lokacja)) ? App\Models\Coordinates::formatCoordinates($this->lokacja->latitude, $this->lokacja->longitude) : 'Brak pojazdu' !!}</p></div>
+                              <div class="font-bold flex flex-row space-x-6"><p>{!! (!empty($this->lokacja)) ? App\Models\Coordinates::formatCoordinates($this->lokacja->latitude, $this->lokacja->longitude) : 'Brak odebranych danych' !!}</p></div>
                               @if(!empty($this->lokacja) && $this->lokacja->route !=0)
                               <h3 class="text-base font-bold text-sky-80 text-balance truncate px-2" wire:loading.remove>| Trasa nr: {{ $this->lokacja->route }}</h3>
                               @endif
@@ -104,10 +107,10 @@
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linejoin="round" stroke-width="2" class="text-sky-950 w-6 h-6 flex-shrink-0 mr-4" stroke="currentColor" className="size-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
                               </svg>
-
+                                @if (!empty($this->lokacja))
                                 Sygnał:
                                 <span class="@if($this->lokacja->strength < 20) text-red-500 @elseif($this->lokacja->strength < 50) text-yellow-500 @else text-green-500 @endif">
-                                    {!! '&nbsp;'. $this->lokacja->strength !!}%
+                                    {!! (!empty($this->lokacja)) ? '&nbsp;'. $this->lokacja->strength.'%'  : 'Brak odebranych danych' !!}
                                 </span>
                                 {!! '&nbsp;&nbsp;&nbsp;&nbsp;' !!}
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linejoin="round" stroke-width="2" class="text-sky-950 w-6 h-6 flex-shrink-0 mr-4" stroke="currentColor" className="size-6">
@@ -115,9 +118,11 @@
                                 </svg>
                                 Bateria:
                                 <span class="@if($this->lokacja->battery < 20) text-red-500 @elseif($this->lokacja->battery < 50) text-yellow-500 @else text-green-500 @endif">
-                                    {!! '&nbsp;'. $this->lokacja->battery !!}%
+                                    {!! (!empty($this->lokacja)) ? '&nbsp;'. $this->lokacja->battery.'%'  : 'Brak odebranych danych' !!}
                                 </span>
-
+                                @else
+                                Brak odebranych danych
+                                @endif
 
 
 
@@ -131,7 +136,7 @@
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                   </svg>
 
-                                  <p class="font-bold">{{ !empty($this->lokacja) ? App\Models\Coordinates::formatCreatedAt($this->lokacja->created_at) : 'Brak pojazdu' }} </p>
+                                  <p class="font-bold">{{ !empty($this->lokacja) ? App\Models\Coordinates::formatCreatedAt($this->lokacja->created_at) : 'Brak odebranych danych' }} </p>
 
                               </div>
                       </div>
@@ -150,8 +155,8 @@
               @else
 
                                 <div class="grid gap-4 w-full py-8 lg:py-[2.4rem] mt-2 border-t-2 border-gray-300">
-                                    <div class="w-16 h-16 lg:w-20 lg:h-20 mx-auto bg-amber-100 p-2 rounded-full shadow-sm justify-center items-center inline-flex ">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="text-amber-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="size-4 lg:size-6">
+                                    <div class="w-16 h-16 lg:w-20 lg:h-20 mx-auto bg-lime-100 p-2 rounded-full shadow-sm justify-center items-center inline-flex ">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="text-lime-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="size-4 lg:size-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="m3 3 1.664 1.664M21 21l-1.5-1.5m-5.485-1.242L12 17.25 4.5 21V8.742m.164-4.078a2.15 2.15 0 0 1 1.743-1.342 48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185V19.5M4.664 4.664 19.5 19.5" />
                                           </svg>
                                     </div>
@@ -159,7 +164,7 @@
                                         <h2 class="text-center text-sky-950 text-lg lg:text-xl font-semibold pb-2">Najpierw dodaj nowy pojazd!</h2>
                                         <p class="text-center text-sky-950 text-sm lg:text-base font-normal pb-4">Zajrzyj sekcji zarządzanie.</p>
 
-                                            <a type="button" href="{{ route('management.vehicles') }}" class="font-bold text-sky-950 text-center place-content-center w-auto py-2 px-5 text-sm 2xl:text-lg rounded-full bg-amber-100 flex flex-row place-content-center items-center justify-between ring-1 ring-amber-300 hover:ring hover:text-cyan-700 hover:bg-amber-50 transition ease-in-out duration-300">
+                                            <a type="button" href="{{ route('management.vehicles') }}" class="font-bold text-sky-950 text-center place-content-center w-auto py-2 px-5 text-sm 2xl:text-lg rounded-full bg-lime-100 flex flex-row place-content-center items-center justify-between ring-1 ring-lime-300 hover:ring hover:text-cyan-700 hover:bg-lime-50 transition ease-in-out duration-300">
                                                     Przejdź teraz
                                             </a>
                                     </div>
@@ -172,7 +177,7 @@
     <div class="w-full flex flex-row justify-center items-center pt-8 h-[19rem]" wire:loading>
         <div aria-label="Ładowanie..." role="status" class="flex flex-row justify-center pt-24 space-x-2 w-full h-auto xl:h-fit">
             <div class="flex flex-row place-items-center">
-                <svg class="w-12 h-12 xl:w-20 xl:h-20 animate-spin stroke-amber-400" viewBox="0 0 256 256">
+                <svg class="w-12 h-12 xl:w-20 xl:h-20 animate-spin stroke-lime-400" viewBox="0 0 256 256">
                     <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
                     <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round"
                         stroke-width="24"></line>

@@ -17,8 +17,8 @@
                         <input type="text" name="nazwa" id="nazwa" hidden value="{!! $lokacja->pojazd->Nazwa !!} ">
                         <div class="mx-auto max-w-7xl pt-4">
                             <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-2 py-1">
-                                <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 text-balance">SIM ID: {{ $lokacja->simID }} | Tel: {{ $lokacja->pojazd->Telefon }}</div>
-                                <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 place-content-end">
+                                <div class="text-sm lg:text-lg lg:leading-8 text-cyan-800 text-balance">SIM ID: {{ $lokacja->simID }} | Tel: {{ $lokacja->pojazd->Telefon }}</div>
+                                <div class="text-sm lg:text-lg lg:leading-8 text-cyan-800 place-content-end">
                                     Wysłano: {{ \Carbon\Carbon::setLocale('pl') }}{{ $lokacja->created_at->timezone('Europe/Warsaw')->diffForHumans() }}
                                 </div>
                             </div>
@@ -39,9 +39,9 @@
                             </div>
                             <div class="mx-auto lg:grid max-w-2xl grid-cols-1 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-4 mb-2">
                                 <div class="sm:col-span-2 items-center flex flex-row text-left w-full">
-                                    <dl class="space-y-4 text-sm lg:text-base leading-7 text-stone-700 w-[32rem]">
+                                    <dl class="space-y-4 text-lg leading-7 text-stone-700 w-[32rem]">
                                       <div class="relative w-full">
-                                          <div class=" bg-blue-100 rounded flex p-2 h-full items-center">
+                                          <div class=" bg-blue-100 rounded flex p-3 h-full items-center">
 
                                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="text-sky-950 w-6 h-6 flex-shrink-0 mr-4" stroke="currentColor" className="size-6">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -50,12 +50,12 @@
 
                                               <div class="font-bold flex flex-row space-x-6"><p>{!! App\Models\Coordinates::formatCoordinates($lokacja->latitude, $lokacja->longitude) !!}</p></div>
                                               @if($lokacja->route !=0)
-                                              <h3 class="text-base font-bold text-sky-80 text-balance truncate px-2" wire:loading.remove>| Trasa nr: {{ $lokacja->route }}</h3>
+                                              <h3 class=" font-bold text-sky-80 text-balance truncate px-2" wire:loading.remove>| Trasa nr: {{ $lokacja->route }}</h3>
                                               @endif
                                             </div>
                                       </div>
                                       <div class="relative">
-                                          <div class="bg-blue-100 rounded flex p-2 h-full items-center font-bold">
+                                          <div class="bg-blue-100 rounded flex p-3 h-full items-center font-bold text-lg">
 
                                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linejoin="round" stroke-width="2" class="text-sky-950 w-6 h-6 flex-shrink-0 mr-4" stroke="currentColor" className="size-6">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />

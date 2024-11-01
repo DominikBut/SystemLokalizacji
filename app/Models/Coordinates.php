@@ -24,7 +24,7 @@ class Coordinates extends Model
 
     public function pojazd()
     {
-        return $this->belongsTo(Vehicles::class, 'simID', 'simID');
+        return $this->belongsTo(Vehicles::class, 'simID', 'simID')->where('user_id', auth()->id());
     }
     // Function to convert decimal degrees to DMS format
     public static function formatCoordinates($lat, $lng)

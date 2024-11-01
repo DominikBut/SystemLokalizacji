@@ -28,7 +28,11 @@ class LocationMap extends Component
     {
         $this->pojazd = Vehicles::where('simID', "{$id}")->first();
         $this->dane = $this->pojazd->wspolrzedne()->orderBy('created_at', 'desc')->first();
-        $this->dispatch('coords', lat: $this->lokacja->latitude, lng: $this->lokacja->longitude, nazwa: $this->pojazd->Nazwa, czas: $this->lokacja->created_at->timezone('Europe/Warsaw'));
+        if (!is_null($this->dane)) {
+            $this->dispatch('coords', lat: $this->lokacja->latitude, lng: $this->lokacja->longitude, nazwa: $this->pojazd->Nazwa, czas: $this->lokacja->created_at->timezone('Europe/Warsaw'));
+        } else {
+            $this->dispatch('coords', nazwa: $this->pojazd->Nazwa);
+        }
     }
     #[Computed()]
     protected function lokacja()
