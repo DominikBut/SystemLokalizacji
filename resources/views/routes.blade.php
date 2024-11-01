@@ -61,7 +61,7 @@
                                                 </div>
                                                 <p id="lokacja"
                                                 class="font-semibold text-base text-center sm:text-left sm:text-lg text-sky-950 lg:px-4 mx-2 lg:mx-0 pt-1 lg:pt-0 w-auto text-wrap lg:text-nowrap">
-                                                   <span id="pkt_lokacja">Najpierw wybierz punkt.</span>
+                                                   <span id="pkt_lokacja">Wybierz punkt do sprawdzenia.</span>
                                                 </p>
                                           </div>
                                         </div>
@@ -176,12 +176,14 @@
     function loadRoute(amap,route)
       {
             clearMap();
-            // Create an array of Google Maps LatLng objects
-            const routeCoordinates = route.points.map(coord => {
-                return { lat: coord.lat, lng: coord.lng };
-                });
 
-            // Create a polyline to display the route
+            if(route)
+            {
+                // Create an array of Google Maps LatLng objects
+                const routeCoordinates = route.points.map(coord => {
+                                return { lat: coord.lat, lng: coord.lng };
+                                });
+                                // Create a polyline to display the route
             currentPolyline  = new google.maps.Polyline({
             path: routeCoordinates,
             geodesic: true,
@@ -191,10 +193,14 @@
             });
             // Set the polyline on the map
             amap.setCenter(route.points[0]);
-            amap.setZoom(16);
+            amap.setZoom(14);
             currentPolyline.setMap(amap);
             // Add markers at each point
             addMarkers(amap, route.points);
+            }
+
+
+
       }
       function formatCoordinates(lat, lng) {
                 // Function to convert decimal degrees to DMS format
@@ -227,7 +233,7 @@
                             if (response.results[0]) {
                                 document.getElementById("pkt_lokacja").innerText = response.results[0].formatted_address;
                             } else {
-                                document.getElementById("pkt_lokacja").innerText = "Najpierw wybierz punkt.";
+                                document.getElementById("pkt_lokacja").innerText = "Wybierz punkt do sprawdzenia.";
                             }
                             })
                             .catch((e) => document.getElementById("pkt_lokacja").innerText = "Błąd"+ e );
@@ -252,7 +258,7 @@
                             fontSize: "18px",
                         },
                 };
-                if(isLastPoint){
+                if(isLastPoint & points.length >1){
                         // Marker options for regular markers
                     markerOptions = {
                         position: { lat: point.lat, lng: point.lng },
@@ -349,10 +355,16 @@
 Livewire.on('route', (event) => {
     document.getElementById("pkt_nr").innerText = "-";
     document.getElementById("pkt_data").innerText = "-----------------------";
-    document.getElementById("pkt_lokacja").innerText = "Najpierw wybierz punkt.";
+    document.getElementById("pkt_lokacja").innerText = "Wybierz punkt do sprawdzenia.";
     document.getElementById("pkt_coords").innerText = `00°00'00.00"- 00°00'00.00"-`;
+    if(event.base_area)
+    {
+        lastOverlay = loadSavedShape(map, lastOverlay, event.base_area);
+    }else{
+        lastOverlay.setMap(null); // Remove the overlay from the map
+                        lastOverlay = null; // Clear the reference to the overlay
+    }
 
-    lastOverlay = loadSavedShape(map, lastOverlay, event.base_area);
     routeData = JSON.parse(event.route);
     console.log(routeData);
 

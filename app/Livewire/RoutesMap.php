@@ -144,6 +144,11 @@ class RoutesMap extends Component
             ]);
             $this->totalDistance = Coordinates::calculateDistance($this->dane);
             $this->dispatch('route', route: $this->dane, base_area: $this->pojazd->base_area);
+        } else {
+            $this->dane = null;
+
+            $this->totalDistance = 0;
+            $this->dispatch('route', route: $this->dane, base_area: $this->pojazd->base_area);
         }
     }
     #[Computed()]

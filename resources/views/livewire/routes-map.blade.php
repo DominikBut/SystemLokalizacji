@@ -52,10 +52,10 @@
                 </div>
                 <h2 class="text-sm font-semibold text-sky-700 text-balance  truncate "><span wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">{{ (!empty($this->pojazd)) ? 'Wyświetlanie dla: '.$this->pojazd->Nazwa : 'Brak pojazdów do wyboru!' }}</span></h2>
 
-                <h3 class="text-2xl mt-1 font-bold text-sky-80 text-balance truncate border-t-2 border-gray-300"><span wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">{{ (!empty($selectedRoute)) ? 'Trasa nr: '.$selectedRoute : 'Brak tras' }} </span></h3>
+                <h3 class="text-2xl mt-1 font-bold text-sky-80 text-balance truncate border-t-2 border-gray-300 {{ empty($selectedRoute) ? 'py-2': '' }}"><span wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">{{ (!empty($selectedRoute)) ? 'Trasa nr: '.$selectedRoute : 'Brak dostępnych tras' }} </span></h3>
 
             </div>
-            @if (!empty($this->pojazd))
+            @if (!empty($this->dane))
             <div class="ml-2 mb-1 text-sm text-cyan-800 " wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">
                 Zapis: {{ \Carbon\Carbon::setLocale('pl') }}{{ \Carbon\Carbon::parse(json_decode($this->dane)->points[count(json_decode($this->dane)->points) - 1]->created_at)->timezone('Europe/Warsaw')->diffForHumans() }}
             </div>
@@ -68,7 +68,7 @@
 
             <div class="flex flex-col border-y-2 border-gray-300 py-2 mt-2 space-y-2 overflow-auto h-[500px] xd-container" id="lista" wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">
                 @if (!empty($this->pojazd))
-                @if (!json_decode($this->dane)->points[0] == null)
+                @if (!empty($this->dane))
                 @foreach (json_decode($this->dane)->points as $index => $info)
                     <div class="rounded flex h-fit flex-col p-1" >
                         <div class="flex-col rounded-t-lg {{ $index == 0 ? 'bg-lime-300' : ($index == count(json_decode($this->dane)->points) - 1 ? 'bg-blue-300' : 'bg-gray-200') }} pb-2 p-1 h-full px-2">
@@ -96,7 +96,7 @@
                     </div>
                 @endforeach
                 @else
-                <div class="font-semibold text-lg test-sky-950 w-full text-center pt-36">Brak danych</div>
+                <div class="font-bold text-xl text-sky-950 w-full text-center pt-36 text-balance">{{ !empty($this->pojazd->base_area) ? 'Brak odebranych danych' : 'Spróbuj najpierw utworzyć obszar startowy' }}</div>
                 @endif
                 @else
                 <div class="grid gap-4 w-full pt-32">
@@ -119,6 +119,7 @@
             </div>
             <div class="flex flex-col mt-auto">
                 @if (!empty($this->pojazd))
+                    @if (!empty($this->dane))
                 <div class="text-sm my-3 font-semibold text-cyan-800 " wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">
                     Wybierz zapisaną trasę: 1 - {{ $this->pojazd->current_route }}
                 </div>
@@ -155,6 +156,7 @@
                         &gt;
                     </button>
                 </div>
+                @endif
                 @endif
             </div>
             {{-- loading animation --}}
