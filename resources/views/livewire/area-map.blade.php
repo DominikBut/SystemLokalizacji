@@ -12,9 +12,11 @@
         @endif
 
         <div class="mx-auto max-w-7xl">
-            <div class="flex flex-row justify-between">
-                <div class="flex space-x-4">
+            <div class="flex flex-col lg:flex-row justify-between">
+                <div class="flex flex-col lg:flex-row justify-center lg:justify-normal space-x-4 order-2 lg:order-1">
+
                 @if (!empty($this->pojazd))
+                <div class="flex space-x-4 ">
                 <button wire.loading.attr="disabled" wire:loading.class="cursor-not-allowed opacity-70"  type="button" title="Usuń obszar" id="clearMapButton" class="px-4 py-2 text-sm font-medium text-white inline-flex items-center bg-red-700 hover:bg-red-800/80 ring-2 ring-red-600 rounded-2xl px-1 font-medium hover:ring-4 hover:font-semibold transition ease-in-out duration-300">
                         <svg class="w-6 h-6 text-white me-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                           <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
@@ -28,6 +30,7 @@
                         </svg>
                       Zapisz obszar
                   </button>
+                </div>
                   @if (session()->has('success'))
                     <div class="text-lime-700 font-medium mt-2 ml-4">
                         {{ session('success') }}
@@ -37,22 +40,22 @@
                             {{ session('error') }}
                         </div>
                     @endif
-                    @else
+                @else
 
                     <h2 wire:loading.remove class="text-2xl font-bold text-sky-950 max-w-xl text-balance place-content-center truncate">{{ (!empty($this->pojazd)) ? 'Edytowanie: '.$this->pojazd->Nazwa : 'Brak pojazdów do wyboru!' }}</h2>
 
-                    @endif
+                 @endif
                 </div>
                 {{-- Sortwanie --}}
-                <div class="mb-1 w-full min-[360px]:w-auto flex flex-col min-[360px]:flex-row gap-y-4 min-[360px]:gap-y-0 items-center justify-end order-1 xl:order-2 self-end px-1 xl:px-0">
+                <div class="order-1 lg:order-2 mb-1 w-full min-[360px]:w-auto flex flex-col min-[360px]:flex-row gap-y-4 min-[360px]:gap-y-0 items-center px-1 xl:px-0 pb-4 lg:pb-0">
 
-                        <div class="relative inline-block text-left self-end min-[360px]:self-none" x-data="{ sortMenuOpen: false }">
-                            <div>
-                                <button wire.loading.attr="disabled" title="Wybierz pojazd" type="button" x-on:click="sortMenuOpen = !sortMenuOpen" class="relative group inline-flex flex-col justify-start font-semibold text-sky-950" id="menu-button" aria-expanded="true" aria-haspopup="true">
-                                    <p class="absolute -top-4 text-xs ml-2 mr-4 bg-stone-50 p-1 pb-0 rounded-2xl">Wybierz pojazd:</p>
-                                    <div class="min-w-48 bg-stone-50 flex flex-row place-content-center items-center justify-between text-xs lg:text-sm ring-2 ring-gray-300 rounded-2xl px-1 font-medium hover:ring-4 hover:text-cyan-700 hover:font-semibold transition ease-in-out duration-300">
-                                            <div class="flex flex-row w-full justify-center">
-                                                <p class="ml-3 p-1 pr-0 text-right lg:text-base" x-text="label"></p>
+                    <div class="relative inline-block text-left self-end min-[360px]:self-none w-full" x-data="{ sortMenuOpen: false }">
+                        <div class="w-full">
+                            <button title="Wybierz pojazd" type="button" x-on:click="sortMenuOpen = !sortMenuOpen" class="w-full relative group inline-flex flex-col justify-start font-semibold text-sky-950" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                <p class="absolute -top-4 text-sm ml-2 mr-4 bg-stone-50 p-1 pb-0 rounded-2xl">Wybierz pojazd:</p>
+                                <div class="min-w-48 w-full bg-stone-50 flex flex-row place-content-center items-center justify-between text-xs lg:text-sm ring-2 ring-gray-300 rounded-2xl px-1 font-medium hover:ring-4 hover:text-cyan-700 hover:font-semibold transition ease-in-out duration-300">
+                                        <div class="flex flex-row w-full justify-center">
+                                            <p class="ml-3 p-1 pr-0 text-right text-base truncate" x-text="label"></p>
 
                                             </div>
                                             <svg class="mr-2 h-6 w-6 flex-shrink-0 pt-1" :class="{'rotate-180': sortMenuOpen, 'rotate-0': !sortMenuOpen}" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -63,17 +66,17 @@
                             </div>
                             {{-- Wybieranie pojazdu --}}
                             <div x-show="sortMenuOpen" x-on:click.away="sortMenuOpen = false" x-cloak x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95"
-                                class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md shadow-lg ring-2 ring-gray-200 focus:outline-none bg-stone-50" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                                <div class="space-y-1 p-1 overflow-auto max-h-[300px]" role="none" >
+                            class="absolute right-0 z-10 mt-2 min-w-48 w-full origin-top-right rounded-md shadow-lg ring-2 ring-gray-200 focus:outline-none bg-stone-50" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                            <div class="space-y-1 p-1 overflow-auto max-h-[300px]" role="none" >
                                     @forelse ($pojazdy as $pojazd)
                                     <button wire.loading.attr="disabled" wire:click="tracking('{{ $pojazd->simID }}')" x-on:click="sortMenuOpen = false, label = '{{ $pojazd->Nazwa }}'"
                                         :class="{'bg-lime-400 font-semibold': label == '{{ $pojazd->Nazwa }}' }"
-                                        class="truncate block w-full text-left rounded-md px-4 py-2 text-xs lg:text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
+                                        class="truncate block w-full text-left rounded-md px-4 py-2 text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
                                         role="menuitem" tabindex="-1" id="menu-item-0">{{ $pojazd->Nazwa }}</button>
                                     @empty
                                     <button wire.loading.attr="disabled" x-on:click="sortMenuOpen = false, label = 'Brak pojazdów'"
                                         :class="{'bg-lime-400 font-semibold': label == 'Brak pojazdów' }"
-                                        class="truncate block w-full text-left rounded-md px-4 py-2 text-xs lg:text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
+                                        class="truncate block w-full text-left rounded-md px-4 py-2 :text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
                                         role="menuitem" tabindex="-1" id="menu-item-0">Brak pojazdów</button>
                                     @endforelse
                                 </div>
@@ -108,10 +111,13 @@
                     </div>
                 </div>
                 @if (!empty($this->pojazd))
-                <h2 wire:loading.remove class="text-2xl font-bold text-sky-950 max-w-xl text-balance place-content-center truncate">{{ (!empty($this->pojazd)) ? 'Edytowanie: '.$this->pojazd->Nazwa : 'Brak pojazdów do wyboru!' }}</span></h2>
-                <label wire:loading.remove class="relative inline-flex items-center cursor-pointer space-x-2 text-gray-900 hover:text-cyan-800">
+                <div class="flex flex-col lg:flex-row justify-between w-full">
 
-                    <svg class="w-12 h-12 {{ $this->pojazd->subscribe ? 'text-lime-600' : 'text-gray-500' }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+
+                <h2 wire:loading.remove class="text-xl lg:text-2xl font-bold text-sky-950 max-w-xl text-balance place-content-center truncate">{{ (!empty($this->pojazd)) ? 'Edytowanie: '.$this->pojazd->Nazwa : 'Brak pojazdów do wyboru!' }}</span></h2>
+                <label wire:loading.remove class="text-sm lg:text-base relative inline-flex items-center cursor-pointer space-x-2 text-gray-900 hover:text-cyan-800">
+
+                    <svg class="w-6 h-6 lg:w-12 lg:h-12 {{ $this->pojazd->subscribe ? 'text-lime-600' : 'text-gray-500' }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                         <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
                         <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
                       </svg>
@@ -131,15 +137,16 @@
 
 
                 </label>
+                 </div>
                 @else
 
-                                <div class="flex flex-row gap-16 w-full justify-center py-4">
+                                <div class="flex flex-col lg:flex-row gap-4 lg:gap-16 w-full justify-center py-4 items-center lg:items-start">
                                     <div class="w-16 h-16   bg-lime-100 p-2 rounded-full shadow-sm justify-center items-center inline-flex ">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-lime-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="size-4 lg:size-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="m3 3 1.664 1.664M21 21l-1.5-1.5m-5.485-1.242L12 17.25 4.5 21V8.742m.164-4.078a2.15 2.15 0 0 1 1.743-1.342 48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185V19.5M4.664 4.664 19.5 19.5" />
                                           </svg>
                                     </div>
-                                    <div class="flex flex-row items-center w-auto gap-16">
+                                    <div class="flex flex-col lg:flex-row items-center w-auto gap-4 lg:gap-16">
                                         <div>
                                             <h2 class="text-center text-sky-950 text-lg lg:text-xl font-semibold ">Najpierw dodaj nowy pojazd!</h2>
                                             <p class="text-center text-sky-950 text-sm lg:text-base font-normal ">Zajrzyj sekcji zarządzanie.</p>
@@ -155,9 +162,9 @@
 
             <div class="mx-auto lg:grid max-w-2xl lg:mx-0 lg:max-w-none  mt-2">
                 <div class="items-center flex flex-row text-left w-full justify-between">
-                    <dl class="text-sm lg:text-base leading-7 text-stone-700 flex flex-row w-full justify-between">
+                    <dl class="text-sm lg:text-base leading-7 text-stone-700 flex flex-col lg:flex-row space-y-2 lg:space-y-0 w-full justify-between">
                         @if (!empty($this->pojazd))
-                        <div class="place-content-center text-lg">Zaznacz obszar z uwzględnieniem 2,5m marginesu.</div>
+                        <div class="place-content-center text-sm lg:text-lg">Zaznacz obszar z uwzględnieniem 2,5m marginesu.</div>
                         @endif
                       <div class="bg-blue-100 ">
 

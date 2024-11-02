@@ -7,7 +7,7 @@
 
     <div class="py-4">
         <div class="max-w-7xl mx-auto">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg w-full">
+            <div class="bg-white overflow-hidden rounded-lg mx-4 mb-2 xl:m-0">
 
 
 

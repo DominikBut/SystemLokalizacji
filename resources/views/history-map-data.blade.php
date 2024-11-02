@@ -8,16 +8,16 @@
     <div class="py-12">
         <div class="max-w-screen-2xl mx-auto h-full">
             <div class="overflow-hidden h-full">
-                <div class="grid grid-cols-12 space-x-8">
-                    <div class="col-span-2 justify-between shadow-sm rounded-lg border bg-white min-h-[50rem] p-3">
+                <div class="grid grid-cols-1 md:grid-cols-12 space-y-4 md:space-y-0 md:space-x-4 xl:space-x-8 mx-2">
+                    <div class="md:col-span-3 lg:col-span-2 justify-between shadow-sm border rounded-lg bg-white md:min-h-[50rem] p-3 ">
 
                         <x-management-nav/>
                     </div>
-                    <div class="col-span-10 min-h-[50rem] bg-white shadow-sm border rounded-lg">
+                    <div class="md:col-span-9 lg:col-span-10 min-h-[50rem] bg-white shadow-sm border rounded-lg">
                         @if(isset($lokacja))
                                 @include('history-map')
                                 @else
-                                <h2 class="pl-6 p-4 text-2xl font-bold text-sky-950 md:text-2xl place-content-end">Dane historyczne lokalizacji</h2>
+                                <h2 class="pl-6 p-4 text-xl lg:text-2xl font-bold text-sky-950 md:text-2xl place-content-end">Dane historyczne lokalizacji</h2>
                                 <div class="w-auto p-1 bg-lime-600"></div>
                                 <div class="flex flex-col space-y-4 justify-center w-full h-[40rem]">
                                     <div class="w-16 h-16 lg:w-20 lg:h-20 mx-auto bg-lime-100 p-2 rounded-full shadow-sm justify-center items-center inline-flex ">

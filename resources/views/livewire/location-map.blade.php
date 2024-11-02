@@ -18,22 +18,23 @@
         @endif
 
         <div class="mx-auto max-w-7xl">
-            <div class="flex flex-row justify-between">
-                <div class="flex flex-row">
-                    <h2 class="text-2xl font-bold text-sky-950 max-w-xl md:text-3xl text-balance place-content-end"><span wire:loading.remove>{{ (!empty($this->pojazd)) ? 'Pojazd: '.$this->pojazd->Nazwa : 'Brak pojazdów do wyboru!' }} </span>
+            <div class="flex flex-col sm:flex-row justify-between">
+                <div class="flex flex-row order-2 sm:order-1">
+                        <h2 class="text-xl sm:text-2xl font-bold text-sky-950 max-w-xl lg:text-3xl text-balance place-content-end"><span wire:loading.remove>{{ (!empty($this->pojazd)) ? 'Pojazd: '.$this->pojazd->Nazwa : 'Brak pojazdów do wyboru!' }} </span>
+                        </h2>
                 </div>
 
-                </h2>
-                    {{-- Sortwanie --}}
-                <div class="mb-1 w-full min-[360px]:w-auto flex flex-col min-[360px]:flex-row gap-y-4 min-[360px]:gap-y-0 items-center justify-end order-1 xl:order-2 self-end px-1 xl:px-0">
 
-                        <div class="relative inline-block text-left self-end min-[360px]:self-none" x-data="{ sortMenuOpen: false }">
-                            <div>
-                                <button title="Wybierz pojazd" type="button" x-on:click="sortMenuOpen = !sortMenuOpen" class="relative group inline-flex flex-col justify-start font-semibold text-sky-950" id="menu-button" aria-expanded="true" aria-haspopup="true">
-                                    <p class="absolute -top-4 text-xs ml-2 mr-4 bg-stone-50 p-1 pb-0 rounded-2xl">Wybierz pojazd:</p>
-                                    <div class="min-w-48 bg-stone-50 flex flex-row place-content-center items-center justify-between text-xs lg:text-sm ring-2 ring-gray-300 rounded-2xl px-1 font-medium hover:ring-4 hover:text-cyan-700 hover:font-semibold transition ease-in-out duration-300">
+                    {{-- Sortwanie --}}
+                    <div class="order-1 sm:order-2 mb-1 w-full min-[360px]:w-auto flex flex-col min-[360px]:flex-row gap-y-4 min-[360px]:gap-y-0 items-center px-1 xl:px-0">
+
+                        <div class="relative inline-block text-left self-end min-[360px]:self-none w-full" x-data="{ sortMenuOpen: false }">
+                            <div class="w-full">
+                                <button title="Wybierz pojazd" type="button" x-on:click="sortMenuOpen = !sortMenuOpen" class="w-full relative group inline-flex flex-col justify-start font-semibold text-sky-950" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                    <p class="absolute -top-4 text-sm ml-2 mr-4 bg-stone-50 p-1 pb-0 rounded-2xl">Wybierz pojazd:</p>
+                                    <div class="min-w-48 w-full bg-stone-50 flex flex-row place-content-center items-center justify-between text-xs lg:text-sm ring-2 ring-gray-300 rounded-2xl px-1 font-medium hover:ring-4 hover:text-cyan-700 hover:font-semibold transition ease-in-out duration-300">
                                             <div class="flex flex-row w-full justify-center">
-                                                <p class="ml-3 p-1 pr-0 text-right lg:text-base" x-text="label"></p>
+                                                <p class="ml-3 p-1 pr-0 text-right text-base truncate" x-text="label"></p>
 
                                             </div>
                                             <svg class="mr-2 h-6 w-6 flex-shrink-0 pt-1" :class="{'rotate-180': sortMenuOpen, 'rotate-0': !sortMenuOpen}" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -44,17 +45,17 @@
                             </div>
                             {{-- Wybieranie pojazdu --}}
                             <div x-show="sortMenuOpen" x-on:click.away="sortMenuOpen = false" x-cloak x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95"
-                                class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md shadow-lg ring-2 ring-gray-200 focus:outline-none bg-stone-50" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                                <div class="space-y-1 p-1 overflow-auto max-h-[300px]" role="none" >
+                            class="absolute right-0 z-10 mt-2 min-w-48 w-full origin-top-right rounded-md shadow-lg ring-2 ring-gray-200 focus:outline-none bg-stone-50" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                            <div class="space-y-1 p-1 overflow-auto max-h-[300px]" role="none" >
                                     @forelse ($pojazdy as $pojazd)
                                     <button wire.loading.attr="disabled" wire:click="tracking('{{ $pojazd->simID }}')" x-on:click="sortMenuOpen = false, label = '{{ $pojazd->Nazwa }}'"
                                         :class="{'bg-lime-400 font-semibold': label == '{{ $pojazd->Nazwa }}' }"
-                                        class="truncate block w-full text-left rounded-md px-4 py-2 text-xs lg:text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
+                                        class="truncate block w-full text-left rounded-md px-4 py-2 text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
                                         role="menuitem" tabindex="-1" id="menu-item-0">{{ $pojazd->Nazwa }}</button>
                                     @empty
                                     <button wire.loading.attr="disabled" x-on:click="sortMenuOpen = false, label = 'Brak pojazdów'"
                                         :class="{'bg-lime-400 font-semibold': label == 'Brak pojazdów' }"
-                                        class="truncate block w-full text-left rounded-md px-4 py-2 text-xs lg:text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
+                                        class="truncate block w-full text-left rounded-md px-4 py-2 text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
                                         role="menuitem" tabindex="-1" id="menu-item-0">Brak pojazdów</button>
                                     @endforelse
                                 </div>
@@ -63,9 +64,9 @@
                 </div>
             </div>
             @if(!empty($this->pojazd))
-            <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-2 py-1" wire:loading.remove>
-                <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 text-balance">Tel: {{ (!empty($this->pojazd->Telefon)) ? $this->pojazd->Telefon : 'Brak pojazdów' }} | {{ (!empty($this->pojazd->Opis)) ? $this->pojazd->Opis : 'Brak pojazdów' }}</div>
-                <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 place-content-end">
+            <div class="flex flex-col sm:flex-row justify-between border-y-2 border-gray-300 mt-2 py-1 space-y-2 sm:space-y-0" wire:loading.remove>
+                <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 text-balance break-words text-center sm:text-right">Tel: {{ (!empty($this->pojazd->Telefon)) ? $this->pojazd->Telefon : 'Brak pojazdów' }} | {{ (!empty($this->pojazd->Opis)) ? $this->pojazd->Opis : 'Brak pojazdów' }}</div>
+                <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 place-content-end text-center sm:text-right">
                     Ostatnia aktywność {{ \Carbon\Carbon::setLocale('pl') }} {{ (!empty($this->lokacja)) ? $this->lokacja->created_at->timezone('Europe/Warsaw')->diffForHumans() : 'Brak odebranych danych' }}
                 </div>
             </div>
@@ -85,19 +86,20 @@
                 </div>
             </div>
             <div class="mx-auto lg:grid max-w-2xl grid-cols-1 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3 mb-2 p-1" wire:loading.remove>
-                <div class="sm:col-span-2 items-center flex flex-row text-left w-full">
+                <div class="sm:col-span-2 items-center flex flex-row text-left w-full justify-center lg:justify-normal">
                     <dl class="space-y-4 text-sm lg:text-base leading-7 text-stone-700 w-[32rem]">
                       <div class="relative w-full">
-                          <div class=" bg-blue-100 rounded flex p-2 h-full items-center">
+                          <div class=" bg-blue-100 rounded flex flex-col sm:flex-row p-2 h-full sm:items-center">
+                                <div class="flex flex-row ">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="text-sky-950 w-6 h-6 flex-shrink-0 mr-4" stroke="currentColor" className="size-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                </svg>
 
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="text-sky-950 w-6 h-6 flex-shrink-0 mr-4" stroke="currentColor" className="size-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                              </svg>
-
-                              <div class="font-bold flex flex-row space-x-6"><p>{!! (!empty($this->lokacja)) ? App\Models\Coordinates::formatCoordinates($this->lokacja->latitude, $this->lokacja->longitude) : 'Brak odebranych danych' !!}</p></div>
+                                <div class="font-bold flex flex-row space-x-6"><p>{!! (!empty($this->lokacja)) ? App\Models\Coordinates::formatCoordinates($this->lokacja->latitude, $this->lokacja->longitude) : 'Brak odebranych danych' !!}</p></div>
+                                </div>
                               @if(!empty($this->lokacja) && $this->lokacja->route !=0)
-                              <h3 class="text-base font-bold text-sky-80 text-balance truncate px-2" wire:loading.remove>| Trasa nr: {{ $this->lokacja->route }}</h3>
+                              <h3 class="text-base font-bold text-sky-80 truncate px-2" wire:loading.remove>| Trasa nr: {{ $this->lokacja->route }}</h3>
                               @endif
                             </div>
                       </div>
@@ -147,7 +149,7 @@
               <div class="flex invisible sm:visible" wire:loading.remove>
 
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" stroke="currentColor"
-                  class="w-[0rem] max-w-none lg:max-xl:w-[6rem] xl:w-[10rem] text-lime-600">
+                  class="w-[0rem] max-w-none lg:max-xl:w-[8rem] xl:w-[10rem] text-lime-600">
                     <path strokeLinecap="round" strokeLinejoin="round" d="m6.115 5.19.319 1.913A6 6 0 0 0 8.11 10.36L9.75 12l-.387.775c-.217.433-.132.956.21 1.298l1.348 1.348c.21.21.329.497.329.795v1.089c0 .426.24.815.622 1.006l.153.076c.433.217.956.132 1.298-.21l.723-.723a8.7 8.7 0 0 0 2.288-4.042 1.087 1.087 0 0 0-.358-1.099l-1.33-1.108c-.251-.21-.582-.299-.905-.245l-1.17.195a1.125 1.125 0 0 1-.98-.314l-.295-.295a1.125 1.125 0 0 1 0-1.591l.13-.132a1.125 1.125 0 0 1 1.3-.21l.603.302a.809.809 0 0 0 1.086-1.086L14.25 7.5l1.256-.837a4.5 4.5 0 0 0 1.528-1.732l.146-.292M6.115 5.19A9 9 0 1 0 17.18 4.64M6.115 5.19A8.965 8.965 0 0 1 12 3c1.929 0 3.716.607 5.18 1.64" />
                   </svg>
 

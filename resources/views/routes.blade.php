@@ -9,10 +9,10 @@
         <div class="max-w-screen-2xl mx-auto sm:px-6 lg:px-8 h-full">
 
             <div class="overflow-hidden h-full">
-                <div class="grid grid-cols-12 space-x-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 lg:space-x-8">
 
-                    <div class="col-span-9 h-full">
-                            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg w-full">
+                    <div class="lg:col-span-8 2xl:col-span-9 h-full">
+                            <div class="bg-white overflow-hidden shadow-sm rounded-lg lg:w-full mx-4 mb-2 lg:m-0">
 
                                 {{-- Mapa google --}}
                                 <div id="map" style="height: 620px;"></div>
@@ -24,9 +24,9 @@
                                 defer
                                 ></script>
                                 <div class="py-1 px-4" id="dane_dash" wire:loading.remove>
-                                    <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-2 py-1" >
-                                        <div class="flex flex-row">
-                                            <div class="text-lg font-bold lg:leading-8 text-cyan-800 text-balance place-content-center">Punkt nr: <span id="pkt_nr">-</span></div>
+                                    <div class="flex flex-col lg:flex-row justify-between border-y-2 border-gray-300 mt-2 py-1 space-y-2 lg:space-y-0" >
+                                        <div class="flex flex-col lg:flex-row space-y-2 lg:space-y-0">
+                                            <div class="text-lg font-bold lg:leading-8 text-cyan-800 text-balance place-content-center text-center lg:text-right">Punkt nr: <span id="pkt_nr">-</span></div>
                                             <dl class=" mx-4 text-sm lg:text-base leading-7 text-stone-700 w-auto place-content-center">
                                                 <div class="relative w-full">
                                                     <div class=" bg-blue-100 rounded flex p-1 h-full items-center pr-3">
@@ -46,7 +46,7 @@
                                             </dl>
                                         </div>
 
-                                        <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 place-content-center">
+                                        <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 place-content-center text-center lg:text-right">
                                             Wysłano: <span id="pkt_data">-----------------------</span>
 
                                         </div>
@@ -71,7 +71,7 @@
                             </div>
                     </div>
 
-                    <div class="col-span-3 justify-between shadow-sm border sm:rounded-lg bg-white">
+                    <div class="lg:col-span-4 2xl:col-span-3 mx-4 lg:m-0 lg:justify-between shadow-sm border rounded-lg bg-white">
 
                          <!-- Navigation Links -->
                         <div class="flex flex-col h-full">

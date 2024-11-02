@@ -4,7 +4,7 @@
                     ({key: "AIzaSyATS3eoPZF6fOo-JCpwGJSncxE7vQqD3_U", v: "weekly"});</script>
 
                 {{-- Mapa google --}}
-                <h2 class="pl-6 p-4 text-2xl font-bold text-sky-950 md:text-2xl place-content-end">Współrzędne <span class="text-lime-700 ">{{ $lokacja->pojazd->Nazwa }}</span> z dnia: <span class="text-lime-700 ">{{ App\Models\Coordinates::formatCreatedAt($lokacja->created_at) }}.</span></h2>
+                <h2 class="pl-6 p-4 text-xl font-bold text-sky-950 md:text-2xl place-content-end">Współrzędne <span class="text-lime-700 ">{{ $lokacja->pojazd->Nazwa }}</span> z dnia: <span class="text-lime-700 ">{{ App\Models\Coordinates::formatCreatedAt($lokacja->created_at) }}.</span></h2>
                 <div class=" w-auto p-1 bg-lime-600"></div>
                 <div id="map"  style="height: 320px;"></div>
                  <div class=" w-auto p-1 bg-lime-600"></div>
@@ -15,10 +15,10 @@
                         <input type="text" name="lng" id="lng" hidden value="{!! $lokacja->longitude !!} ">
                         <input type="text" name="czas" id="czas" hidden value="{{$lokacja->created_at->timezone('Europe/Warsaw')  }} ">
                         <input type="text" name="nazwa" id="nazwa" hidden value="{!! $lokacja->pojazd->Nazwa !!} ">
-                        <div class="mx-auto max-w-7xl pt-4">
-                            <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-2 py-1">
-                                <div class="text-sm lg:text-lg lg:leading-8 text-cyan-800 text-balance">SIM ID: {{ $lokacja->simID }} | Tel: {{ $lokacja->pojazd->Telefon }}</div>
-                                <div class="text-sm lg:text-lg lg:leading-8 text-cyan-800 place-content-end">
+                        <div class="mx-auto max-w-7xl sm:pt-4">
+                            <div class="flex flex-col sm:flex-row justify-between border-y-2 border-gray-300 mt-2 py-1 space-y-2 sm:space-y-0">
+                                <div class="text-sm lg:text-lg lg:leading-8 text-cyan-800 text-balance text-center sm:text-right">SIM ID: {{ $lokacja->simID }} | Tel: {{ $lokacja->pojazd->Telefon }}</div>
+                                <div class="text-sm lg:text-lg lg:leading-8 text-cyan-800 place-content-end text-center sm:text-right">
                                     Wysłano: {{ \Carbon\Carbon::setLocale('pl') }}{{ $lokacja->created_at->timezone('Europe/Warsaw')->diffForHumans() }}
                                 </div>
                             </div>
@@ -38,24 +38,25 @@
                                 </div>
                             </div>
                             <div class="mx-auto lg:grid max-w-2xl grid-cols-1 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-4 mb-2">
-                                <div class="sm:col-span-2 items-center flex flex-row text-left w-full">
-                                    <dl class="space-y-4 text-lg leading-7 text-stone-700 w-[32rem]">
+                                <div class="lg:col-span-2 items-center flex flex-row justify-center lg:justify-normal text-left w-full">
+                                    <dl class="space-y-4 text-base xl:text-lg leading-7 text-stone-700 w-[32rem]">
                                       <div class="relative w-full">
-                                          <div class=" bg-blue-100 rounded flex p-3 h-full items-center">
-
+                                          <div class=" bg-blue-100 rounded flex flex-col sm:flex-row p-3 h-full sm:items-center">
+                                            <div class="flex flex-row ">
                                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="text-sky-950 w-6 h-6 flex-shrink-0 mr-4" stroke="currentColor" className="size-6">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                                               </svg>
 
                                               <div class="font-bold flex flex-row space-x-6"><p>{!! App\Models\Coordinates::formatCoordinates($lokacja->latitude, $lokacja->longitude) !!}</p></div>
+                                            </div>
                                               @if($lokacja->route !=0)
-                                              <h3 class=" font-bold text-sky-80 text-balance truncate px-2" wire:loading.remove>| Trasa nr: {{ $lokacja->route }}</h3>
+                                              <h3 class=" font-bold text-sky-80 truncate px-2" wire:loading.remove>| Trasa nr: {{ $lokacja->route }}</h3>
                                               @endif
                                             </div>
                                       </div>
                                       <div class="relative">
-                                          <div class="bg-blue-100 rounded flex p-3 h-full items-center font-bold text-lg">
+                                          <div class="bg-blue-100 rounded flex p-3 h-full items-center font-bold">
 
                                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linejoin="round" stroke-width="2" class="text-sky-950 w-6 h-6 flex-shrink-0 mr-4" stroke="currentColor" className="size-6">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
@@ -80,10 +81,10 @@
                                   </dl>
 
                                 </div>
-                              <div class="sm:col-span-2 flex justify-center invisible sm:visible">
+                              <div class="lg:col-span-2 flex justify-center invisible md:visible">
 
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" stroke="currentColor"
-                                  class="w-[0rem] max-w-none lg:max-xl:w-[6rem] xl:w-[12rem] text-lime-600">
+                                  class="w-[0rem] max-w-none lg:max-xl:w-[8rem] xl:w-[12rem] text-lime-600">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="m6.115 5.19.319 1.913A6 6 0 0 0 8.11 10.36L9.75 12l-.387.775c-.217.433-.132.956.21 1.298l1.348 1.348c.21.21.329.497.329.795v1.089c0 .426.24.815.622 1.006l.153.076c.433.217.956.132 1.298-.21l.723-.723a8.7 8.7 0 0 0 2.288-4.042 1.087 1.087 0 0 0-.358-1.099l-1.33-1.108c-.251-.21-.582-.299-.905-.245l-1.17.195a1.125 1.125 0 0 1-.98-.314l-.295-.295a1.125 1.125 0 0 1 0-1.591l.13-.132a1.125 1.125 0 0 1 1.3-.21l.603.302a.809.809 0 0 0 1.086-1.086L14.25 7.5l1.256-.837a4.5 4.5 0 0 0 1.528-1.732l.146-.292M6.115 5.19A9 9 0 1 0 17.18 4.64M6.115 5.19A8.965 8.965 0 0 1 12 3c1.929 0 3.716.607 5.18 1.64" />
                                   </svg>
 
