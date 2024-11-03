@@ -20,7 +20,7 @@
         <div class="mx-auto max-w-7xl">
             <div class="flex flex-col sm:flex-row justify-between">
                 <div class="flex flex-row order-2 sm:order-1">
-                        <h2 class="text-xl sm:text-2xl font-bold text-sky-950 max-w-xl lg:text-3xl text-balance place-content-end"><span wire:loading.remove>{{ (!empty($this->pojazd)) ? 'Pojazd: '.$this->pojazd->Nazwa : 'Brak pojazdów do wyboru!' }} </span>
+                        <h2 class="text-xl sm:text-2xl font-bold text-sky-950 max-w-xl text-balance place-content-end"><span wire:loading.remove>{{ (!empty($this->pojazd)) ? 'Pojazd: '.$this->pojazd->Nazwa : 'Brak pojazdów do wyboru!' }} </span>
                         </h2>
                 </div>
 

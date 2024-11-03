@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Lokalizuj') }}
-        </h2>
+
+            {{ __('Sprawdź lokalizacje swoich pojazdów.') }}
+
     </x-slot>
 
-    <div class="py-4">
+    <div class="py-8">
         <div class="max-w-7xl mx-auto">
             <div class="bg-white overflow-hidden rounded-lg mx-4 mb-2 xl:m-0">
 

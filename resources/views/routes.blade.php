@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Trasy') }}
-        </h2>
+
+            {{ __('Sprawdź trasy pokonane przez pojazdy.') }}
+
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-8">
         <div class="max-w-screen-2xl mx-auto sm:px-6 lg:px-8 h-full">
 
             <div class="overflow-hidden h-full">

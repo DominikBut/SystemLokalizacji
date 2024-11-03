@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>System lokalizacji pojazdów</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -27,8 +27,10 @@
             <!-- Page Heading -->
             @if (isset($header))
                 <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    <div class="max-w-7xl mx-auto py-6">
+                        <h2 class="text-xl xl:text-2xl font-bold text-center xl:text-left text-sky-950 text-balance place-content-end">
                         {{ $header }}
+                    </h2>
                     </div>
                 </header>
             @endif

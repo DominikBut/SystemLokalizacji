@@ -1,11 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Zarządzanie') }}
-        </h2>
+            {{ __('Zarządzaj konfiguracją pojazdów.') }}
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-8">
         <div class="max-w-screen-2xl mx-auto h-full">
             <div class="overflow-hidden h-full">
                 <div class="grid grid-cols-1 md:grid-cols-12 space-y-4 md:space-y-0 md:space-x-4 xl:space-x-8 mx-2">
