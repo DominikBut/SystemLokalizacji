@@ -7,7 +7,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-mark class="h-14 w-14 lg:w-16 lg:h-16 py-2" />
+                        <x-application-mark class="h-14 w-14 py-2" />
                     </a>
                 </div>
 
@@ -166,7 +166,7 @@
 
 
 
-            <div class=" space-y-1 ">
+            <div class=" space-y-1 bg-lime-200">
                 <!-- Account Management -->
 
                 <div class="sm:-my-px md:ms-4 lg:ms-10 sm:flex flex-row text-base lg:text-base xl:text-lg font-bold items-center ">

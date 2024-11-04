@@ -13,7 +13,7 @@
         <div class="border-b-2 border-gray-200 bg-gray-300 w-full"></div>
         <a href="{{ route('management.history') }}" class="tracking-wide font-semibold  border-gray-300 px-3 py-2 md:py-3 xl:px-4  flex flex-col  text-wrap text-sky-950 border-x-2 border-lime-600
         hover:text-sky-700 group transition-all duration-300 hover:bg-lime-100  {{ request()->routeIs('management.history') ? 'text-sky-700 bg-lime-100' : 'bg-stone-50' }}">
-        Dane lokalizacji
+        Dane historyczne
             <div class="border-b border-gray-300 bg-sky-700 h-[0.15rem] w-0 group-hover:w-full transition-all duration-300 {{ request()->routeIs('management.history') ? 'w-full' : '' }}"></div>
         </a>
         <div class="border-b-2 border-gray-200 bg-gray-300 w-full"></div>
@@ -25,7 +25,7 @@
         <div class="border-b-2 border-gray-200 bg-gray-300 w-full"></div>
         <a href="{{ route('management.oldmap') }}" class=" tracking-wide font-semibold  border-gray-300 px-3 py-2 md:py-3 xl:px-4  flex flex-col text-wrap text-sky-950 border-x-2 border-lime-600
         hover:text-sky-700 group transition-all duration-300 hover:bg-lime-100  {{ request()->routeIs('management.oldmap') ? 'text-sky-700 bg-lime-100' : 'bg-stone-50' }}">
-            Mapa lokalizacji
+            Mapa danych
             <div class="border-b border-gray-300 bg-sky-700 h-[0.15rem] w-0 group-hover:w-full transition-all duration-300 {{ request()->routeIs('management.oldmap') ? 'w-full' : '' }}"></div>
         </a>
         <div class="border-b-2 border-gray-200 bg-gray-300 w-full"></div>
