@@ -84,11 +84,11 @@
                         </div>
                 </div>
             </div>
-            <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-4 py-1 px-2">
+            <div class="flex flex-row justify-between border-y-2 border-gray-300 mt-4 py-1 px-2 w-full">
                 {{-- loading animation --}}
-                <div class="w-full flex flex-row justify-center items-center h-auto" wire:loading>
-                    <div aria-label="Ładowanie..." role="status" class="flex flex-row justify-center space-x-2 w-full h-auto">
-                        <div class="flex flex-row place-items-center">
+                <div class="w-full flex flex-row justify-start items-center h-auto" wire:loading>
+                    <div aria-label="Ładowanie..." role="status" class="flex flex-row justify-start space-x-2 w-full h-auto">
+                        <div class="flex flex-row place-items-center justify-start">
                             <svg class="w-12 h-12 animate-spin stroke-lime-400" viewBox="0 0 256 256">
                                 <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
                                 <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round"

@@ -66,7 +66,7 @@
                             @if (Route::has('login'))
 
                             @auth
-                                <a href="{{ url('/dashboard') }}" class="row-span-1 group flex flex-col items-start gap-2 sm:gap-4 rounded-lg bg-white p-8 py-10 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-4 ring-lime-600 transition duration-300  hover:ring-lime-400 focus:outline-none focus-visible:ring-lime-300 lg:pb-10">
+                                <a href="{{ url('/dashboard') }}" class="row-span-1 group flex flex-col items-start gap-2 sm:gap-4 rounded-lg bg-white p-8 py-10 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-4 ring-lime-600 transition duration-300  hover:ring-lime-400 lg:pb-10">
                                     <div class="flex items-center">
 
                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="size-8 text-lime-600">
@@ -96,7 +96,7 @@
 
                                 </a>
                             @else
-                            <a href="{{ route('login') }}" class="row-span-1 group flex flex-col items-start gap-2 sm:gap-4 rounded-lg bg-white py-4 sm:py-6 p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-4 ring-lime-600 transition duration-300  hover:ring-lime-400 focus:outline-none focus-visible:ring-lime-300 lg:pb-10">
+                            <a href="{{ route('login') }}" class="row-span-1 group flex flex-col items-start gap-2 sm:gap-4 rounded-lg bg-white py-4 sm:py-6 p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-4 ring-lime-600 transition duration-300  hover:ring-lime-400  lg:pb-10">
                                 <div class="flex items-center">
 
                                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="size-8 text-lime-600">
@@ -127,7 +127,7 @@
                             </a>
                             @if (Route::has('register'))
 
-                            <a href="{{ route('register') }}" class="row-span-1 group flex flex-col items-start gap-2 sm:gap-4 rounded-lg bg-white py-4 sm:py-6 p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-2 ring-gray-300/50 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10">
+                            <a href="{{ route('register') }}" class="row-span-1 group flex flex-col items-start gap-2 sm:gap-4 rounded-lg bg-white py-4 sm:py-6 p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-2 ring-gray-300/50 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 lg:pb-10">
                                 <div class="flex items-center">
 
 
