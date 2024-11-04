@@ -123,7 +123,7 @@
                             </a>
                             @if (Route::has('register'))
 
-                            <a href="{{ route('register') }}" class="row-span-1 group flex flex-col items-start gap-2 sm:gap-4 rounded-lg bg-white py-4 sm:py-6 p-6 shadow-xl ring-2 ring-gray-300/50 ring-white/[0.05] transition ease-in-out duration-300 hover:text-black/70 hover:ring-black/20 lg:pb-10">
+                            <a href="{{ route('register') }}" class="row-span-1 group flex flex-col items-start gap-2 sm:gap-4 rounded-lg bg-white py-4 sm:py-6 p-6 shadow-xl ring-2  ring-gray-200 transition ease-in-out duration-300 hover:ring-gray-400 lg:pb-10">
                                 <div class="flex items-center">
 
 
