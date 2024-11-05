@@ -1,4 +1,4 @@
-@props(['align' => 'right', 'width' => '48', 'contentClasses' => 'py-1 bg-white', 'dropdownClasses' => ''])
+@props(['align' => 'right', 'contentClasses' => 'py-1 bg-white', 'dropdownClasses' => ''])
 
 @php
 $alignmentClasses = match ($align) {
@@ -8,14 +8,10 @@ $alignmentClasses = match ($align) {
     default => 'ltr:origin-top-right rtl:origin-top-left end-0',
 };
 
-$width = match ($width) {
-    '48' => 'w-48',
-    '60' => 'w-60',
-    default => 'w-48',
-};
+
 @endphp
 
-<div class="relative" x-data="{ open: false }" @click.away="open = false" @close.stop="open = false">
+<div class="relative !z-50" x-data="{ open: false }" @click.away="open = false" @close.stop="open = false">
     <div @click="open = ! open">
         {{ $trigger }}
     </div>
@@ -27,10 +23,10 @@ $width = match ($width) {
             x-transition:leave="transition ease-in duration-75"
             x-transition:leave-start="transform opacity-100 scale-100"
             x-transition:leave-end="transform opacity-0 scale-95"
-            class="absolute z-50 mt-2 {{ $width }} rounded-md shadow-lg {{ $alignmentClasses }} {{ $dropdownClasses }}"
+            class="absolute !z-50 mt-2 w-auto rounded-md shadow-lg {{ $alignmentClasses }} {{ $dropdownClasses }}"
             style="display: none;"
             @click="open = false">
-        <div class="rounded-md ring-4 ring-black ring-opacity-5 space-y-4 flex flex-col justify-end p-4 py-4 {{ $contentClasses }}">
+        <div class="rounded-md ring-4 ring-gray-300 place-content-center space-y-4 sm:space-y-0 sm:space-x-2 flex flex-col sm:flex-row justify-end sm:justify-center p-4 py-4 z-50 {{ $contentClasses }}">
             {{ $content }}
         </div>
     </div>

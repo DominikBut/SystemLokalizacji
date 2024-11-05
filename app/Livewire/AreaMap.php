@@ -57,7 +57,7 @@ class AreaMap extends Component
 
     public function mount()
     {
-        $this->pojazdy = Vehicles::where('user_id', auth()->id())->get();
+        $this->pojazdy = Vehicles::where('user_id', auth()->id())->orderBy('id', 'desc')->get();
         $this->pojazd = $this->pojazdy->first();
         if ($this->pojazdy->count() > 0) {
             $this->obszar = json_encode($this->pojazd->base_area);

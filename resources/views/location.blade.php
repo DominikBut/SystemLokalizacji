@@ -129,7 +129,10 @@
                 }
 
             }
-            geocodeLatLng(geocoder,initialLat,initialLng);
+            if(initialLat != 0.000000 & initialLng != 0.000000)
+                {
+                    geocodeLatLng(geocoder,initialLat,initialLng);
+                }
             // Function to update the marker position
             function updateMarkerPosition(lat, lng, nazwa, czas) {
                 const newPosition = { lat: parseFloat(lat), lng: parseFloat(lng) };

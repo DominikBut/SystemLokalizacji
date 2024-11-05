@@ -23,15 +23,20 @@ class LocationMap extends Component
     #[Locked]
     public $pojazd;
 
+    #[Url(except: '', as: 'id')]
+    public $checking = '';
 
     public function tracking(string $id)
     {
-        $this->pojazd = Vehicles::where('simID', "{$id}")->first();
-        $this->dane = $this->pojazd->wspolrzedne()->orderBy('created_at', 'desc')->first();
-        if (!is_null($this->dane)) {
-            $this->dispatch('coords', lat: $this->lokacja->latitude, lng: $this->lokacja->longitude, nazwa: $this->pojazd->Nazwa, czas: $this->lokacja->created_at->timezone('Europe/Warsaw'));
-        } else {
-            $this->dispatch('coords', nazwa: $this->pojazd->Nazwa);
+        $this->checking = '';
+        $this->pojazd = $this->pojazdy->where('simID', "{$id}")->first();
+        if (!is_null($this->pojazd)) {
+            $this->dane = $this->pojazd->wspolrzedne()->orderBy('created_at', 'desc')->first();
+            if (!is_null($this->dane)) {
+                $this->dispatch('coords', lat: $this->lokacja->latitude, lng: $this->lokacja->longitude, nazwa: $this->pojazd->Nazwa, czas: $this->lokacja->created_at->timezone('Europe/Warsaw'));
+            } else {
+                $this->dispatch('coords', nazwa: $this->pojazd->Nazwa);
+            }
         }
     }
     #[Computed()]
@@ -46,7 +51,7 @@ class LocationMap extends Component
     }
     public function mount()
     {
-        $this->pojazdy = Vehicles::where('user_id', auth()->id())->get();
+        $this->pojazdy = Vehicles::where('user_id', auth()->id())->orderBy('id', 'desc')->get();
         if ($this->pojazdy->count() > 0) {
             $this->pojazd = $this->pojazdy->first();
             $this->dane = $this->pojazd->wspolrzedne()->orderBy('created_at', 'desc')->first();
@@ -54,7 +59,32 @@ class LocationMap extends Component
     }
     public function render()
     {
+        if ($this->checking and is_int($this->checking)) {
+            $this->pojazdy = Vehicles::where('user_id', auth()->id())->orderBy('id', 'desc')->get();
+            if ($this->pojazdy->count() > 0) {
+                $this->pojazd = $this->pojazdy->where('simID', "{$this->checking}")->first();
+                if (!is_null($this->pojazd)) {
+                    $this->dane = $this->pojazd->wspolrzedne()->orderBy('created_at', 'desc')->first();
+                    if (!is_null($this->dane)) {
+                        $this->dispatch('coords', lat: $this->lokacja->latitude, lng: $this->lokacja->longitude, nazwa: $this->pojazd->Nazwa, czas: $this->lokacja->created_at->timezone('Europe/Warsaw'));
+                    } else {
 
-        return view('livewire.location-map');
+                        $this->dispatch('coords', nazwa: $this->pojazd->Nazwa);
+                    }
+                } else {
+
+                    $this->pojazd = $this->pojazdy->first();
+                    $this->dane = $this->pojazd->wspolrzedne()->orderBy('created_at', 'desc')->first();
+                    $this->checking = '';
+                }
+            } else {
+                $this->checking = '';
+            }
+        } else {
+            $this->checking = '';
+        }
+
+        return view('livewire.location-map', ['label' => (!is_null($this->pojazd) ? $this->pojazd->Nazwa : 'Brak pojazdów')]);
     }
+    //['label' => (!is_null($this->pojazd) ? $this->pojazd->Nazwa : 'Brak pojazdów')]
 }

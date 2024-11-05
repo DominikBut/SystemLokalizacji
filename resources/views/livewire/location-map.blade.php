@@ -1,7 +1,7 @@
 @php
-    ($pojazdy->count() > 0) ? $label = $pojazdy[0]->Nazwa : $label = 'Brak pojazdów';
+    ($pojazdy->count() > 0) ? $label = $pojazd->Nazwa : $label = 'Brak pojazdów';
 @endphp
-<div x-data="{ mobileFiltersOpen: false, sortMenuOpen: false, filterSectionsOpen: {}, label: '{{ $label }}', }" class="p-6">
+<div x-data="{ mobileFiltersOpen: false, sortMenuOpen: false, filterSectionsOpen: {}, label: '{{ $label }}', }" class="p-4">
 
 
     <div class="h-full">
@@ -65,12 +65,12 @@
             </div>
             @if(!empty($this->pojazd))
             <div class="flex flex-col sm:flex-row justify-between border-y-2 border-gray-300 mt-2 py-1 space-y-2 sm:space-y-0" wire:loading.remove>
-                <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 text-balance break-words text-center sm:text-right">Tel: {{ (!empty($this->pojazd->Telefon)) ? $this->pojazd->Telefon : 'Brak pojazdów' }} | {{ (!empty($this->pojazd->Opis)) ? $this->pojazd->Opis : 'Brak pojazdów' }}</div>
+                <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 text-balance break-words text-center sm:text-right">Tel: {{ (!empty($this->pojazd->Telefon)) ? $this->pojazd->Telefon : 'Brak pojazdów' }} {{ (!empty($this->pojazd->Opis)) ? '| '.$this->pojazd->Opis : '' }}</div>
                 <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 place-content-end text-center sm:text-right">
                     Ostatnia aktywność {{ \Carbon\Carbon::setLocale('pl') }} {{ (!empty($this->lokacja)) ? $this->lokacja->created_at->timezone('Europe/Warsaw')->diffForHumans() : 'Brak odebranych danych' }}
                 </div>
             </div>
-            <div class="py-4" wire:loading.remove>
+            <div class="py-2" wire:loading.remove>
                 <div class="w-full">
                     <div class="flex flex-col lg:flex-row rounded-lg bg-stone-100 items-center w-full shrink-0 grow-0 basis-auto shadow-md outline outline-2 outline-lime-600">
                         <div class="flex justify-center items-center rounded-md bg-lime-600 w-full h-full p-1 lg:p-4 lg:w-auto ring-1 ring-sky-950/10">
@@ -85,7 +85,7 @@
                   </div>
                 </div>
             </div>
-            <div class="mx-auto lg:grid max-w-2xl grid-cols-1 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3 mb-2 p-1" wire:loading.remove>
+            <div class="mx-auto lg:grid max-w-2xl grid-cols-1 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3" wire:loading.remove>
                 <div class="sm:col-span-2 items-center flex flex-row text-left w-full justify-center lg:justify-normal">
                     <dl class="space-y-4 text-sm lg:text-base leading-7 text-stone-700 w-[32rem]">
                       <div class="relative w-full">
@@ -176,7 +176,7 @@
 
         </div>
         {{-- loading animation --}}
-    <div class="w-full flex flex-row justify-center items-center pt-8 h-[19rem]" wire:loading>
+    <div class="w-full flex flex-row justify-center items-center pt-2 h-[18rem]" wire:loading>
         <div aria-label="Ładowanie..." role="status" class="flex flex-row justify-center pt-24 space-x-2 w-full h-auto xl:h-fit">
             <div class="flex flex-row place-items-center">
                 <svg class="w-12 h-12 xl:w-20 xl:h-20 animate-spin stroke-lime-400" viewBox="0 0 256 256">

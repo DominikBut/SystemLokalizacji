@@ -361,7 +361,7 @@ Livewire.on('route', (event) => {
     {
         lastOverlay = loadSavedShape(map, lastOverlay, event.base_area);
     }else{
-        lastOverlay.setMap(null); // Remove the overlay from the map
+        //lastOverlay.setMap(null); // Remove the overlay from the map
                         lastOverlay = null; // Clear the reference to the overlay
     }
 

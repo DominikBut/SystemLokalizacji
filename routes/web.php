@@ -1,9 +1,10 @@
 <?php
 
+use App\Models\User;
+use App\Mail\SendAlert;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OldMapController;
-
-
 
 Route::get('/', function () {
     return view('welcome');
@@ -41,5 +42,19 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             '/historymap',
             [OldMapController::class, 'showMap']
         )->name('oldmap');
+    });
+    Route
+        ::get('/test', function () {
+            $name = "xddd";
+            $id = "894806152";
+            $data = '2323432';
+            $ten = User::where('id', auth()->id())->first();
+            Mail::to($ten->email)->send(new SendAlert($name, $id, $data));
+        });
+    Route::get('/mailable', function () {
+        $name = "xddd";
+        $id = "894806152";
+        $data = '2323432';
+        return new SendAlert($name, $id, $data);
     });
 });

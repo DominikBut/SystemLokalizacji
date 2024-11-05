@@ -159,7 +159,7 @@ class RoutesMap extends Component
 
     public function mount()
     {
-        $this->pojazdy = Vehicles::where('user_id', auth()->id())->orderBy('simID', 'desc')->get();
+        $this->pojazdy = Vehicles::where('user_id', auth()->id())->orderBy('id', 'desc')->get();
         if ($this->pojazdy->count() > 0) {
             $this->pojazd = $this->pojazdy->first();
 

@@ -2,9 +2,12 @@
 
 namespace App\Observers;
 
+use App\Mail\SendAlert;
 use App\Models\Vehicles;
 use App\Models\Coordinates;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class CoordinatesObserver
 {
@@ -29,10 +32,11 @@ class CoordinatesObserver
             Log::warning('czy koordy w? ' . var_export($isWithinBorders, true));
             Log::warning('noti wyslane? ' . $vehicle->notified);
             Log::warning('powiadomienia? ' . $vehicle->subscribe);
+
             if ($isWithinBorders == false) {
                 //to do email
                 if ($vehicle->notified == false) {
-                    Log::warning('wysyłam' . $vehicle->id);
+                    Log::warning('update' . $vehicle->id);
                     // Update the 'notified' field to true
                     $vehicle->update([
                         'notified' => true,
@@ -40,6 +44,9 @@ class CoordinatesObserver
                     ]);
                     if ($vehicle->subscribe == true) {
                         //danger comunikat
+                        Log::warning('wysyłam ' . $vehicle->wlasciciel()->first()->email);
+                        // $ten = User::where('id', auth()->id())->first();
+                        Mail::to($vehicle->wlasciciel()->first()->email)->send(new SendAlert($vehicle->Nazwa, $vehicle->simID, $coordinates->created_at));
                     }
                 }
                 $coordinates->update(['route' => $vehicle->current_route]);
