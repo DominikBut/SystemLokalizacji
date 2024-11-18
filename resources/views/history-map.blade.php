@@ -62,7 +62,7 @@
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
                                               </svg>
 
-                                                Sygnał:
+                                                Zasięg:
                                                 <span class="@if($lokacja->strength < 20) text-red-500 @elseif($lokacja->strength < 50) text-yellow-500 @else text-green-500 @endif">
                                                     {!! '&nbsp;'. $lokacja->strength !!}%
                                                 </span>
@@ -71,8 +71,12 @@
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 10.5h.375c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125H21M4.5 10.5H18V15H4.5v-4.5ZM3.75 18h15A2.25 2.25 0 0 0 21 15.75v-6a2.25 2.25 0 0 0-2.25-2.25h-15A2.25 2.25 0 0 0 1.5 9.75v6A2.25 2.25 0 0 0 3.75 18Z" />
                                                 </svg>
                                                 Bateria:
-                                                <span class="@if($lokacja->battery < 20) text-red-500 @elseif($lokacja->battery < 50) text-yellow-500 @else text-green-500 @endif">
+                                                <span class="@if($lokacja->battery == 0) @elseif($lokacja->battery < 20) text-red-500 @elseif($lokacja->battery < 50) text-yellow-500 @else text-green-500 @endif">
+                                                    @if($lokacja->battery == 0)
+                                                    {!! '&nbsp;'. 'Brak zapisu' !!}
+                                                    @else
                                                     {!! '&nbsp;'. $lokacja->battery !!}%
+                                                    @endif
                                                 </span>
 
                                           </div>

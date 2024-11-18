@@ -52,13 +52,17 @@ class ListHistory extends Component implements HasForms, HasTable
                 )),
                 TextColumn::make('longitude')->label('Współrzędne geograficzne')->weight(FontWeight::Bold)
                     ->formatStateUsing(fn(Coordinates $record): string =>   Coordinates::formatCoordinates($record->latitude, $record->longitude))->html(),
-                TextColumn::make('strength')->searchable()->label('Siła sygnału [%]')->badge()->wrap()->alignment(Alignment::Center)->wrapHeader()
+                TextColumn::make('strength')->searchable()->label('Zasięg [%]')->badge()->wrap()->alignment(Alignment::Center)->wrapHeader()
                     ->color(fn(string $state): string => (
                         ($state <= 10)
                         ? 'danger' : (($state > 10 and $state <= 50) ? 'warning' : 'primary'
                         )))
                     ->icon('heroicon-m-chart-bar')->iconPosition(IconPosition::After),
                 TextColumn::make('battery')->searchable()->label('Poziom baterii [%]')->badge()->wrap()->alignment(Alignment::Center)->wrapHeader()
+                    ->formatStateUsing(
+                        fn(Coordinates $record): string => ($record->battery == 0)
+                            ? 'Brak zapisu' : $record->battery
+                    )
                     ->color(fn(string $state): string => (
                         ($state <= 10)
                         ? 'danger' : (($state > 10 and $state <= 50) ? 'warning' : 'primary'
