@@ -38,7 +38,6 @@ class AppServiceProvider extends ServiceProvider
         ]);
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
             return (new MailMessage)
-                ->greeting('Witaj!')
                 ->subject('Zweryfikuj swój adres email')
                 ->line('Kliknij przycisk poniżej, aby zweryfikować ten adres email.')
                 ->action('Zweryfikuj ten adres email', $url)
@@ -46,11 +45,10 @@ class AppServiceProvider extends ServiceProvider
         });
         ResetPassword::toMailUsing(function (object $notifiable, string $url) {
             return (new MailMessage)
-                ->greeting('Witaj!')
                 ->subject('Resetowanie hasła')
                 ->line('Otrzymałeś ten email, ponieważ otrzymaliśmy prośbę o zresetowanie twojego hasła.')
                 ->action('Zmień hasło', $url)
-                ->line('Link do resetowania hasła wygaśnie w ciągu 60 minut.')
+                ->line('Link do resetowania hasła wygaśnie w ciągu 60 min minut.', ['count' => config('auth.passwords.' . config('auth.defaults.passwords') . '.expire')])
                 ->line('Jeżeli to nie ty zażądałeś zresetowania hasła, żadna dalsza czynność nie jest wymagana.');
         });
     }

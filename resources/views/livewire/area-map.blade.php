@@ -65,22 +65,44 @@
                                 </button>
                             </div>
                             {{-- Wybieranie pojazdu --}}
-                            <div x-show="sortMenuOpen" x-on:click.away="sortMenuOpen = false" x-cloak x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95"
-                            class="absolute right-0 z-10 mt-2 min-w-48 w-full origin-top-right rounded-md shadow-lg ring-2 ring-gray-200 focus:outline-none bg-stone-50" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                            <div class="space-y-1 p-1 overflow-auto max-h-[300px]" role="none" >
-                                    @forelse ($pojazdy as $pojazd)
-                                    <button wire.loading.attr="disabled" wire:click="tracking('{{ $pojazd->simID }}')" x-on:click="sortMenuOpen = false, label = '{{ $pojazd->Nazwa }}'"
-                                        :class="{'bg-lime-400 font-semibold': label == '{{ $pojazd->Nazwa }}' }"
-                                        class="truncate block w-full text-left rounded-md px-4 py-2 text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
-                                        role="menuitem" tabindex="-1" id="menu-item-0">{{ $pojazd->Nazwa }}</button>
-                                    @empty
-                                    <button wire.loading.attr="disabled" x-on:click="sortMenuOpen = false, label = 'Brak pojazdów'"
-                                        :class="{'bg-lime-400 font-semibold': label == 'Brak pojazdów' }"
-                                        class="truncate block w-full text-left rounded-md px-4 py-2 :text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
-                                        role="menuitem" tabindex="-1" id="menu-item-0">Brak pojazdów</button>
-                                    @endforelse
+                                <div x-show="sortMenuOpen"
+                                x-on:click.away="sortMenuOpen = false"
+                                x-cloak
+                                x-transition:enter="transition ease-out duration-100"
+                                x-transition:enter-start="transform opacity-0 scale-95"
+                                x-transition:enter-end="transform opacity-100 scale-100"
+                                x-transition:leave="transition ease-in duration-75"
+                                x-transition:leave-start="transform opacity-100 scale-100"
+                                x-transition:leave-end="transform opacity-0 scale-95"
+                                class="absolute right-0 z-30 mt-2 min-w-48 w-full origin-top-right rounded-md shadow-lg ring-2 ring-gray-200 focus:outline-none bg-stone-50"
+                                role="menu"
+                                aria-orientation="vertical"
+                                aria-labelledby="menu-button"
+                                tabindex="-1">
+                                <div :class="{'max-h-[100px] overflow-y-scroll': {{ $pojazdy->count() }} > 3}"
+                                    class="space-y-1 p-1 z-40"
+                                    role="none">
+                                @forelse ($pojazdy as $pojazd)
+                                    <button wire.loading.attr="disabled"
+                                            wire:click="tracking('{{ $pojazd->simID }}')"
+                                            x-on:click="sortMenuOpen = false, label = '{{ $pojazd->Nazwa }}'"
+                                            :class="{'bg-lime-400 font-semibold': label == '{{ $pojazd->Nazwa }}' }"
+                                            class="truncate block w-full text-left rounded-md px-4 py-2 text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
+                                            role="menuitem"
+                                            tabindex="-1"
+                                            id="menu-item-{{ $loop->index }}">{{ $pojazd->Nazwa }}</button>
+                                @empty
+                                    <button wire.loading.attr="disabled"
+                                            x-on:click="sortMenuOpen = false, label = 'Brak pojazdów'"
+                                            :class="{'bg-lime-400 font-semibold': label == 'Brak pojazdów' }"
+                                            class="truncate block w-full text-left rounded-md px-4 py-2 text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
+                                            role="menuitem"
+                                            tabindex="-1"
+                                            id="menu-item-0">Brak pojazdów</button>
+                                @endforelse
                                 </div>
-                            </div>
+                                </div>
+
                         </div>
                 </div>
             </div>
@@ -164,7 +186,7 @@
                 <div class="items-center flex flex-row text-left w-full justify-between">
                     <dl class="text-sm lg:text-base leading-7 text-stone-700 flex flex-col lg:flex-row space-y-2 lg:space-y-0 w-full justify-between">
                         @if (!empty($this->pojazd))
-                        <div class="place-content-center text-sm lg:text-lg">Zaznacz obszar z uwzględnieniem 2,5m marginesu.</div>
+                        <div class="place-content-center text-sm lg:text-lg">Zaznacz obszar z uwzględnieniem 2,5 m marginesu.</div>
                         @endif
                       <div class="bg-blue-100 ">
 

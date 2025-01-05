@@ -86,13 +86,14 @@
     <script>
         let infoWindow;
         var savedShape = null;
-        let lastOverlay = null; // To keep track of the last drawn overlay
+        var lastOverlay = null; // To keep track of the last drawn overlay
 
         function loadSavedShape(map,lastOverlay,savedShape) {
             if (lastOverlay) {
                         lastOverlay.setMap(null); // Remove the overlay from the map
                         lastOverlay = null; // Clear the reference to the overlay
             }
+
             if (!savedShape || !savedShape.type || !savedShape.coordinates) {
                 console.error("Invalid shape data.");
 
@@ -357,13 +358,20 @@ Livewire.on('route', (event) => {
     document.getElementById("pkt_data").innerText = "-----------------------";
     document.getElementById("pkt_lokacja").innerText = "Wybierz punkt do sprawdzenia.";
     document.getElementById("pkt_coords").innerText = `00°00'00.00"- 00°00'00.00"-`;
+    if (lastOverlay) {
+        lastOverlay.setMap(null); // Remove the overlay from the map
+        lastOverlay = null; // Clear the reference to the overlay
+    }
     if(event.base_area)
     {
+
         lastOverlay = loadSavedShape(map, lastOverlay, event.base_area);
-    }else{
-        //lastOverlay.setMap(null); // Remove the overlay from the map
-                        lastOverlay = null; // Clear the reference to the overlay
     }
+    // else{
+    //     //lastOverlay.setMap(null); // Remove the overlay from the map
+    //     lastOverlay.setMap(null); // Remove the overlay from the map
+    //     lastOverlay = null; // Clear the reference to the overlay
+    // }
 
     routeData = JSON.parse(event.route);
     console.log(routeData);

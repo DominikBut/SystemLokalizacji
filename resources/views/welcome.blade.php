@@ -264,8 +264,12 @@
                         </div>
                     </main>
 
-                    <footer class="py-16 text-center text-sm text-gray-300 font-semibold">
-                        By Dominik But
+                    <footer class="flex flex-row justify-center py-16 text-center text-sm text-sky-950 font-semibold">
+                        By Dominik But | &nbsp;
+                        <a href="{{ route('about') }}" class="flex flex-row place-content-center justify-start place-items-center tracking-wide border-lime-600
+                                                hover:text-sky-700 transition-all duration-300 truncate text-sky-950 cursor-pointer underline">
+                                                       Informacje o systemie
+                                                    </a>
                     </footer>
                 </div>
             </div>

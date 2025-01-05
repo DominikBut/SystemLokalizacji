@@ -61,13 +61,13 @@ class ListVehicles extends Component implements HasForms, HasTable
             ->headerActions([
                 CreateAction::make()->label('Dodaj nowy pojazd')->icon('heroicon-m-truck')
                     ->model(Vehicles::class)
-                    ->modalHeading('Dodaj nowy pojazd pojazd.')
+                    ->modalHeading('Dodaj nowy pojazd.')
                     ->modalDescription('Wypełnij dokładnie poniższy formularz.')
                     ->modalSubmitActionLabel('Utwórz nowy pojazd.')
                     ->form([
                         Section::make()
                             ->schema([
-                                TextInput::make('Nazwa')->required()->minLength(1)->prefixIcon('heroicon-m-truck')->maxLength(50)->label('Wyświetlana nazwa pojazdu')->helperText('Max 50 znaków')->helperText('Wpisz dowolną nazwę, która później będzie używana na reszcie stron.'),
+                                TextInput::make('Nazwa')->required()->minLength(1)->prefixIcon('heroicon-m-truck')->unique()->maxLength(50)->label('Wyświetlana nazwa pojazdu')->helperText('Max 50 znaków')->helperText('Wpisz dowolną nazwę, która później będzie używana na reszcie stron.'),
                                 TextInput::make('Telefon')->prefixIcon('heroicon-m-phone')->required()->unique()->tel()
                                     ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
                                     ->placeholder('+48777888999')->label('Numer telefonu karty SIM')->helperText('Pamiętaj o podaniu numeru kierunkowego!'),
@@ -99,7 +99,7 @@ class ListVehicles extends Component implements HasForms, HasTable
                     ->form([
                         Section::make()
                             ->schema([
-                                TextInput::make('Nazwa')->required()->minLength(1)->prefixIcon('heroicon-m-truck')->maxLength(50)->label('Wyświetlana nazwa pojazdu')->helperText('Max 50 znaków')->helperText('Wpisz dowolną nazwę, która później będzie używana na reszcie stron.'),
+                                TextInput::make('Nazwa')->required()->minLength(1)->prefixIcon('heroicon-m-truck')->unique(ignoreRecord: true)->maxLength(50)->label('Wyświetlana nazwa pojazdu')->helperText('Max 50 znaków')->helperText('Wpisz dowolną nazwę, która później będzie używana na reszcie stron.'),
                                 TextInput::make('Telefon')->prefixIcon('heroicon-m-phone')->required()->unique(ignoreRecord: true)->tel()
                                     ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
                                     ->placeholder('+48777888999')->label('Numer telefonu karty SIM')->helperText('Pamiętaj o podaniu numeru kierunkowego!'),

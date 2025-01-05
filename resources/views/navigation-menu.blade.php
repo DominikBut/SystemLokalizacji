@@ -6,7 +6,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ URL::to('/') }}">
                         <x-application-mark class="h-14 w-14 py-2" />
                     </a>
                 </div>

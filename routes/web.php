@@ -4,11 +4,15 @@ use App\Models\User;
 use App\Mail\SendAlert;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\OldMapController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->group(function () {
 
@@ -43,18 +47,26 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             [OldMapController::class, 'showMap']
         )->name('oldmap');
     });
-    Route
-        ::get('/test', function () {
-            $name = "xddd";
-            $id = "894806152";
-            $data = '2323432';
-            $ten = User::where('id', auth()->id())->first();
-            Mail::to($ten->email)->send(new SendAlert($name, $id, $data));
-        });
+    Route::get('/test/{email}', function ($email) {
+        $validator = Validator::make(['email' => $email], [
+            'email' => 'required|email',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => 'Zły adres'], 400);
+        }
+
+        $name = "BMW M5 Touring";
+        $id = "555555555";
+        $data = '2024-11-05 00:16:16';
+
+        Mail::to($email)->send(new SendAlert($name, $id, $data));
+        return "Wysłano na email: {$email}";
+    });
     Route::get('/mailable', function () {
-        $name = "xddd";
-        $id = "894806152";
-        $data = '2323432';
+        $name = "BMW M5 Touring";
+        $id = "555555555";
+        $data = '2024-11-05 00:16:16';
         return new SendAlert($name, $id, $data);
     });
 });
