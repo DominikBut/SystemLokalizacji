@@ -4,7 +4,7 @@
 
 
     <p class="mt-3 sm:mt-6 text-gray-500 leading-relaxed sm:max-w-4xl  sm:text-balance text-xs sm:text-sm lg:text-base">
-        Możesz tutaj przede wszystkim śledzić bieżące lokalizacje twoich pojazdów, zarządzać ich konfiguracją, a także zapoznawać się z trasami jakie twoje pojazdy pokonały do tej pory!
+        Możesz tutaj śledzić bieżące lokalizacje twoich pojazdów, zarządzać ich konfiguracją, a także zapoznawać się z trasami jakie twoje pojazdy pokonały do tej pory!
     </p>
 </div>
 
@@ -131,5 +131,11 @@
     </div>
 </div>
 <div class="p-8 sm:p-16 bg-white border-t-4 border-gray-200 w-full">
-    <div class="w-full text-gray-300 text-center text-sm">By Dominik But</div>
+    <div class="flex flex-row justify-center text-center text-sm text-sky-950 font-semibold">
+        By Dominik But | &nbsp;
+        <a href="{{ route('about') }}" class="flex flex-row place-content-center justify-start place-items-center tracking-wide border-lime-600
+                                hover:text-sky-700 transition-all duration-300 truncate text-sky-950 cursor-pointer underline">
+                                       Informacje o systemie
+                                    </a>
+    </div>
 </div>
