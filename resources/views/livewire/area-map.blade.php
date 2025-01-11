@@ -1,14 +1,10 @@
 @php
-    ($pojazdy->count() > 0) ? $label = $pojazdy[0]->Nazwa : $label = 'Brak pojazdów';
+    ($pojazdy->count() > 0) ? $label = $pojazdy[0]->name : $label = 'Brak pojazdów';
 @endphp
 <div x-data="{ mobileFiltersOpen: false, sortMenuOpen: false, filterSectionsOpen: {}, label: '{{ $label }}', }" class="p-4">
-
-
     <div class="h-full" >
-        {{-- used for maps --}}
-
         @if (($pojazdy->count() > 0))
-        <input type="text" name="nazwa" id="nazwa" hidden value="{!! $this->pojazd->Nazwa !!} ">
+        <input type="text" name="nazwa" id="nazwa" hidden value="{!! $this->pojazd->name !!} ">
         @endif
 
         <div class="mx-auto max-w-7xl">
@@ -41,14 +37,11 @@
                         </div>
                     @endif
                 @else
-
-                    <h2 wire:loading.remove class="text-2xl font-bold text-sky-950 max-w-xl text-balance place-content-center truncate">{{ (!empty($this->pojazd)) ? 'Edytowanie: '.$this->pojazd->Nazwa : 'Brak pojazdów do wyboru!' }}</h2>
-
+                    <h2 wire:loading.remove class="text-2xl font-bold text-sky-950 max-w-xl text-balance place-content-center truncate">{{ (!empty($this->pojazd)) ? 'Edytowanie: '.$this->pojazd->name : 'Brak pojazdów do wyboru!' }}</h2>
                  @endif
                 </div>
                 {{-- Sortwanie --}}
                 <div class="order-1 lg:order-2 mb-1 w-full min-[360px]:w-auto flex flex-col min-[360px]:flex-row gap-y-4 min-[360px]:gap-y-0 items-center px-1 xl:px-0 pb-4 lg:pb-0">
-
                     <div class="relative inline-block text-left self-end min-[360px]:self-none w-full" x-data="{ sortMenuOpen: false }">
                         <div class="w-full">
                             <button title="Wybierz pojazd" type="button" x-on:click="sortMenuOpen = !sortMenuOpen" class="w-full relative group inline-flex flex-col justify-start font-semibold text-sky-950" id="menu-button" aria-expanded="true" aria-haspopup="true">
@@ -84,13 +77,13 @@
                                     role="none">
                                 @forelse ($pojazdy as $pojazd)
                                     <button wire.loading.attr="disabled"
-                                            wire:click="tracking('{{ $pojazd->simID }}')"
-                                            x-on:click="sortMenuOpen = false, label = '{{ $pojazd->Nazwa }}'"
-                                            :class="{'bg-lime-400 font-semibold': label == '{{ $pojazd->Nazwa }}' }"
+                                            wire:click="tracking('{{ $pojazd->sim_id }}')"
+                                            x-on:click="sortMenuOpen = false, label = '{{ $pojazd->name }}'"
+                                            :class="{'bg-lime-400 font-semibold': label == '{{ $pojazd->name }}' }"
                                             class="truncate block w-full text-left rounded-md px-4 py-2 text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
                                             role="menuitem"
                                             tabindex="-1"
-                                            id="menu-item-{{ $loop->index }}">{{ $pojazd->Nazwa }}</button>
+                                            id="menu-item-{{ $loop->index }}">{{ $pojazd->name }}</button>
                                 @empty
                                     <button wire.loading.attr="disabled"
                                             x-on:click="sortMenuOpen = false, label = 'Brak pojazdów'"
@@ -134,11 +127,8 @@
                 </div>
                 @if (!empty($this->pojazd))
                 <div class="flex flex-col lg:flex-row justify-between w-full">
-
-
-                <h2 wire:loading.remove class="text-xl lg:text-2xl font-bold text-sky-950 max-w-xl text-balance place-content-center truncate">{{ (!empty($this->pojazd)) ? 'Edytowanie: '.$this->pojazd->Nazwa : 'Brak pojazdów do wyboru!' }}</span></h2>
+                <h2 wire:loading.remove class="text-xl lg:text-2xl font-bold text-sky-950 max-w-xl text-balance place-content-center truncate">{{ (!empty($this->pojazd)) ? 'Edytowanie: '.$this->pojazd->name : 'Brak pojazdów do wyboru!' }}</span></h2>
                 <label wire:loading.remove class="text-sm lg:text-base relative inline-flex items-center cursor-pointer space-x-2 text-gray-900 hover:text-cyan-800">
-
                     <svg class="w-6 h-6 lg:w-12 lg:h-12 {{ $this->pojazd->subscribe ? 'text-lime-600' : 'text-gray-500' }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                         <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
                         <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
@@ -161,7 +151,6 @@
                 </label>
                  </div>
                 @else
-
                                 <div class="flex flex-col lg:flex-row gap-4 lg:gap-16 w-full justify-center py-4 items-center lg:items-start">
                                     <div class="w-16 h-16   bg-lime-100 p-2 rounded-full shadow-sm justify-center items-center inline-flex ">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-lime-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="size-4 lg:size-6">
@@ -178,7 +167,6 @@
                                             </a>
                                     </div>
                                 </div>
-
                     @endif
             </div>
 
@@ -194,15 +182,6 @@
                         <div class="px-2 p-1 font-medium" wire:loading.remove>Aktualnie poza obszarem: {{ $this->pojazd->notified ==1 ? 'Tak' : 'Nie' }}</div>
                         @endif
 
-                          {{-- <div class=" rounded flex p-2 h-full items-center font-bold">
-
-                            @if(isset($obszar))
-                            <textarea placeholder="" cols="240" rows="10">{{ $obszar }}</textarea>
-
-                            @endif
-
-
-                          </div> --}}
                       </div>
 
                   </dl>

@@ -9,13 +9,9 @@
         <div class="max-w-7xl mx-auto">
             <div class="bg-white overflow-hidden rounded-lg mx-4 mb-2 xl:m-0">
 
-
-
-                {{-- Linkowanie mapy z Google Api --}}
+                {{-- Google Api --}}
                 <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
                     ({key: "AIzaSyATS3eoPZF6fOo-JCpwGJSncxE7vQqD3_U", v: "weekly"});</script>
-
-
                 {{-- Mapa google --}}
                 <div id="map" style="height: 420px;"></div>
                  <div class="w-full p-1 bg-lime-600"></div>
@@ -36,16 +32,12 @@
             var initialCzas ='system';
             if(document.getElementById("czas"))
             {
-                // Get initial coordinates from the hidden inputs
                  initialLat = parseFloat(document.getElementById("lat").value);
                  initialLng = parseFloat(document.getElementById("lng").value);
                  initialNazwa = document.getElementById("nazwa").value;
                  initialCzas = new Date(document.getElementById("czas").value).toLocaleString('pl-PL');
             }
 
-
-            //{{-- // const initialLat = parseFloat(@js( $this->lokacja->latitude ));
-                // const initialLng = parseFloat(@js( $this->lokacja->longitude )); --}}
             // Create the map with initial coordinates
             const map = new Map(document.getElementById("map"), {
                 zoom: 16,
@@ -71,31 +63,24 @@
                 map,
                 title: [
                     "Zobacz: "+ initialNazwa,
-
                 ].join("<br>"),
                 content: pin.element,
                 gmpClickable: true,
             });
             function formatCoordinates(lat, lng) {
-                // Function to convert decimal degrees to DMS format
                 function toDMS(degree) {
                     const isNegative = degree < 0;
                     degree = Math.abs(degree);
-
                     const degrees = Math.floor(degree);
                     const minutes = Math.floor((degree - degrees) * 60);
                     const seconds = ((degree - degrees) * 60 - minutes) * 60;
-
-                    // Construct the DMS string
                     return `${degrees}°${minutes}'${seconds.toFixed(2)}"${isNegative ? 'S' : 'N'}`;
                 }
 
                 const formattedLat = toDMS(lat);
                 const formattedLng = toDMS(lng);
-
                 return `${formattedLat} ${formattedLng.replace(/N$/, 'E').replace(/S$/, 'W')}`;
             }
-            // Add a click listener for the marker, and set up the info window.
             marker.addListener("click", ({ domEvent, latLng }) => {
                 const { target } = domEvent;
                 infoWindow.close();
@@ -108,7 +93,6 @@
                 infoWindow.open(marker.map, marker);
             });
 
-            //znajdz adres
             function geocodeLatLng(geocoder, Glat, Glng) {
                 const latlng = {
                     lat: parseFloat(Glat),
@@ -133,7 +117,6 @@
                 {
                     geocodeLatLng(geocoder,initialLat,initialLng);
                 }
-            // Function to update the marker position
             function updateMarkerPosition(lat, lng, nazwa, czas) {
                 const newPosition = { lat: parseFloat(lat), lng: parseFloat(lng) };
                 infoWindow.close();
@@ -158,7 +141,6 @@
                 map.setZoom(16);
             }
 
-            //handle zmiane pojazdu
             Livewire.on('coords', (event) => {
                 var localDate = new Date(event.czas).toLocaleString('pl-PL');
                 if(event.lat)
@@ -168,9 +150,7 @@
                 }else{
                     updateMarkerPosition(0.000000, 0.000000, 'Przykładowe dane', 'system');
                 }
-
             });
-
         }
 
         initMap();

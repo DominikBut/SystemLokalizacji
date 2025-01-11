@@ -31,12 +31,6 @@
             <div class="relative flex flex-col items-center justify-center">
                 <div class="relative w-full max-w-2xl px-6 lg:px-6 2xl:px-2 lg:max-w-7xl">
                     <header class="flex flex-col sm:flex-row py-8 lg:py-12 items-center">
-                        {{-- <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 lg:w-16 lg:h-16 py-2" >
-                            <path d="M11.395 44.428C4.557 40.198 0 32.632 0 24 0 10.745 10.745 0 24 0a23.891 23.891 0 0113.997 4.502c-.2 17.907-11.097 33.245-26.602 39.926z" fill="#6875F5"/>
-                            <path d="M14.134 45.885A23.914 23.914 0 0024 48c13.255 0 24-10.745 24-24 0-3.516-.756-6.856-2.115-9.866-4.659 15.143-16.608 27.092-31.75 31.751z" fill="#6875F5"/>
-                          </svg> --}}
-
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
    width="512" class="h-14 w-14 lg:w-16 lg:h-16 py-2"
@@ -146,20 +140,14 @@
          cy="159.6391"
          r="28.885595" /></g></g></svg>
 
-                          <h1 class="text-3xl sm:text-4xl 2xl:text-5xl font-extrabold ps-0 sm:ps-4 text-center sm:text-left text-sky-950 text-balance place-content-center tracking-wider">
-                              System lokalizacji pojazdów
-                          </h1>
+                    <h1 class="text-3xl sm:text-4xl 2xl:text-5xl font-extrabold ps-0 sm:ps-4 text-center sm:text-left text-sky-950 text-balance place-content-center tracking-wider">
+                        System lokalizacji pojazdów
+                    </h1>
                     </header>
                     <main class="mt-6">
                         <div class="grid gap-6 lg:grid-cols-2 lg:gap-8 grid-rows-none lg:grid-rows-3 ">
-                            <div
-
-
-                                class="row-span-4 order-2 lg:order-none flex flex-col items-start overflow-hidden rounded-lg h-full bg-white lg:mx-12 shadow-xl ring ring-sky-900 md:row-span-3"
-                            >
+                            <div class="row-span-4 order-2 lg:order-none flex flex-col items-start overflow-hidden rounded-lg h-full bg-white lg:mx-12 shadow-xl ring ring-sky-900 md:row-span-3">
                             <img src="{{ Storage::url('mapa.jpg') }}" alt="Mapa przykład" class="object-cover h-full"/>
-
-
 
                             </div>
                             @if (Route::has('login'))
@@ -167,7 +155,6 @@
                             @auth
                                 <a href="{{ url('/dashboard') }}" class="row-span-1 group flex flex-col items-start gap-2 sm:gap-4 rounded-lg bg-white p-8 py-10 shadow-xl ring-4 ring-lime-600 transition ease-in-out duration-300  hover:ring-lime-400 lg:pb-10">
                                     <div class="flex items-center">
-
                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="size-8 text-lime-600">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                                           </svg>
@@ -207,13 +194,10 @@
                                                 group-hover:text-sky-700 transition-all duration-300 truncate text-sky-950">
                                                 <div class="flex flex-row place-content-center justify-center place-items-center">
                                                     Logowanie
-
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="size-6">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
                                                       </svg>
-
                                                 </div>
-
                                                 <div class=" bg-sky-700 h-[0.10rem] w-0 group-hover:w-full transition-all duration-300 "></div>
                                             </div>
                                     </h2>
@@ -228,7 +212,6 @@
 
                             <a href="{{ route('register') }}" class="row-span-1 group flex flex-col items-start gap-2 sm:gap-4 rounded-lg bg-white py-4 sm:py-6 p-6 shadow-xl ring-2  ring-gray-200 transition ease-in-out duration-300 hover:ring-gray-400 lg:pb-10">
                                 <div class="flex items-center">
-
 
                                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="size-8 text-lime-600">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
@@ -250,7 +233,6 @@
                                             </div>
                                     </h2>
                                 </div>
-
                                 <p class="text-gray-500 text-xs sm:text-base leading-relaxed ">
                                     Nie masz konta? Stwórz nowe już teraz, <br>aby korzystać z pełni możliwości systemu!
                                 </p>
@@ -266,10 +248,9 @@
 
                     <footer class="flex flex-row justify-center py-16 text-center text-sm text-sky-950 font-semibold">
                         By Dominik But | &nbsp;
-                        <a href="{{ route('about') }}" class="flex flex-row place-content-center justify-start place-items-center tracking-wide border-lime-600
-                                                hover:text-sky-700 transition-all duration-300 truncate text-sky-950 cursor-pointer underline">
-                                                       Informacje o systemie
-                                                    </a>
+                        <a href="{{ route('about') }}" class="flex flex-row place-content-center justify-start place-items-center tracking-wide border-lime-600 hover:text-sky-700 transition-all duration-300 truncate text-sky-950 cursor-pointer underline">
+                             Informacje o systemie
+                        </a>
                     </footer>
                 </div>
             </div>

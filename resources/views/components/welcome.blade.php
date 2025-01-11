@@ -1,8 +1,6 @@
 <div class="p-6 lg:p-8 bg-white border-b-4 border-gray-200">
     <x-application-logo class="block h-12 w-auto" />
 
-
-
     <p class="mt-3 sm:mt-6 text-gray-500 leading-relaxed sm:max-w-4xl  sm:text-balance text-xs sm:text-sm lg:text-base">
         Możesz tutaj śledzić bieżące lokalizacje twoich pojazdów, zarządzać ich konfiguracją, a także zapoznawać się z trasami jakie twoje pojazdy pokonały do tej pory!
     </p>
@@ -16,7 +14,6 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
               </svg>
-
             <h2 class="ms-3 lg:text-xl font-bold text-gray-900">
                 <a href="{{ route('location') }}" class="tracking-wide flex flex-col border-lime-600
                         hover:text-sky-700 group transition-all duration-300 truncate text-sky-950">
@@ -33,7 +30,6 @@
                 </a>
             </h2>
         </div>
-
         <p class="mt-2 sm:mt-4 text-gray-500 text-xs sm:text-sm leading-relaxed">
             Zobacz najnowsze lokalizacje twoich pojazdów za pomocą map Google.
         </p>
@@ -52,13 +48,10 @@
                         hover:text-sky-700 group transition-all duration-300 truncate text-sky-950">
                         <div class="flex flex-row place-content-center justify-center place-items-center">
                             Sprawdź trasy
-
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
                               </svg>
-
                         </div>
-
                         <div class=" bg-sky-700 h-[0.10rem] w-0 group-hover:w-full transition-all duration-300 "></div>
                 </a>
             </h2>
@@ -67,9 +60,7 @@
         <p class="mt-2 sm:mt-4 text-gray-500 text-xs sm:text-sm leading-relaxed">
             Sprawdź aktualne trasy pokonane przez twoje pojazdy za pomocą map Google.
         </p>
-
     </div>
-
     <div>
         <div class="flex items-center">
 
@@ -133,9 +124,8 @@
 <div class="p-8 sm:p-16 bg-white border-t-4 border-gray-200 w-full">
     <div class="flex flex-row justify-center text-center text-sm text-sky-950 font-semibold">
         By Dominik But | &nbsp;
-        <a href="{{ route('about') }}" class="flex flex-row place-content-center justify-start place-items-center tracking-wide border-lime-600
-                                hover:text-sky-700 transition-all duration-300 truncate text-sky-950 cursor-pointer underline">
-                                       Informacje o systemie
-                                    </a>
+        <a href="{{ route('about') }}" class="flex flex-row place-content-center justify-start place-items-center tracking-wide border-lime-600 hover:text-sky-700 transition-all duration-300 truncate text-sky-950 cursor-pointer underline">
+             Informacje o systemie
+        </a>
     </div>
 </div>

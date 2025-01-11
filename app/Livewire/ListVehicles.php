@@ -41,19 +41,16 @@ class ListVehicles extends Component implements HasForms, HasTable
             ->columns([
                 TextColumn::make('index')->label('Lp.')
                     ->rowIndex(),
-                TextColumn::make('Nazwa')->sortable()->searchable()->color('gray')->label('Pojazd')->limit(15)->wrap()->icon('heroicon-m-truck')->size(TextColumn\TextColumnSize::Medium)->weight(FontWeight::Medium),
-                TextColumn::make('simID')->sortable()->searchable()->color('info')->label('SIM id')->hidden(),
-                TextColumn::make('Telefon')->sortable()->searchable()->label('Numer telefonu')->badge()
+                TextColumn::make('name')->sortable()->searchable()->color('gray')->label('Pojazd')->limit(15)->wrap()->icon('heroicon-m-truck')->size(TextColumn\TextColumnSize::Medium)->weight(FontWeight::Medium),
+                TextColumn::make('sim_id')->sortable()->searchable()->color('info')->label('SIM id')->hidden(),
+                TextColumn::make('phone')->sortable()->searchable()->label('Numer telefonu')->badge()
                     ->color('primary')->icon('heroicon-m-phone'),
-
-                IconColumn::make('Status')->sortable()->searchable()->label('Śledzenie')->boolean()->trueIcon('heroicon-o-check-badge')
+                IconColumn::make('status')->sortable()->searchable()->label('Śledzenie')->boolean()->trueIcon('heroicon-o-check-badge')
                     ->falseIcon('heroicon-o-x-mark')->alignment(Alignment::Center)->wrapHeader(),
-                //IconColumn::make('Odbieranie')->sortable()->label('Aktywność')->boolean(),
                 IconColumn::make('subscribe')->sortable()->searchable()->label('Powiadomienia')->boolean()->trueIcon('heroicon-o-check-badge')
                     ->falseIcon('heroicon-o-x-mark')->alignment(Alignment::Center)->wrapHeader(),
-
                 TextColumn::make('current_route')->sortable()->searchable()->label('Pokonane trasy')->weight(FontWeight::Medium)->numeric()->alignment(Alignment::Center),
-                TextColumn::make('Opis')->sortable()->searchable()->color('gray')->placeholder('Brak.')->wrap()->limit(25)->lineClamp(2),
+                TextColumn::make('description')->sortable()->searchable()->color('gray')->placeholder('Brak.')->wrap()->limit(25)->lineClamp(2),
             ])
             ->filters([
                 // ...
@@ -67,25 +64,22 @@ class ListVehicles extends Component implements HasForms, HasTable
                     ->form([
                         Section::make()
                             ->schema([
-                                TextInput::make('Nazwa')->required()->minLength(1)->prefixIcon('heroicon-m-truck')->unique()->maxLength(50)->label('Wyświetlana nazwa pojazdu')->helperText('Max 50 znaków')->helperText('Wpisz dowolną nazwę, która później będzie używana na reszcie stron.'),
-                                TextInput::make('Telefon')->prefixIcon('heroicon-m-phone')->required()->unique()->tel()
+                                TextInput::make('name')->required()->minLength(1)->prefixIcon('heroicon-m-truck')->unique()->maxLength(50)->label('Wyświetlana nazwa pojazdu')->helperText('Max 50 znaków')->helperText('Wpisz dowolną nazwę, która później będzie używana na reszcie stron.'),
+                                TextInput::make('phone')->prefixIcon('heroicon-m-phone')->required()->unique()->tel()
                                     ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
                                     ->placeholder('+48777888999')->label('Numer telefonu karty SIM')->helperText('Pamiętaj o podaniu numeru kierunkowego!'),
-                                TextInput::make('simID')->required()->integer()->unique()->length(9)->placeholder('123456789')->label('Numer id karty SIM [9 pierwszych cyfr]')
+                                TextInput::make('sim_id')->required()->integer()->unique()->length(9)->placeholder('123456789')->label('Numer id karty SIM [9 pierwszych cyfr]')
                                     ->helperText('Na karcie startera telefonicznego, znajduje się kod kreskowy, a pod nim numer złożony z 19-24 cyfr.')->password()
                                     ->revealable(),
-                                TextInput::make('Opis')->nullable()->maxLength(50)->columnSpanFull()->prefixIcon('heroicon-m-document-text')->label('Krótki dodatkowy opis ułatwiający identyfikację.'),
+                                TextInput::make('description')->nullable()->maxLength(50)->columnSpanFull()->prefixIcon('heroicon-m-document-text')->label('Krótki dodatkowy opis ułatwiający identyfikację.'),
                             ]),
                         Section::make()
                             ->schema([
-                                Toggle::make('Status')->default(true)->inline(false)->label('Śledzenie')->helperText('Zapisywać przychodzące dane w bazie danych?')->columnSpan(2),
+                                Toggle::make('status')->default(true)->inline(false)->label('Śledzenie')->helperText('Zapisywać przychodzące dane w bazie danych?')->columnSpan(2),
                                 Toggle::make('subscribe')->default(false)->inline(false)->label('Powiadomienia email')->helperText('Wysyłać powiadomienia email?')->columnSpan(2),
                             ])->columns(4),
-
-
                     ])->mutateFormDataUsing(function (array $data): array {
                         $data['user_id'] = auth()->id();
-
                         return $data;
                     })->successNotification(
                         Notification::make()
@@ -99,18 +93,18 @@ class ListVehicles extends Component implements HasForms, HasTable
                     ->form([
                         Section::make()
                             ->schema([
-                                TextInput::make('Nazwa')->required()->minLength(1)->prefixIcon('heroicon-m-truck')->unique(ignoreRecord: true)->maxLength(50)->label('Wyświetlana nazwa pojazdu')->helperText('Max 50 znaków')->helperText('Wpisz dowolną nazwę, która później będzie używana na reszcie stron.'),
-                                TextInput::make('Telefon')->prefixIcon('heroicon-m-phone')->required()->unique(ignoreRecord: true)->tel()
+                                TextInput::make('name')->required()->minLength(1)->prefixIcon('heroicon-m-truck')->unique(ignoreRecord: true)->maxLength(50)->label('Wyświetlana nazwa pojazdu')->helperText('Max 50 znaków')->helperText('Wpisz dowolną nazwę, która później będzie używana na reszcie stron.'),
+                                TextInput::make('phone')->prefixIcon('heroicon-m-phone')->required()->unique(ignoreRecord: true)->tel()
                                     ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
                                     ->placeholder('+48777888999')->label('Numer telefonu karty SIM')->helperText('Pamiętaj o podaniu numeru kierunkowego!'),
-                                TextInput::make('simID')->required()->integer()->unique(ignoreRecord: true)->length(9)->placeholder('123456789')->label('Numer id karty SIM [9 pierwszych cyfr]')
+                                TextInput::make('sim_id')->required()->integer()->unique(ignoreRecord: true)->length(9)->placeholder('123456789')->label('Numer id karty SIM [9 pierwszych cyfr]')
                                     ->helperText('Na karcie startera telefonicznego, znajduje się kod kreskowy, a pod nim numer złożony z 19-24 cyfr.')->password()
                                     ->revealable(),
-                                TextInput::make('Opis')->nullable()->maxLength(50)->columnSpanFull()->prefixIcon('heroicon-m-document-text')->label('Krótki dodatkowy opis ułatwiający identyfikację.'),
+                                TextInput::make('description')->nullable()->maxLength(50)->columnSpanFull()->prefixIcon('heroicon-m-document-text')->label('Krótki dodatkowy opis ułatwiający identyfikację.'),
                             ]),
                         Section::make()
                             ->schema([
-                                Toggle::make('Status')->default(true)->inline(false)->label('Śledzenie')->helperText('Zapisywać przychodzące dane w bazie danych?')->columnSpan(2),
+                                Toggle::make('status')->default(true)->inline(false)->label('Śledzenie')->helperText('Zapisywać przychodzące dane w bazie danych?')->columnSpan(2),
                                 Toggle::make('subscribe')->default(false)->inline(false)->label('Powiadomienia email')->helperText('Wysyłać powiadomienia email?')->columnSpan(2),
                             ])->columns(4),
 
@@ -130,7 +124,6 @@ class ListVehicles extends Component implements HasForms, HasTable
                             ->title('Usunięto pojazd.')
                             ->color('success'),
                     )
-
 
             ])
             ->bulkActions([

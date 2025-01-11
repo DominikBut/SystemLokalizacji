@@ -2,22 +2,20 @@
                 {{-- Linkowanie mapy z Google Api --}}
                 <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
                     ({key: "AIzaSyATS3eoPZF6fOo-JCpwGJSncxE7vQqD3_U", v: "weekly"});</script>
-
                 {{-- Mapa google --}}
-                <h2 class="pl-6 p-4 text-xl font-bold text-sky-950 md:text-2xl place-content-end">Współrzędne <span class="text-lime-700 ">{{ $lokacja->pojazd->Nazwa }}</span> z dnia: <span class="text-lime-700 ">{{ App\Models\Coordinates::formatCreatedAt($lokacja->created_at) }}.</span></h2>
+                <h2 class="pl-6 p-4 text-xl font-bold text-sky-950 md:text-2xl place-content-end">Współrzędne <span class="text-lime-700 ">{{ $lokacja->pojazd->name }}</span> z dnia: <span class="text-lime-700 ">{{ App\Models\Coordinates::formatCreatedAt($lokacja->created_at) }}.</span></h2>
                 <div class=" w-auto p-1 bg-lime-600"></div>
                 <div id="map"  style="height: 320px;"></div>
                  <div class=" w-auto p-1 bg-lime-600"></div>
                  <div class="px-6 my-4 h-fit">
                     <div class="h-full">
-                        {{-- used for maps --}}
                         <input type="text" name="lat" id="lat" hidden value="{!! $lokacja->latitude !!} ">
                         <input type="text" name="lng" id="lng" hidden value="{!! $lokacja->longitude !!} ">
                         <input type="text" name="czas" id="czas" hidden value="{{$lokacja->created_at->timezone('Europe/Warsaw')  }} ">
-                        <input type="text" name="nazwa" id="nazwa" hidden value="{!! $lokacja->pojazd->Nazwa !!} ">
+                        <input type="text" name="nazwa" id="nazwa" hidden value="{!! $lokacja->pojazd->name !!} ">
                         <div class="mx-auto max-w-7xl sm:pt-4">
                             <div class="flex flex-col sm:flex-row justify-between border-y-2 border-gray-300 mt-2 py-1 space-y-2 sm:space-y-0">
-                                <div class="text-sm lg:text-lg lg:leading-8 text-cyan-800 text-balance text-center sm:text-right">SIM ID: {{ $lokacja->simID }} | Tel: {{ $lokacja->pojazd->Telefon }}</div>
+                                <div class="text-sm lg:text-lg lg:leading-8 text-cyan-800 text-balance text-center sm:text-right">SIM ID: {{ $lokacja->sim_id }} | Tel: {{ $lokacja->pojazd->phone }}</div>
                                 <div class="text-sm lg:text-lg lg:leading-8 text-cyan-800 place-content-end text-center sm:text-right">
                                     Wysłano: {{ \Carbon\Carbon::setLocale('pl') }}{{ $lokacja->created_at->timezone('Europe/Warsaw')->diffForHumans() }}
                                 </div>
@@ -106,22 +104,17 @@
             // Request needed libraries.
             const { Map, InfoWindow } = await google.maps.importLibrary("maps");
             const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
-
             // Get initial coordinates from the hidden inputs
             const initialLat = parseFloat(document.getElementById("lat").value);
             const initialLng = parseFloat(document.getElementById("lng").value);
             const initialNazwa = document.getElementById("nazwa").value;
             const initialCzas = new Date(document.getElementById("czas").value).toLocaleString('pl-PL');
-
-            //{{-- // const initialLat = parseFloat(@js( $this->lokacja->latitude ));
-                // const initialLng = parseFloat(@js( $this->lokacja->longitude )); --}}
             // Create the map with initial coordinates
             const map = new Map(document.getElementById("map"), {
                 zoom: 12,
                 center: { lat: initialLat, lng: initialLng },
                 mapId: "411a66d3ed39b880",
             });
-
             // Create an info window to share between markers.
             const infoWindow = new InfoWindow();
 
@@ -150,11 +143,9 @@
                 function toDMS(degree) {
                     const isNegative = degree < 0;
                     degree = Math.abs(degree);
-
                     const degrees = Math.floor(degree);
                     const minutes = Math.floor((degree - degrees) * 60);
                     const seconds = ((degree - degrees) * 60 - minutes) * 60;
-
                     // Construct the DMS string
                     return `${degrees}°${minutes}'${seconds.toFixed(2)}"${isNegative ? 'S' : 'N'}`;
                 }
@@ -176,14 +167,11 @@
                 ].join("<br>"));
                 infoWindow.open(marker.map, marker);
             });
-
-            //znajdz adres
             function geocodeLatLng(geocoder, Glat, Glng) {
                 const latlng = {
                     lat: parseFloat(Glat),
                     lng: parseFloat(Glng),
                 };
-
                 geocoder
                     .geocode({ location: latlng })
                     .then((response) => {
@@ -196,7 +184,6 @@
                     .catch((e) => document.getElementById("lokacja").innerText = "Błąd"+ e );
             }
             geocodeLatLng(geocoder,initialLat,initialLng);
-
 
         }
 

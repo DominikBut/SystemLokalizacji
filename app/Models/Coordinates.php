@@ -14,7 +14,7 @@ class Coordinates extends Model
     use HasFactory;
 
     protected $fillable = [
-        'simID',
+        'sim_id',
         'latitude',
         'longitude',
         'strength',
@@ -24,7 +24,7 @@ class Coordinates extends Model
 
     public function pojazd()
     {
-        return $this->belongsTo(Vehicles::class, 'simID', 'simID')->where('user_id', auth()->id());
+        return $this->belongsTo(Vehicles::class, 'sim_id', 'sim_id')->where('user_id', auth()->id());
     }
     // Function to convert decimal degrees to DMS format
     public static function formatCoordinates($lat, $lng)

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('coordinates', function (Blueprint $table) {
             $table->id();
-            $table->integer('simID')->unsigned();
+            $table->integer('sim_id')->unsigned();
             $table->double('latitude');
             $table->double('longitude');
             $table->integer('strength')->unsigned();

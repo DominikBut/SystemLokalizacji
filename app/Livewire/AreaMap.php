@@ -28,31 +28,29 @@ class AreaMap extends Component
             $this->obszar = NULL;
         }
         try {
-            Vehicles::where('simID', "{$this->pojazd->simID}")->update([
+            Vehicles::where('sim_id', "{$this->pojazd->sim_id}")->update([
                 'base_area' => $this->obszar,
             ]);
-            session()->flash('success', "Zapisano obszar dla {$this->pojazd->Nazwa}");
+            session()->flash('success', "Zapisano obszar dla {$this->pojazd->name}");
         } catch (\Exception $ex) {
             session()->flash('success', 'Błąd!');
         }
-        // $this->dispatch('goood', "Donezo");
     }
     public function toggleSubscribe()
     {
         try {
-            // Toggle the subscribe value using the update method
             $this->pojazd->update(['subscribe' => !$this->pojazd->subscribe]);
 
-            session()->flash('success', "Zmieniono powiadamianie dla {$this->pojazd->Nazwa}");
+            session()->flash('success', "Zmieniono powiadamianie dla {$this->pojazd->name}");
         } catch (\Exception $ex) {
             session()->flash('error', 'Błąd!');
         }
     }
     public function tracking(string $id)
     {
-        $this->pojazd = Vehicles::where('simID', "{$id}")->first();
+        $this->pojazd = Vehicles::where('sim_id', "{$id}")->first();
         $this->obszar = json_encode($this->pojazd->base_area);
-        $this->dispatch('area', nazwa: $this->pojazd->Nazwa, base_area: $this->pojazd->base_area);
+        $this->dispatch('area', nazwa: $this->pojazd->name, base_area: $this->pojazd->base_area);
     }
 
     public function mount()
@@ -61,7 +59,7 @@ class AreaMap extends Component
         $this->pojazd = $this->pojazdy->first();
         if ($this->pojazdy->count() > 0) {
             $this->obszar = json_encode($this->pojazd->base_area);
-            $this->dispatch('area', nazwa: $this->pojazd->Nazwa, base_area: $this->pojazd->base_area);
+            $this->dispatch('area', nazwa: $this->pojazd->name, base_area: $this->pojazd->base_area);
         }
     }
     public function render()

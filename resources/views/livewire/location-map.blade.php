@@ -1,30 +1,23 @@
 @php
-    ($pojazdy->count() > 0) ? $label = $pojazd->Nazwa : $label = 'Brak pojazdów';
+    ($pojazdy->count() > 0) ? $label = $pojazd->name : $label = 'Brak pojazdów';
 @endphp
 <div x-data="{ mobileFiltersOpen: false, sortMenuOpen: false, filterSectionsOpen: {}, label: '{{ $label }}', }" class="p-4">
-
-
     <div class="h-full">
-        {{-- used for maps --}}
-
         @if (($pojazdy->count() > 0))
             @if (!empty($this->lokacja))
             <input type="text" name="lat" id="lat" hidden value="{!! $this->lokacja->latitude !!} ">
             <input type="text" name="lng" id="lng" hidden value="{!! $this->lokacja->longitude !!} ">
             <input type="text" name="czas" id="czas" hidden value="{{$this->lokacja->created_at->timezone('Europe/Warsaw')  }} ">
             @endif
-
-        <input type="text" name="nazwa" id="nazwa" hidden value="{!! $this->pojazd->Nazwa !!} ">
+        <input type="text" name="nazwa" id="nazwa" hidden value="{!! $this->pojazd->name !!} ">
         @endif
 
         <div class="mx-auto max-w-7xl">
             <div class="flex flex-col sm:flex-row justify-between">
                 <div class="flex flex-row order-2 sm:order-1">
-                        <h2 class="text-xl sm:text-2xl font-bold text-sky-950 max-w-xl text-balance place-content-end"><span wire:loading.remove>{{ (!empty($this->pojazd)) ? 'Pojazd: '.$this->pojazd->Nazwa : 'Brak pojazdów do wyboru!' }} </span>
+                        <h2 class="text-xl sm:text-2xl font-bold text-sky-950 max-w-xl text-balance place-content-end"><span wire:loading.remove>{{ (!empty($this->pojazd)) ? 'Pojazd: '.$this->pojazd->name : 'Brak pojazdów do wyboru!' }} </span>
                         </h2>
                 </div>
-
-
                     {{-- Sortwanie --}}
                     <div class="order-1 sm:order-2 mb-1 w-full min-[360px]:w-auto flex flex-col min-[360px]:flex-row gap-y-4 min-[360px]:gap-y-0 items-center px-1 xl:px-0">
 
@@ -43,23 +36,7 @@
                                     </div>
                                 </button>
                             </div>
-                            {{-- Wybieranie pojazdu
-                            <div x-show="sortMenuOpen" x-on:click.away="sortMenuOpen = false" x-cloak x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95"
-                            class="absolute right-0 z-10 mt-2 min-w-48 w-full origin-top-right rounded-md shadow-lg ring-2 ring-gray-200 focus:outline-none bg-stone-50" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                            <div class="space-y-1 p-1 overflow-auto max-h-[300px] z-30" role="none" >
-                                    @forelse ($pojazdy as $pojazd)
-                                    <button wire.loading.attr="disabled" wire:click="tracking('{{ $pojazd->simID }}')" x-on:click="sortMenuOpen = false, label = '{{ $pojazd->Nazwa }}'"
-                                        :class="{'bg-lime-400 font-semibold': label == '{{ $pojazd->Nazwa }}' }"
-                                        class="truncate block w-full text-left rounded-md px-4 py-2 text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
-                                        role="menuitem" tabindex="-1" id="menu-item-0">{{ $pojazd->Nazwa }}</button>
-                                    @empty
-                                    <button wire.loading.attr="disabled" x-on:click="sortMenuOpen = false, label = 'Brak pojazdów'"
-                                        :class="{'bg-lime-400 font-semibold': label == 'Brak pojazdów' }"
-                                        class="truncate block w-full text-left rounded-md px-4 py-2 text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
-                                        role="menuitem" tabindex="-1" id="menu-item-0">Brak pojazdów</button>
-                                    @endforelse
-                                </div>
-                            </div> --}}
+
                             {{-- Wybieranie pojazdu --}}
                             <div x-show="sortMenuOpen"
                             x-on:click.away="sortMenuOpen = false"
@@ -80,13 +57,13 @@
                                 role="none">
                             @forelse ($pojazdy as $pojazd)
                                 <button wire.loading.attr="disabled"
-                                        wire:click="tracking('{{ $pojazd->simID }}')"
-                                        x-on:click="sortMenuOpen = false, label = '{{ $pojazd->Nazwa }}'"
-                                        :class="{'bg-lime-400 font-semibold': label == '{{ $pojazd->Nazwa }}' }"
+                                        wire:click="tracking('{{ $pojazd->sim_id }}')"
+                                        x-on:click="sortMenuOpen = false, label = '{{ $pojazd->name }}'"
+                                        :class="{'bg-lime-400 font-semibold': label == '{{ $pojazd->name }}' }"
                                         class="truncate block w-full text-left rounded-md px-4 py-2 text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
                                         role="menuitem"
                                         tabindex="-1"
-                                        id="menu-item-{{ $loop->index }}">{{ $pojazd->Nazwa }}</button>
+                                        id="menu-item-{{ $loop->index }}">{{ $pojazd->name }}</button>
                             @empty
                                 <button wire.loading.attr="disabled"
                                         x-on:click="sortMenuOpen = false, label = 'Brak pojazdów'"
@@ -103,7 +80,7 @@
             </div>
             @if(!empty($this->pojazd))
             <div class="flex flex-col sm:flex-row justify-between border-y-2 border-gray-300 mt-2 py-1 space-y-2 sm:space-y-0" wire:loading.remove>
-                <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 text-balance break-words text-center sm:text-right">Tel: {{ (!empty($this->pojazd->Telefon)) ? $this->pojazd->Telefon : 'Brak pojazdów' }} {{ (!empty($this->pojazd->Opis)) ? '| '.$this->pojazd->Opis : '' }}</div>
+                <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 text-balance break-words text-center sm:text-right">Tel: {{ (!empty($this->pojazd->phone)) ? $this->pojazd->phone : 'Brak pojazdów' }} {{ (!empty($this->pojazd->description)) ? '| '.$this->pojazd->description : '' }}</div>
                 <div class="text-sm lg:text-base lg:leading-8 text-cyan-800 place-content-end text-center sm:text-right">
                     Ostatnia aktywność {{ \Carbon\Carbon::setLocale('pl') }} {{ (!empty($this->lokacja)) ? $this->lokacja->created_at->timezone('Europe/Warsaw')->diffForHumans() : 'Brak odebranych danych' }}
                 </div>
@@ -167,8 +144,6 @@
                                 @else
                                 Brak odebranych danych
                                 @endif
-
-
                           </div>
                       </div>
                       <div class="relative">
@@ -187,15 +162,12 @@
 
                 </div>
               <div class="flex invisible sm:visible" wire:loading.remove>
-
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" stroke="currentColor"
                   class="w-[0rem] max-w-none lg:max-xl:w-[8rem] xl:w-[10rem] text-lime-600">
                     <path strokeLinecap="round" strokeLinejoin="round" d="m6.115 5.19.319 1.913A6 6 0 0 0 8.11 10.36L9.75 12l-.387.775c-.217.433-.132.956.21 1.298l1.348 1.348c.21.21.329.497.329.795v1.089c0 .426.24.815.622 1.006l.153.076c.433.217.956.132 1.298-.21l.723-.723a8.7 8.7 0 0 0 2.288-4.042 1.087 1.087 0 0 0-.358-1.099l-1.33-1.108c-.251-.21-.582-.299-.905-.245l-1.17.195a1.125 1.125 0 0 1-.98-.314l-.295-.295a1.125 1.125 0 0 1 0-1.591l.13-.132a1.125 1.125 0 0 1 1.3-.21l.603.302a.809.809 0 0 0 1.086-1.086L14.25 7.5l1.256-.837a4.5 4.5 0 0 0 1.528-1.732l.146-.292M6.115 5.19A9 9 0 1 0 17.18 4.64M6.115 5.19A8.965 8.965 0 0 1 12 3c1.929 0 3.716.607 5.18 1.64" />
                   </svg>
-
               </div>
               @else
-
                                 <div class="grid gap-4 w-full py-8 lg:py-[2.4rem] mt-2 border-t-2 border-gray-300">
                                     <div class="w-16 h-16 lg:w-20 lg:h-20 mx-auto bg-lime-100 p-2 rounded-full shadow-sm justify-center items-center inline-flex ">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-lime-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="size-4 lg:size-6">

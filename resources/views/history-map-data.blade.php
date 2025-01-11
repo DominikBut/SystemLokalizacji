@@ -4,7 +4,6 @@
             {{ __('Sprawdź historyczne dane pojazdów na mapie.') }}
 
     </x-slot>
-
     <div class="py-8">
         <div class="max-w-screen-2xl mx-auto h-full">
             <div class="overflow-hidden h-full">

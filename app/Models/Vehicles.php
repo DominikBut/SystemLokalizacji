@@ -10,12 +10,11 @@ class Vehicles extends Model
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'simID',
-        'Telefon',
-        'Nazwa',
-        'Opis',
-        'Status',
-        'Odbieranie',
+        'sim_id',
+        'phone',
+        'name',
+        'description',
+        'status',
         'base_area',
         'subscribe',
         'notified',
@@ -27,7 +26,7 @@ class Vehicles extends Model
     }
     public function wspolrzedne()
     {
-        return $this->hasMany(Coordinates::class, 'simID', 'simID');
+        return $this->hasMany(Coordinates::class, 'sim_id', 'sim_id');
     }
     protected $casts = [
         'base_area' => 'json',

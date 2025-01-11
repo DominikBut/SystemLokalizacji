@@ -29,13 +29,13 @@ class LocationMap extends Component
     public function tracking(string $id)
     {
         $this->checking = '';
-        $this->pojazd = $this->pojazdy->where('simID', "{$id}")->first();
+        $this->pojazd = $this->pojazdy->where('sim_id', "{$id}")->first();
         if (!is_null($this->pojazd)) {
             $this->dane = $this->pojazd->wspolrzedne()->orderBy('created_at', 'desc')->first();
             if (!is_null($this->dane)) {
-                $this->dispatch('coords', lat: $this->lokacja->latitude, lng: $this->lokacja->longitude, nazwa: $this->pojazd->Nazwa, czas: $this->lokacja->created_at->timezone('Europe/Warsaw'));
+                $this->dispatch('coords', lat: $this->lokacja->latitude, lng: $this->lokacja->longitude, nazwa: $this->pojazd->name, czas: $this->lokacja->created_at->timezone('Europe/Warsaw'));
             } else {
-                $this->dispatch('coords', nazwa: $this->pojazd->Nazwa);
+                $this->dispatch('coords', nazwa: $this->pojazd->name);
             }
         }
     }
@@ -62,14 +62,14 @@ class LocationMap extends Component
         if ($this->checking and is_int($this->checking)) {
             $this->pojazdy = Vehicles::where('user_id', auth()->id())->orderBy('id', 'desc')->get();
             if ($this->pojazdy->count() > 0) {
-                $this->pojazd = $this->pojazdy->where('simID', "{$this->checking}")->first();
+                $this->pojazd = $this->pojazdy->where('sim_id', "{$this->checking}")->first();
                 if (!is_null($this->pojazd)) {
                     $this->dane = $this->pojazd->wspolrzedne()->orderBy('created_at', 'desc')->first();
                     if (!is_null($this->dane)) {
-                        $this->dispatch('coords', lat: $this->lokacja->latitude, lng: $this->lokacja->longitude, nazwa: $this->pojazd->Nazwa, czas: $this->lokacja->created_at->timezone('Europe/Warsaw'));
+                        $this->dispatch('coords', lat: $this->lokacja->latitude, lng: $this->lokacja->longitude, nazwa: $this->pojazd->name, czas: $this->lokacja->created_at->timezone('Europe/Warsaw'));
                     } else {
 
-                        $this->dispatch('coords', nazwa: $this->pojazd->Nazwa);
+                        $this->dispatch('coords', nazwa: $this->pojazd->name);
                     }
                 } else {
 
@@ -84,7 +84,6 @@ class LocationMap extends Component
             $this->checking = '';
         }
 
-        return view('livewire.location-map', ['label' => (!is_null($this->pojazd) ? $this->pojazd->Nazwa : 'Brak pojazdów')]);
+        return view('livewire.location-map', ['label' => (!is_null($this->pojazd) ? $this->pojazd->name : 'Brak pojazdów')]);
     }
-    //['label' => (!is_null($this->pojazd) ? $this->pojazd->Nazwa : 'Brak pojazdów')]
 }

@@ -44,8 +44,8 @@ class ListHistory extends Component implements HasForms, HasTable
             ->columns([
                 TextColumn::make('index')->label('Lp.')
                     ->rowIndex(),
-                TextColumn::make('pojazd.Nazwa')->searchable()->color('gray')->label('Pojazd')->limit(15)->wrap()->icon('heroicon-m-truck')->size(TextColumn\TextColumnSize::Medium)->weight(FontWeight::Medium),
-                TextColumn::make('pojazd.simID')->searchable()->color('info')->label('SIM id')->hidden(),
+                TextColumn::make('pojazd.name')->searchable()->color('gray')->label('Pojazd')->limit(15)->wrap()->icon('heroicon-m-truck')->size(TextColumn\TextColumnSize::Medium)->weight(FontWeight::Medium),
+                TextColumn::make('pojazd.sim_id')->searchable()->color('info')->label('SIM id')->hidden(),
 
                 TextColumn::make('created_at')->searchable()->color('info')->label('Odebrano')->formatStateUsing(fn(string $state): string => (
                     Carbon::parse($state)->timezone('Europe/Warsaw')->translatedFormat('j F Y H:i:s')
@@ -71,7 +71,7 @@ class ListHistory extends Component implements HasForms, HasTable
             ])
             ->filters([
                 SelectFilter::make('Pojazdy:')
-                    ->relationship('pojazd', 'Nazwa'),
+                    ->relationship('pojazd', 'name'),
 
 
             ])

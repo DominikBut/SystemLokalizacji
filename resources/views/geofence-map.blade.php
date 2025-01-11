@@ -10,17 +10,14 @@
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATS3eoPZF6fOo-JCpwGJSncxE7vQqD3_U&callback=initMap&libraries=drawing&v=weekly"
       defer
     ></script>
-
-
-    <script>//handle zmiane pojazdu
+    <script>
 
         var savedShape = null;
-        let lastOverlay = null; // To keep track of the last drawn overlay
-
+        let lastOverlay = null;
         function loadSavedShape(map,lastOverlay,savedShape) {
             if (lastOverlay) {
-                        lastOverlay.setMap(null); // Remove the overlay from the map
-                        lastOverlay = null; // Clear the reference to the overlay
+                        lastOverlay.setMap(null);
+                        lastOverlay = null;
             }
             if (!savedShape || !savedShape.type || !savedShape.coordinates) {
                 console.error("Invalid shape data.");
@@ -42,12 +39,10 @@
 
                 const rectangle = new google.maps.Rectangle({
                 bounds: rectangleBounds,
-                map: map, // Add the rectangle to the map
+                map: map,
                 });
 
-                // Save the loaded shape as the current last overlay
                 lastOverlay = rectangle;
-
 
                 const bounds = lastOverlay.getBounds();
                 const ne = bounds.getNorthEast();
@@ -65,9 +60,7 @@
                 lastOverlay.overlayType = 'rectangle';
                 }
 
-
                 if (savedShape.type === 'polygon') {
-                // Create an array of LatLng objects from the coordinates
                 const polygonPath = savedShape.coordinates.map(coord => {
                 return { lat: coord.lat, lng: coord.lng };
                 });
@@ -79,9 +72,8 @@
                 map.setZoom(16);
                 const polygon = new google.maps.Polygon({
                 paths: polygonPath,
-                map: map, // Add the polygon to the map
+                map: map,
                 });
-
                 // Save the loaded shape as the current last overlay
                 lastOverlay = polygon;
 
@@ -91,17 +83,10 @@
                     coordinates.push({ lat: latLng.lat(), lng: latLng.lng() });
                 });
                 lastOverlay.overlayType = 'polygon';
-
                 console.log("Polygon Coordinates:", coordinates);
-                //updateLivewireVariable(coordinates, 'polygon');
             }
-
-
-            // You can add similar handling for other shapes like 'circle' or 'polygon' if needed
             return lastOverlay;
-            }
-
-
+        }
 
         function initMap() {
             const map = new google.maps.Map(document.getElementById("map"), {
@@ -130,22 +115,18 @@
                 },
             });
 
-        //lastOverlay = loadSavedShape(map,lastOverlay,savedShape);
         google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
-            // Check if there is already an overlay on the map
+
             if (lastOverlay) {
-            lastOverlay.setMap(null); // Remove the previous overlay
+            lastOverlay.setMap(null);
             }
 
-            // Save the new overlay
             lastOverlay = event.overlay;
 
-            // Set the overlay type for the new shape
             lastOverlay.overlayType = event.type;
 
-            // Return to 'hand' mode
             drawingManager.setDrawingMode(null);
-            // Get coordinates based on the type of shape
+
             if (event.type === google.maps.drawing.OverlayType.POLYGON) {
             const path = lastOverlay.getPath();
             const coordinates = [];
@@ -176,14 +157,14 @@
 
         if(document.getElementById("clearMapButton"))
             {
-                // Clear button functionality
+
                 document.getElementById("clearMapButton").addEventListener("click", function() {
                             if (lastOverlay) {
-                            lastOverlay.setMap(null); // Remove the overlay from the map
-                            lastOverlay = null; // Clear the reference to the overlay
+                            lastOverlay.setMap(null);
+                            lastOverlay = null;
                             }
                         });
-                    // send data
+
                 document.getElementById("sendData").addEventListener("click", function() {
                 let coordinates = [];
 
@@ -234,10 +215,7 @@
             lastOverlay = loadSavedShape(map,lastOverlay,event.base_area);
 
         });
-        // Livewire.on('goood', (event) => {
-        //    alert('dood');
 
-        // });
     }
 
     window.initMap = initMap;

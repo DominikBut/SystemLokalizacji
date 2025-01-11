@@ -23,11 +23,11 @@ class StoreCoordinatesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'simID' => ['required'],      // After merge, use 'simID' instead of 'id'
-            'latitude' => ['required'],   // Use 'latitude' instead of 'lat'
-            'longitude' => ['required'],  // Use 'longitude' instead of 'lng'
-            'strength' => ['required'],   // Use 'strength' instead of 'signal'
-            'battery' => ['required'],    // Use 'battery' instead of 'bat'
+            'sim_id' => ['required'],
+            'latitude' => ['required'],
+            'longitude' => ['required'],
+            'strength' => ['required'],
+            'battery' => ['required'],
         ];
     }
 
@@ -37,7 +37,7 @@ class StoreCoordinatesRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'simID' => $this->id,
+            'sim_id' => $this->id,
             'latitude' => $this->lat,
             'longitude' => $this->lng,
             'strength' => $this->signal,

@@ -1,15 +1,10 @@
 @php
-    ($pojazdy->count() > 0) ? $label = $pojazdy[0]->Nazwa : $label = 'Brak pojazdów';
+    ($pojazdy->count() > 0) ? $label = $pojazdy[0]->name : $label = 'Brak pojazdów';
 @endphp
 <div x-data="{ mobileFiltersOpen: false, sortMenuOpen: false, filterSectionsOpen: {}, label: '{{ $label }}', }" class="p-4 pt-6 h-full">
-
-
     <div class="h-full">
-
-
         <div class="mx-auto max-w-7xl flex flex-col h-full">
             <div class="flex flex-col">
-
                     {{-- Sortwanie --}}
                 <div class="mb-1 w-full min-[360px]:w-auto flex flex-col min-[360px]:flex-row gap-y-4 min-[360px]:gap-y-0 items-center px-1 xl:px-0">
 
@@ -28,26 +23,7 @@
                                     </div>
                                 </button>
                             </div>
-                            {{-- Wybieranie pojazdu
-                            <div x-show="sortMenuOpen" x-on:click.away="sortMenuOpen = false" x-cloak x-transition:enter="transition ease-out duration-100"
-                            x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100"
-                            x-transition:leave-end="transform opacity-0 scale-95"
-                                class="absolute right-0 z-10 mt-2 min-w-48 w-full origin-top-right rounded-md shadow-lg ring-2 ring-gray-200 focus:outline-none bg-stone-50" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                                <div class="space-y-1 p-1 overflow-auto max-h-[300px]" role="none" >
-                                    @forelse ($pojazdy as $pojazd)
-                                    <button wire.loading.attr="disabled" wire:click="tracking('{{ $pojazd->simID }}')" x-on:click="sortMenuOpen = false, label = '{{ $pojazd->Nazwa }}'"
-                                        :class="{'bg-lime-400 font-semibold': label == '{{ $pojazd->Nazwa }}' }"
-                                        class="truncate block w-full text-left rounded-md px-4 py-2 text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
-                                        role="menuitem" tabindex="-1" id="menu-item-0">{{ $pojazd->Nazwa }}</button>
-                                    @empty
-                                    <button wire.loading.attr="disabled" x-on:click="sortMenuOpen = false, label = 'Brak pojazdów'"
-                                        :class="{'bg-lime-400 font-semibold': label == 'Brak pojazdów' }"
-                                        class="truncate block w-full text-left rounded-md px-4 py-2 text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
-                                        role="menuitem" tabindex="-1" id="menu-item-0">Brak pojazdów</button>
-                                    @endforelse
-                                </div>
-                            </div> --}}
+
                             {{-- Wybieranie pojazdu --}}
                             <div x-show="sortMenuOpen"
                             x-on:click.away="sortMenuOpen = false"
@@ -68,13 +44,13 @@
                                 role="none">
                             @forelse ($pojazdy as $pojazd)
                                 <button wire.loading.attr="disabled"
-                                        wire:click="tracking('{{ $pojazd->simID }}')"
-                                        x-on:click="sortMenuOpen = false, label = '{{ $pojazd->Nazwa }}'"
-                                        :class="{'bg-lime-400 font-semibold': label == '{{ $pojazd->Nazwa }}' }"
+                                        wire:click="tracking('{{ $pojazd->sim_id }}')"
+                                        x-on:click="sortMenuOpen = false, label = '{{ $pojazd->name }}'"
+                                        :class="{'bg-lime-400 font-semibold': label == '{{ $pojazd->name }}' }"
                                         class="truncate block w-full text-left rounded-md px-4 py-2 text-sm text-sky-950 hover:bg-gray-200 hover:text-cyan-800 hover:font-semibold transition ease-out duration-300"
                                         role="menuitem"
                                         tabindex="-1"
-                                        id="menu-item-{{ $loop->index }}">{{ $pojazd->Nazwa }}</button>
+                                        id="menu-item-{{ $loop->index }}">{{ $pojazd->name }}</button>
                             @empty
                                 <button wire.loading.attr="disabled"
                                         x-on:click="sortMenuOpen = false, label = 'Brak pojazdów'"
@@ -88,7 +64,7 @@
                             </div>
                         </div>
                 </div>
-                <h2 class="text-sm font-semibold text-sky-700 text-balance  truncate "><span wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">{{ (!empty($this->pojazd)) ? 'Wyświetlanie dla: '.$this->pojazd->Nazwa : 'Brak pojazdów do wyboru!' }}</span></h2>
+                <h2 class="text-sm font-semibold text-sky-700 text-balance  truncate "><span wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">{{ (!empty($this->pojazd)) ? 'Wyświetlanie dla: '.$this->pojazd->name : 'Brak pojazdów do wyboru!' }}</span></h2>
 
                 <h3 class="text-2xl mt-1 font-bold text-sky-80 text-balance truncate border-t-2 border-gray-300 {{ empty($selectedRoute) ? 'py-2': '' }}"><span wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">{{ (!empty($selectedRoute)) ? 'Trasa nr: '.$selectedRoute : 'Brak dostępnych tras' }} </span></h3>
 
@@ -162,7 +138,7 @@
                     Wybierz zapisaną trasę: 1 - {{ $this->pojazd->current_route }}
                 </div>
                 <div class="flex justify-center space-x-2  items-center" wire:loading.remove wire:target.except="previousPage, nextPage, selectRoute">
-                    <!-- Left Arrow Button -->
+
                     <button title="Cofnij"
                         wire:click="previousPage"
                         class="bg-gray-100 hover:bg-gray-200 py-1 px-3 border-2 border-gray-300 rounded-md font-bold hover:border-gray-400 hover:text-cyan-700  transition ease-in-out duration-300"
@@ -170,7 +146,7 @@
                     >
                         &lt;
                     </button>
-                    <!-- Route Button at Current startIndex -->
+
                     @if (!empty($this->pojazd->current_route))
                     @for ($i = $startIndex; $i < min($totalRoutes, $startIndex + $buttonsPerPage); $i++)
                         <button title="Trasa {{ $i + 1 }}"
@@ -179,13 +155,12 @@
                         class=" py-1 px-3 border-2 rounded-md font-bold transition ease-in-out duration-300
                             {{ $i+1 == $selectedRoute  ? 'bg-lime-500 text-white hover:bg-lime-400 border-gray-400 hover:text-cyan-900 hover:border-gray-600' : 'bg-gray-100 border-gray-400 hover:bg-gray-300 hover:border-gray-600 hover:text-cyan-700' }}"
                         >
-                            {{ $i + 1 }} <!-- Display as 1-indexed -->
+                            {{ $i + 1 }}
                         </button>
                     @endfor
 
                     @endif
 
-                    <!-- Right Arrow Button -->
                     <button title="Dalej"
                         wire:click="nextPage"
                         class="bg-gray-100 hover:bg-gray-200 py-1 px-3 border-2 border-gray-300 rounded-md font-bold hover:border-gray-400 hover:text-cyan-700  transition ease-in-out duration-300"
@@ -223,8 +198,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>
 

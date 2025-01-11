@@ -14,13 +14,12 @@ return new class extends Migration
     {
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
-            $table->integer('simID')->unsigned();
+            $table->integer('sim_id')->unsigned();
             $table->foreignIdFor(User::class);
-            $table->string('Telefon');
-            $table->string('Nazwa');
-            $table->mediumText('Opis')->nullable();
-            $table->boolean('Status')->default(true); //czy wogole ma przyjmowac dane
-            $table->boolean('Odbieranie')->default(false); // czy dane przychodza check na ostatnie kilka minut
+            $table->string('phone');
+            $table->string('name');
+            $table->mediumText('description')->nullable();
+            $table->boolean('status')->default(true);
             $table->json('base_area')->nullable();
             $table->boolean('subscribe')->default(false);
             $table->boolean('notified')->default(false);
