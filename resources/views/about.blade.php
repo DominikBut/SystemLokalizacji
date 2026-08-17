@@ -25,7 +25,7 @@
                                 <br>
                                 <b>Wykorzystane technologie i rozwiązania:</b><br>
                                 Laravel 11,<br>
-                                Laravel Jestream,<br>
+                                Laravel Jetstream,<br>
                                 Livewire 3,<br>
                                 Alpine.js,<br>
                                 Filament 3,<br>
