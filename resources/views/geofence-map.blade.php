@@ -7,9 +7,9 @@
 </div>
 
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATS3eoPZF6fOo-JCpwGJSncxE7vQqD3_U&callback=initMap&libraries=drawing&v=weekly"
-      defer
-    ></script>
+        src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.api_key') }}&callback=initMap&libraries=drawing&v=weekly"
+        defer>
+    </script>
     <script>
 
         var savedShape = null;
